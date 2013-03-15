@@ -14,7 +14,7 @@
 
 typedef struct udphdr udp_header_t;
 
-int udp_unitdata_ind_unpack(
+int udp_unitdata_unpack(
     const uint8_t * in_data_p,
     const size_t in_size,
     udp_header_t * const out_udp_header_p,

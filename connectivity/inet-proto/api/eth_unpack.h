@@ -14,7 +14,7 @@
 
 typedef struct ether_header eth_header_t;
 
-int eth_unitdata_ind_unpack(
+int eth_unitdata_unpack(
     const uint8_t * in_data_p,
     const size_t in_size,
     eth_header_t * const out_eth_header_p,

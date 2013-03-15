@@ -6,7 +6,7 @@
 #include "eth_unpack.h"
 #include <netinet/ip.h>
 
-int eth_unitdata_ind_unpack(
+int eth_unitdata_unpack(
         const uint8_t * in_data_p,
         const size_t in_size,
         eth_header_t * const out_eth_header_p,
@@ -42,7 +42,7 @@ void eth_unitdata_ind_handler(const uint8_t * in_data_p, const size_t in_size, v
     size_t          nbytes_read;
     eth_header_t    eth_header;
 
-    if (eth_unitdata_ind_unpack(in_data_p, in_size, &eth_header, &nbytes_read) != 0)
+    if (eth_unitdata_unpack(in_data_p, in_size, &eth_header, &nbytes_read) != 0)
     {
         return;
     }

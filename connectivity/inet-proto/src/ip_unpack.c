@@ -11,7 +11,7 @@
 
 #include "ip_unpack.h"
 
-int ip_unitdata_ind_unpack(
+int ip_unitdata_unpack(
     const uint8_t * in_data_p,
     const size_t in_size,
     ip_header_t * const out_ip_header_p,
