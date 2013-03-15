@@ -1,7 +1,5 @@
 cmake_minimum_required( VERSION 2.8.3 )
 
-set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake-modules )
-
 ################################################################################
 
 find_package( CxxTest )
@@ -12,38 +10,29 @@ endif( CXXTEST_FOUND )
 
 ################################################################################
 
-find_package( PCAP )
-
-if( H_PCAP_OPEN )
-    add_definitions( -DH_PCAP_OPEN )
-endif( H_PCAP_OPEN )
-if( H_PCAP_OPEN_OFFLINE )
-    add_definitions( -DH_PCAP_OPEN_OFFLINE )
-endif( H_PCAP_OPEN_OFFLINE )
-if( H_PCAP_FOPEN_OFFLINE )
-    add_definitions( -DH_PCAP_FOPEN_OFFLINE )
-endif( H_PCAP_FOPEN_OFFLINE )
-
-################################################################################
-
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/api
-    ${PCAP_INCLUDE_DIRS}
 )
 
 ################################################################################
 
-#include( CheckIncludeFiles )
+include( CheckIncludeFiles )
 
-#check_include_files( net/ethernet.h HAS_NET_ETHERNET_H )
+check_include_files( net/ethernet.h HAS_NET_ETHERNET_H )
+
+if( HAS_NET_ETHERNET_H )
+    add_definitions( -DHAS_NET_ETHERNET_H )
+endif( HAS_NET_ETHERNET_H )
 
 ################################################################################
 
 set( src_list
-    src/pcap_feeder.c
+    src/eth_unpack.c
+    src/ip_unpack.c
+    src/udp_unpack.c
 )
 
-set( lib_name pcap_feeder )
+set( lib_name inet_proto )
 
 ################################################################################
 
@@ -53,7 +42,6 @@ set_target_properties( ${lib_name} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib
 )
 
-
 ################################################################################
 
 set( CONF_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR} )
@@ -61,9 +49,8 @@ set( CONF_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/api )
 get_target_property( CONF_LIBRARIES ${lib_name} LOCATION )
 set( CONF_LIBRARIES
     ${CONF_LIBRARIES}
-    ${PCAP_LIBRARIES}
 )
 
-configure_file( ${CMAKE_CURRENT_LIST_DIR}/PcapFeederConfig.cmake.in
-    "${CMAKE_CURRENT_LIST_DIR}/PcapFeederConfig.cmake" @ONLY
+configure_file( ${CMAKE_CURRENT_LIST_DIR}/InetProtoConfig.cmake.in
+    "${CMAKE_CURRENT_LIST_DIR}/InetProtoConfig.cmake" @ONLY
 )
