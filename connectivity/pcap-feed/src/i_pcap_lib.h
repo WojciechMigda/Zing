@@ -25,6 +25,11 @@
 #ifndef I_PCAP_LIB_H_
 #define I_PCAP_LIB_H_
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include <stdio.h>
 #include <pcap/pcap.h>
 
@@ -38,5 +43,9 @@ typedef struct
 } i_pcap_lib_t;
 
 extern i_pcap_lib_t    i_pcap_lib;
+
+#ifdef __cplusplus
+} // extern C
+#endif
 
 #endif /* I_PCAP_LIB_H_ */

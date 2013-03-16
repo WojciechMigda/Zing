@@ -74,7 +74,7 @@ void null_packet_handler(const uint8_t * in_data_p, const size_t in_size, void *
  *
  * @return return code @c pcap_feeder_exit_values
  ******************************************************************************/
-int pcap_feeder_(
+int pcap_feeder(
     FILE *              in_file_p,
     packet_handler_t    packet_handler,
     void *              in_user_data_p)

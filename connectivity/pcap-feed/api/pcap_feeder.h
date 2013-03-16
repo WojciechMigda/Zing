@@ -24,6 +24,11 @@
 #ifndef PCAP_FEEDER_H_
 #define PCAP_FEEDER_H_
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -53,5 +58,9 @@ int pcap_feeder(
     FILE *              in_file_p,
     packet_handler_t    packet_handler,
     void *              in_user_data_p);
+
+#ifdef __cplusplus
+} // extern C
+#endif
 
 #endif /* PCAP_FEEDER_H_ */
