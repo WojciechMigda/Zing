@@ -4,10 +4,11 @@ set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake-modules )
 
 ################################################################################
 
+set(CXXTEST_USE_PYTHON TRUE)
 find_package( CxxTest )
 
 if( CXXTEST_FOUND )
-  message( STATUS "CxxTest FOUND" )
+    message( STATUS "CxxTest FOUND" )
 endif( CXXTEST_FOUND )
 
 ################################################################################
@@ -40,6 +41,7 @@ include_directories(
 ################################################################################
 
 set( src_list
+    src/i_pcap_lib.c
     src/pcap_feeder.c
 )
 

@@ -7,7 +7,7 @@
  * Filename: i_pcap_lib.c
  *
  * Description:
- *      desctiption
+ *      PCAP lib interface
  *
  * Authors:
  *          Wojciech Migda (wm)
