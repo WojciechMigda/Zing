@@ -3,10 +3,10 @@
  * All rights reserved
  *******************************************************************************
  *
- * Filename: eth_unpack.h
+ * Filename: inet_unpack_status.h
  *
  * Description:
- *      eth_unitdata_unpack interface
+ *      Internet protocol unpacking routines return status values
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -20,28 +20,26 @@
  *
  ******************************************************************************/
 
-#ifndef ETH_UNPACK_H_
-#define ETH_UNPACK_H_
+#ifndef INET_UNPACK_STATUS_H_
+#define INET_UNPACK_STATUS_H_
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#include <stdint.h>
-#include <stddef.h>
-#include <net/ethernet.h>
-
-typedef struct ether_header eth_header_t;
-
-int eth_unitdata_unpack(
-    const uint8_t * in_data_p,
-    const size_t in_size,
-    eth_header_t * const out_eth_header_p,
-    size_t * const out_offset_p);
+/**
+ * internet protocol unpacking routines return status values
+ */
+enum inet_proto_unpack_status_values
+{
+    INET_PROTO_UNPACK_SUCCESS           = 0,
+    INET_PROTO_UNPACK_NULL_PACKET_PTR   = -1,
+    INET_PROTO_UNPACK_PACKET_TOO_SHORT  = -2,
+};
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* ETH_UNPACK_H_ */
+#endif /* INET_UNPACK_STATUS_H_ */
