@@ -33,7 +33,11 @@ set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake-modules )
 
 ################################################################################
 
-set(CXXTEST_USE_PYTHON TRUE)
+set( CXXTEST_USE_PYTHON TRUE )
+# for Ubuntu 12.04 cxxtest installation:
+find_program(CXXTEST_PYTHON_TESTGEN_EXECUTABLE cxxtestgen
+    PATHS ${CXXTEST_INCLUDE_DIR}
+)
 find_package( CxxTest )
 
 ################################################################################
