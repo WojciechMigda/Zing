@@ -24,21 +24,32 @@ enum msg_type_values
     EXTEND_REFRESH                  = 27,
     SYMBOL_UPDATE_REQUEST           = 34,
     SYMBOL_UPDATE                   = 35,
+    SECURITY_INFO                   = 36,
+    MARKET_IMBALANCE                = 120,
+    DELAY_OR_HALT                   = 121,
+    TRADING_INDICATION              = 122,
+    T_TIME                          = 123,
+    CIRCUIT_BREAKER                 = 124,
+    SHORT_SALE_RESTRICTION          = 125,
+    RPI                             = 126,
+    QUOTE                           = 140,
+    OPENBOOK_FULL_UPDATE_OLD        = 228,
+    OPENBOOK_DELTA_UPDATE_OLD       = 229,
     OPENBOOK_FULL_UPDATE            = 230,
     OPENBOOK_DELTA_UPDATE           = 231,
 };
 
 enum nyse_product_values
 {
-    ALERTS                      = 104,
-    QUOTES                      = 107,
+    ALERTS                      = 104, //
+    QUOTES                      = 107, //
     OPENBOOK                    = 108,
     LRP                         = 110,
-    PROTRAC                     = 111,
-    RETRAC                      = 112,
-    TRADES                      = 113,
+    PROTRAC                     = 111, //
+    RETRAC                      = 112, //
+    TRADES                      = 113, //
     RT_REFERENCE                = 114,
-    OPENBOOK_ULTRA              = 115,
+    OPENBOOK_ULTRA              = 115, //
     IMBALANCE                   = 116,
     ARCA_BONDS_QUOTES           = 117,
 };
