@@ -1,3 +1,8 @@
+################################################################################
+# based on:
+# https://github.com/triglav/cmake-findgmock/commit/44b42d66d5afa5bec153cf26c3b992feddc6022a#FindGMock.cmake
+################################################################################
+
 # Locate the Google C++ Mocking Framework.
 # (This file is almost an identical copy of the original FindGTest.cmake file,
 #  feel free to use it as it is or modify it for your own needs.)
@@ -126,4 +131,3 @@ if(GMOCK_FOUND)
   _gmock_append_debugs(GMOCK_MAIN_LIBRARIES GMOCK_MAIN_LIBRARY)
   set(GMOCK_BOTH_LIBRARIES ${GMOCK_LIBRARIES} ${GMOCK_MAIN_LIBRARIES})
 endif()
-
