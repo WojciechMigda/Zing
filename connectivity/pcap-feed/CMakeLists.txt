@@ -1,3 +1,32 @@
+################################################################################
+## Copyright (c) 2013, Wojciech Migda
+## All Rights Reserved.
+## Distributed under the terms of the GNU LGPL v3
+################################################################################
+##
+## Filename: CMakeLists.txt
+##
+## Description:
+##      Main CMakeLists.txt file.
+##      To build:
+##      1. cd .build
+##      2. cmake -G "Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=DEBUG ..
+##         or e.g.
+##         cmake -DCMAKE_BUILD_TYPE=RELEASE ..
+##      3. make
+##
+## Authors:
+##          Wojciech Migda (wm)
+##
+################################################################################
+## History:
+## --------
+## Date         Who  Ticket     Description
+## ----------   ---  ---------  ------------------------------------------------
+## 16-03-2013   wm              Initial version
+##
+################################################################################
+
 cmake_minimum_required( VERSION 2.8.3 )
 
 set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake-modules )
