@@ -211,6 +211,53 @@ void test_00110_exits_after_processing_all_packets(void)
 
     TS_ASSERT_EQUALS(retval, PCAP_FEED_SUCCESS);
     TS_ASSERT(testing::Mock::VerifyAndClearExpectations(&pcapMocks));
+    TS_ASSERT(testing::Mock::VerifyAndClearExpectations(&upstreamMocks));
+}
+
+void test_00111_iterates_packets_with_null_packet_handler(void)
+{
+    FILE                    in_file;
+
+    char                    user_data;
+    void *                  user_data_p = &user_data;
+
+    char                    pcap_inst;
+    pcap_t *                pcap_inst_p = (pcap_t *)&pcap_inst;
+
+    struct pcap_pkthdr      pkthdr;
+    u_char                  pktdata;
+
+    EXPECT_CALL(pcapMocks, pcap_fopen_offline(&in_file, _))
+        .WillRepeatedly(Return(pcap_inst_p));
+
+    size_t                  n_packets = m_random->Generate(123);
+
+    {
+        ::testing::InSequence   seq;
+
+        for (size_t cnt = 0; cnt < n_packets; ++cnt)
+        {
+            // 1 == packet read
+            EXPECT_CALL(pcapMocks,
+                pcap_next_ex(pcap_inst_p, _, _))
+                .WillOnce(DoAll(
+                    SetArgPointee<1>(&pkthdr),
+                    SetArgPointee<2>(&pktdata),
+                    SetRandomCaplen(),
+                    Return(1)))
+                .RetiresOnSaturation();
+        }
+        // -2 == end of data
+        EXPECT_CALL(pcapMocks, pcap_next_ex(pcap_inst_p, _, _))
+            .WillOnce(Return(-2))
+            .RetiresOnSaturation();
+    }
+
+    int             retval;
+    retval = pcap_feeder(&in_file, NULL, user_data_p);
+
+    TS_ASSERT_EQUALS(retval, PCAP_FEED_SUCCESS);
+    TS_ASSERT(testing::Mock::VerifyAndClearExpectations(&pcapMocks));
 }
 
 };
