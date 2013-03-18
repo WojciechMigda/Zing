@@ -23,7 +23,7 @@
 ## --------
 ## Date         Who  Ticket     Description
 ## ----------   ---  ---------  ------------------------------------------------
-## 16-03-2013   wm              Initial version
+## 2013-03-17   wm              Initial version
 ##
 ################################################################################
 
@@ -47,23 +47,11 @@ include_directories(
 
 ################################################################################
 
-include( CheckIncludeFiles )
-
-check_include_files( net/ethernet.h HAS_NET_ETHERNET_H )
-
-if( HAS_NET_ETHERNET_H )
-    add_definitions( -DHAS_NET_ETHERNET_H )
-endif( HAS_NET_ETHERNET_H )
-
-################################################################################
-
 set( src_list
-    src/eth_unpack.c
-    src/ip_unpack.c
-    src/udp_unpack.c
+    src/xdp_unpack.c
 )
 
-set( lib_name inet_proto )
+set( lib_name xdp )
 
 ################################################################################
 
@@ -82,8 +70,8 @@ set( CONF_LIBRARIES
     ${CONF_LIBRARIES}
 )
 
-configure_file( ${CMAKE_CURRENT_LIST_DIR}/InetProtoConfig.cmake.in
-    "${CMAKE_CURRENT_LIST_DIR}/InetProtoConfig.cmake" @ONLY
+configure_file( ${CMAKE_CURRENT_LIST_DIR}/XdpConfig.cmake.in
+    "${CMAKE_CURRENT_LIST_DIR}/XdpConfig.cmake" @ONLY
 )
 
 ################################################################################
@@ -96,7 +84,7 @@ if( CXXTEST_FOUND )
     find_package( GTest )
 
     function( my_test_add name test_src_dir )
-        cxxtest_add_test( ${name} ${name}.cpp ${test_src_dir}/${name}.hpp )
+        cxxtest_add_test( ${name} ${name}.cpp ${test_src_dir}/${name}.h )
         target_link_libraries( ${name}
             ${CONF_LIBRARIES}
             ${GMOCK_BOTH_LIBRARIES}
@@ -105,6 +93,6 @@ if( CXXTEST_FOUND )
         )
     endfunction( my_test_add )
 
-    my_test_add( test_inet_proto_unpack ${CMAKE_CURRENT_LIST_DIR}/tests )
+#    my_test_add( test_inet_proto_unpack ${CMAKE_CURRENT_LIST_DIR}/tests )
 
 endif( CXXTEST_FOUND )

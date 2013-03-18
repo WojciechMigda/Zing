@@ -8,13 +8,13 @@ find_package( PcapFeeder )
 set( InetProto_DIR ${CMAKE_CURRENT_LIST_DIR}/connectivity/inet-proto )
 find_package( InetProto )
 
-set( Nyse_DIR ${CMAKE_CURRENT_LIST_DIR}/market-data/nyse )
-find_package( Nyse )
+set( Xdp_DIR ${CMAKE_CURRENT_LIST_DIR}/market-data/xdp )
+find_package( Xdp )
 
 include_directories(
     ${PCAP_FEEDER_INCLUDE_DIRS}
     ${INET_PROTO_INCLUDE_DIRS}
-    ${NYSE_INCLUDE_DIRS}
+    ${XDP_INCLUDE_DIRS}
 )
 
 add_executable( main
@@ -24,7 +24,7 @@ add_executable( main
 target_link_libraries( main
     ${INET_PROTO_LIBRARIES}
     ${PCAP_FEEDER_LIBRARIES}
-    ${NYSE_LIBRARIES}
+    ${XDP_LIBRARIES}
 )
 
 set_target_properties( main PROPERTIES
