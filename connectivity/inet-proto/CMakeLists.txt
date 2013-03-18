@@ -96,7 +96,7 @@ if( CXXTEST_FOUND )
     find_package( GTest )
 
     function( my_test_add name test_src_dir )
-        cxxtest_add_test( ${name} ${name}.cpp ${test_src_dir}/${name}.h )
+        cxxtest_add_test( ${name} ${name}.cpp ${test_src_dir}/${name}.hpp )
         target_link_libraries( ${name}
             ${CONF_LIBRARIES}
             ${GMOCK_BOTH_LIBRARIES}
