@@ -28,7 +28,7 @@ extern "C"
 {
 #endif
 
-#define STATIC_ASSERT(expr) typedef char __static_assert[1 - 2 * !(expr)];
+#define STATIC_ASSERT(expr) typedef char __static_assert[1 - 2 * !(expr)]
 
 #ifdef __cplusplus
 } // extern C
