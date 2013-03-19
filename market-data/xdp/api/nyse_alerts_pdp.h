@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013, Wojciech Migda
  * All rights reserved
+ * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  * Filename: nyse_alerts_pdp.h
  *
@@ -28,6 +29,7 @@
 #define NYSE_ALERTS_PDP_H_
 
 #include <stdint.h>
+#include "static_assert.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -57,6 +59,8 @@ typedef struct
     uint8_t         num_body_entries;
     uint8_t         filler;
 } nyse_alerts_pdp_header_t;
+
+STATIC_ASSERT(sizeof (nyse_alerts_pdp_header_t) == 16);
 
 #ifdef __cplusplus
 } // extern C
