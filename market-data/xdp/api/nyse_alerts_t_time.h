@@ -30,13 +30,14 @@
 #include <stdint.h>
 #include "xdp_symbol.h"
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-typedef struct
+typedef struct PACKED
 {
     uint32_t        source_time;
     char            symbol[SYMBOL_LEN];

@@ -31,6 +31,7 @@
 #include "xdp_symbol.h"
 #include "xdp_security_status.h"
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -61,7 +62,7 @@ enum halt_condition_values
     HALT_COND_RESUME                                        = 'T',
 };
 
-typedef struct
+typedef struct PACKED
 {
     uint32_t        source_time;
     char            symbol[SYMBOL_LEN];

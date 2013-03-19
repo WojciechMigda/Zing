@@ -30,6 +30,7 @@
 #include <stdint.h>
 #include "xdp_symbol.h"
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -44,7 +45,7 @@ enum rpi_indicator_values
     RPI_IND_BID_AND_OFFER   = 3,
 };
 
-typedef struct
+typedef struct PACKED
 {
     uint32_t        source_time;
     char            symbol[SYMBOL_LEN];

@@ -30,6 +30,7 @@
 #include <stdint.h>
 #include "xdp_symbol.h"
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -45,7 +46,7 @@ enum short_sale_restriction_indicator_values
     SHORT_SALE_RESTR_IND_IN_EFFECT      = 'E',
 };
 
-typedef struct __attribute__((packed))
+typedef struct PACKED
 {
     uint32_t        source_time;
     char            symbol[SYMBOL_LEN];

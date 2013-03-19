@@ -29,6 +29,7 @@
 
 #include <stdint.h>
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -46,7 +47,7 @@ enum circuit_breaker_status_values
 
 enum {CIRCUIT_BREAKER_URL_LEN = 128 };
 
-typedef struct
+typedef struct PACKED
 {
     uint32_t        event_time;
     uint8_t         status;
