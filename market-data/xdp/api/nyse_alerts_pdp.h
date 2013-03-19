@@ -30,6 +30,7 @@
 
 #include <stdint.h>
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -48,7 +49,7 @@ enum nyse_alerts_message_type_values
     NYSE_ALERTS_MSG_RPI                      = 126,
 };
 
-typedef struct
+typedef struct PACKED
 {
     uint16_t        msg_size;
     uint16_t        msg_type;

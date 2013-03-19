@@ -32,6 +32,7 @@
 
 #include <stdint.h>
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -43,7 +44,7 @@ enum nyse_bbo_message_type_values
     NYSE_BBO_MSG_QUOTE_MSG      = 140,
 };
 
-typedef struct
+typedef struct PACKED
 {
     uint16_t        msg_size;
     uint16_t        msg_type;
