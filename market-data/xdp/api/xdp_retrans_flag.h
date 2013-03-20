@@ -3,10 +3,11 @@
  * All rights reserved
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
- * Filename: static_assert.h
+ *
+ * Filename: xdp_retrans_flag.h
  *
  * Description:
- *      Static assert (compile time)
+ *      Retransmission flag field definitions
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -21,18 +22,25 @@
  ******************************************************************************/
 
 
-#ifndef STATIC_ASSERT_H_
-#define STATIC_ASSERT_H_
+#ifndef XDP_RETRANS_FLAG_H_
+#define XDP_RETRANS_FLAG_H_
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#define STATIC_ASSERT(expr) typedef char __static_assert[1 - 2 * !(expr)]
+enum retrans_flag_values
+{
+    RETX_F_ORIGINAL_MSG             = 1,
+    RETX_F_RETRANSMITTED_MSG        = 2,
+    RETX_F_MSG_REPLAY               = 3,
+    RETX_F_RETX_OF_REPLAYED_MSG     = 4,
+    RETX_F_REFRESH_RETX             = 5,
+};
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* STATIC_ASSERT_H_ */
+#endif /* XDP_RETRANS_FLAG_H_ */

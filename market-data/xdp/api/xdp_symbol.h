@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013, Wojciech Migda
  * All rights reserved
+ * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  * Filename: xdp_symbol.h
  *
@@ -28,7 +29,11 @@ extern "C"
 {
 #endif
 
-enum { SYMBOL_LEN = 11 };
+enum xdp_symbol_field_length_values
+{
+    NYSE_ALERTS_SYMBOL_LEN  = 11,
+    NYSE_BBO_SYMBOL_LEN     = 16,
+};
 
 #ifdef __cplusplus
 } // extern C

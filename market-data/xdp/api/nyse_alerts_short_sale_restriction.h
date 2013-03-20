@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013, Wojciech Migda
  * All rights reserved
+ * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  * Filename: nyse_alerts_short_sale_restriction.h
  *
@@ -30,6 +31,7 @@
 #include <stdint.h>
 #include "xdp_symbol.h"
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -45,10 +47,10 @@ enum short_sale_restriction_indicator_values
     SHORT_SALE_RESTR_IND_IN_EFFECT      = 'E',
 };
 
-typedef struct __attribute__((packed))
+typedef struct PACKED
 {
     uint32_t        source_time;
-    char            symbol[SYMBOL_LEN];
+    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
     uint8_t         security_status;
     char            short_sale_restriction_indicator;
     char            triggering_exchange_id;

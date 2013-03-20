@@ -3,10 +3,11 @@
  * All rights reserved
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
- * Filename: static_assert.h
+ *
+ * Filename: xdp_exchange_id.h
  *
  * Description:
- *      Static assert (compile time)
+ *      Exchange Id field definitions
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -16,23 +17,26 @@
  * --------
  * Date         Who  Ticket     Description
  * ----------   ---  ---------  ------------------------------------------------
- * 2013-03-19   wm              Initial version
+ * 2013-03-20   wm              Initial version
  *
  ******************************************************************************/
 
 
-#ifndef STATIC_ASSERT_H_
-#define STATIC_ASSERT_H_
+#ifndef XDP_EXCHANGE_ID_H_
+#define XDP_EXCHANGE_ID_H_
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#define STATIC_ASSERT(expr) typedef char __static_assert[1 - 2 * !(expr)]
+enum exchange_id_values
+{
+    EXCHANGE_ID_NYSE        = 'N',
+};
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* STATIC_ASSERT_H_ */
+#endif /* XDP_EXCHANGE_ID_H_ */

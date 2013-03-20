@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013, Wojciech Migda
  * All rights reserved
+ * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  * Filename: nyse_alerts_t_time.h
  *
@@ -30,16 +31,17 @@
 #include <stdint.h>
 #include "xdp_symbol.h"
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-typedef struct
+typedef struct PACKED
 {
     uint32_t        source_time;
-    char            symbol[SYMBOL_LEN];
+    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
     uint8_t         security_status;
     uint32_t        trade_dissemination_time;
 } nyse_alerts_t_time_msg_t;

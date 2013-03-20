@@ -3,10 +3,11 @@
  * All rights reserved
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
- * Filename: static_assert.h
+ *
+ * Filename: compiler.h
  *
  * Description:
- *      Static assert (compile time)
+ *      Compiler-specific macros and definitions
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -21,18 +22,18 @@
  ******************************************************************************/
 
 
-#ifndef STATIC_ASSERT_H_
-#define STATIC_ASSERT_H_
+#ifndef COMPILER_H_
+#define COMPILER_H_
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#define STATIC_ASSERT(expr) typedef char __static_assert[1 - 2 * !(expr)]
+#define PACKED __attribute__((packed))
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* STATIC_ASSERT_H_ */
+#endif /* COMPILER_H_ */

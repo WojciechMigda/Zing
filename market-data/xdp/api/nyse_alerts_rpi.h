@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013, Wojciech Migda
  * All rights reserved
+ * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  * Filename: nyse_alerts_rpi.h
  *
@@ -30,6 +31,7 @@
 #include <stdint.h>
 #include "xdp_symbol.h"
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -44,10 +46,10 @@ enum rpi_indicator_values
     RPI_IND_BID_AND_OFFER   = 3,
 };
 
-typedef struct
+typedef struct PACKED
 {
     uint32_t        source_time;
-    char            symbol[SYMBOL_LEN];
+    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
     uint8_t         rpi_indicator;
 } nyse_alerts_rpi_msg_t;
 

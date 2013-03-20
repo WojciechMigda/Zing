@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013, Wojciech Migda
  * All rights reserved
+ * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
  * Filename: inet_unpack_status.h

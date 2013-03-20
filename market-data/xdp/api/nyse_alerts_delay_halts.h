@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013, Wojciech Migda
  * All rights reserved
+ * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  * Filename: nyse_alerts_delay_halts.h
  *
@@ -31,6 +32,7 @@
 #include "xdp_symbol.h"
 #include "xdp_security_status.h"
 #include "static_assert.h"
+#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -61,10 +63,10 @@ enum halt_condition_values
     HALT_COND_RESUME                                        = 'T',
 };
 
-typedef struct
+typedef struct PACKED
 {
     uint32_t        source_time;
-    char            symbol[SYMBOL_LEN];
+    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
     uint8_t         security_status;
     char            halt_condition;
 } nyse_alerts_delay_halts_msg_t;
