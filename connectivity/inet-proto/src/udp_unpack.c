@@ -27,6 +27,7 @@
 
 #include "udp_unpack.h"
 #include "inet_unpack_status.h"
+#include "compiler.h"
 
 /*******************************************************************************
  * @brief unpack UDP header from the packet
@@ -54,6 +55,7 @@
  *        May be NULL.
  * @return status of unpacking - @c inet_proto_unpack_status_values
  ******************************************************************************/
+CONST
 int udp_unitdata_unpack(
     const uint8_t * in_data_p,
     const size_t in_size,

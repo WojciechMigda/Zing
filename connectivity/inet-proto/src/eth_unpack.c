@@ -30,6 +30,7 @@
 
 #include "eth_unpack.h"
 #include "inet_unpack_status.h"
+#include "compiler.h"
 
 /*******************************************************************************
  * @brief unpack ethernet header from the packet
@@ -57,6 +58,7 @@
  *        May be NULL.
  * @return status of unpacking - @c inet_proto_unpack_status_values
  ******************************************************************************/
+CONST
 int eth_unitdata_unpack(
         const uint8_t * in_data_p,
         const size_t in_size,

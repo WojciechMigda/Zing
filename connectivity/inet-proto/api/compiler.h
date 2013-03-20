@@ -36,8 +36,6 @@ extern "C"
 
 #define CONST __attribute__((__const__))
 
-#define RESTRICT __restrict
-
 #ifdef __cplusplus
 } // extern C
 #endif
