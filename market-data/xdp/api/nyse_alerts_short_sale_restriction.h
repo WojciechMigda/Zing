@@ -50,7 +50,7 @@ enum short_sale_restriction_indicator_values
 typedef struct PACKED
 {
     uint32_t        source_time;
-    char            symbol[SYMBOL_LEN];
+    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
     uint8_t         security_status;
     char            short_sale_restriction_indicator;
     char            triggering_exchange_id;

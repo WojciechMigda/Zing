@@ -49,7 +49,7 @@ enum rpi_indicator_values
 typedef struct PACKED
 {
     uint32_t        source_time;
-    char            symbol[SYMBOL_LEN];
+    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
     uint8_t         rpi_indicator;
 } nyse_alerts_rpi_msg_t;
 
