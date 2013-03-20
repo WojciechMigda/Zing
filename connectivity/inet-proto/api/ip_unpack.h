@@ -27,7 +27,6 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <netinet/ip.h>
-
 #include "compiler.h"
 
 #ifdef __cplusplus
@@ -41,7 +40,7 @@ int ip_unitdata_unpack(
     const uint8_t * in_data_p,
     const size_t in_size,
     ip_header_t * const out_ip_header_p,
-    size_t * const out_offset_p) CONST;
+    size_t * const out_offset_p);
 
 #ifdef __cplusplus
 } // extern C

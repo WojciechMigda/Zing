@@ -41,7 +41,7 @@ int nyse_alerts_unpack_pdp_header(
     const uint8_t * in_data_p,
     const size_t in_size,
     nyse_alerts_pdp_header_t * const out_body_p,
-    size_t * const out_offset_p) CONST;
+    size_t * const out_offset_p);
 
 #ifdef __cplusplus
 } // extern C
