@@ -42,7 +42,7 @@ enum { PANEL_LEN = 2 };
 enum { COUNTRY_CODE_LEN = 3 };
 enum { EX_DIVIDEND_DATE_LEN = 5 };
 
-enum security_type_values
+enum nyse_alerts_security_type_values
 {
     SEC_TYPE_COMMON_STOCK                = 'A',
     SEC_TYPE_PREFERRED_STOCK             = 'B',
@@ -142,7 +142,7 @@ enum its_eligible_values
 typedef struct PACKED
 {
     uint32_t        source_time;
-    char            symbol[SYMBOL_LEN];
+    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
     uint8_t         security_type;
     uint16_t        filler;
     uint16_t        mpv;
