@@ -122,6 +122,8 @@ void test_00102_unpacks_valid_header(void)
     TS_ASSERT_EQUALS(oheader.ether_type, ntohs(iheader.ether_type));
     TS_ASSERT_SAME_DATA(oheader.ether_dhost, iheader.ether_dhost, sizeof (oheader.ether_dhost));
     TS_ASSERT_SAME_DATA(oheader.ether_shost, iheader.ether_shost, sizeof (oheader.ether_shost));
+
+    TS_ASSERT_EQUALS(nbytes, sizeof (eth_header_t));
 }
 
 };
@@ -221,6 +223,8 @@ void test_00102_unpacks_valid_header(void)
     TS_ASSERT_EQUALS(oheader.check, ntohs(iheader.check));
     TS_ASSERT_EQUALS(oheader.saddr, ntohl(iheader.saddr));
     TS_ASSERT_EQUALS(oheader.daddr, ntohl(iheader.daddr));
+
+    TS_ASSERT_EQUALS(nbytes, sizeof (ip_header_t));
 }
 
 };
@@ -306,6 +310,8 @@ void test_00102_unpacks_valid_header(void)
     TS_ASSERT_EQUALS(oheader.dest, ntohs(iheader.dest));
     TS_ASSERT_EQUALS(oheader.len, ntohs(iheader.len));
     TS_ASSERT_EQUALS(oheader.check, ntohs(iheader.check));
+
+    TS_ASSERT_EQUALS(nbytes, sizeof (udp_header_t));
 }
 
 };
