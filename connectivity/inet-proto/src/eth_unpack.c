@@ -58,7 +58,6 @@
  *        May be NULL.
  * @return status of unpacking - @c inet_proto_unpack_status_values
  ******************************************************************************/
-CONST
 int eth_unitdata_unpack(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
