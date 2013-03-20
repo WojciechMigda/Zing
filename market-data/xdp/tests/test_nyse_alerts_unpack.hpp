@@ -27,7 +27,6 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <ctime>
-#include <endian.h>
 #include <algorithm>
 #include <string.h>
 
@@ -133,10 +132,10 @@ void test_00200_proper_packet_is_unpacked(void)
 
     TS_ASSERT_EQUALS(XDP_UNPACK_SUCCESS, result);
 
-    TS_ASSERT_EQUALS(out_data.msg_size,         be16toh(in_data.msg_size));
-    TS_ASSERT_EQUALS(out_data.msg_type,         be16toh(in_data.msg_type));
-    TS_ASSERT_EQUALS(out_data.msg_seq_num,      be32toh(in_data.msg_seq_num));
-    TS_ASSERT_EQUALS(out_data.send_time,        be32toh(in_data.send_time));
+    TS_ASSERT_EQUALS(out_data.msg_size,         in_data.msg_size);
+    TS_ASSERT_EQUALS(out_data.msg_type,         in_data.msg_type);
+    TS_ASSERT_EQUALS(out_data.msg_seq_num,      in_data.msg_seq_num);
+    TS_ASSERT_EQUALS(out_data.send_time,        in_data.send_time);
     TS_ASSERT_EQUALS(out_data.product_id,       in_data.product_id);
     TS_ASSERT_EQUALS(out_data.retrans_flag,     in_data.retrans_flag);
     TS_ASSERT_EQUALS(out_data.num_body_entries, in_data.num_body_entries);
