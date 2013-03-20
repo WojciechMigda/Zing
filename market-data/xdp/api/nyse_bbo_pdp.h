@@ -12,7 +12,7 @@
  *      References:
  *      [1] NYSE BEST BID AND OFFER (BBO) CLIENT SPECIFICATION,
  *          Version 1.9, 2012-09-03,
- *          Section 4.7
+ *          Sec. 4.7
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -25,7 +25,6 @@
  * 2013-03-19   wm              Initial version
  *
  ******************************************************************************/
-
 
 #ifndef NYSE_BBO_PDP_H_
 #define NYSE_BBO_PDP_H_
