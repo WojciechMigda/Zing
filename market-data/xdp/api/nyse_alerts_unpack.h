@@ -27,8 +27,9 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <endian.h>
+
 #include "nyse_alerts_pdp.h"
-#include "unpack_status.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -39,31 +40,7 @@ int nyse_alerts_unpack_pdp_header(
     const uint8_t * in_data_p,
     const size_t in_size,
     nyse_alerts_pdp_header_t * const out_body_p,
-    size_t * const out_offset_p)
-{
-    if (NULL == in_data_p)
-    {
-        return XDP_UNPACK_NULL_INPUT_PACKET_PTR;
-    }
-
-    if (in_size < NYSE_ALERTS_PDP_HEADER_SIZE)
-    {
-        return XDP_UNPACK_INPUT_PACKET_TOO_SHORT;
-    }
-
-    if (out_offset_p != NULL)
-    {
-        *out_offset_p = NYSE_ALERTS_PDP_HEADER_SIZE;
-    }
-    if (out_body_p != NULL)
-    {
-        *out_body_p = *((nyse_alerts_pdp_header_t *)in_data_p);
-
-//        out_body_p->ether_type = ntohs(out_body_p->ether_type);
-    }
-
-    return XDP_UNPACK_SUCCESS;
-}
+    size_t * const out_offset_p);
 
 #ifdef __cplusplus
 } // extern C

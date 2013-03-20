@@ -32,6 +32,8 @@
 
 #include "nyse_alerts_unpack.h"
 #include "serialize.h"
+#include "nyse_alerts_pdp.h"
+#include "unpack_status.h"
 
 class NyseAlertsUnpack : public CxxTest::TestSuite
 {
