@@ -60,7 +60,9 @@ typedef struct PACKED
     uint8_t         filler;
 } nyse_alerts_pdp_header_t;
 
-STATIC_ASSERT(sizeof (nyse_alerts_pdp_header_t) == 16);
+enum { NYSE_ALERTS_PDP_HEADER_SIZE = 16 };
+
+STATIC_ASSERT(sizeof (nyse_alerts_pdp_header_t) == NYSE_ALERTS_PDP_HEADER_SIZE);
 
 #ifdef __cplusplus
 } // extern C
