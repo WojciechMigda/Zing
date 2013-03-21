@@ -55,7 +55,9 @@ typedef struct PACKED
     char            imbalance_side;
 } nyse_alerts_market_imbalance_msg_t;
 
-STATIC_ASSERT(sizeof (nyse_alerts_market_imbalance_msg_t) == 21);
+enum { NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE = 21 };
+
+STATIC_ASSERT(sizeof (nyse_alerts_market_imbalance_msg_t) == NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

@@ -71,7 +71,9 @@ typedef struct PACKED
     char            halt_condition;
 } nyse_alerts_delay_halts_msg_t;
 
-STATIC_ASSERT(sizeof (nyse_alerts_delay_halts_msg_t) == 17);
+enum { NYSE_ALERTS_DELAY_HALTS_MSG_SIZE = 17 };
+
+STATIC_ASSERT(sizeof (nyse_alerts_delay_halts_msg_t) == NYSE_ALERTS_DELAY_HALTS_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

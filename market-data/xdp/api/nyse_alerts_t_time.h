@@ -46,7 +46,9 @@ typedef struct PACKED
     uint32_t        trade_dissemination_time;
 } nyse_alerts_t_time_msg_t;
 
-STATIC_ASSERT(sizeof (nyse_alerts_t_time_msg_t) == 20);
+enum { NYSE_ALERTS_T_TIME_MSG_SIZE = 20 };
+
+STATIC_ASSERT(sizeof (nyse_alerts_t_time_msg_t) == NYSE_ALERTS_T_TIME_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

@@ -55,7 +55,9 @@ typedef struct PACKED
     char            url[CIRCUIT_BREAKER_URL_LEN];
 } nyse_alerts_circuit_breaker_msg_t;
 
-STATIC_ASSERT(sizeof (nyse_alerts_circuit_breaker_msg_t) == 133);
+enum { NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE = 133 };
+
+STATIC_ASSERT(sizeof (nyse_alerts_circuit_breaker_msg_t) == NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

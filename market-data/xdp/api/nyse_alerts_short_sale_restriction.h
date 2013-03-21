@@ -60,7 +60,9 @@ typedef struct PACKED
     uint32_t        trade_volume;
 } nyse_alerts_short_sale_restriction_msg_t;
 
-STATIC_ASSERT(sizeof (nyse_alerts_short_sale_restriction_msg_t) == 31);
+enum { NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE = 31 };
+
+STATIC_ASSERT(sizeof (nyse_alerts_short_sale_restriction_msg_t) == NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C
