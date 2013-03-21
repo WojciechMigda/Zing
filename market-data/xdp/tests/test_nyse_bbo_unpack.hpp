@@ -272,7 +272,7 @@ void test_00200_proper_packet_is_unpacked(void)
     TS_ASSERT_EQUALS(out_data.quote_condition,                  in_data.quote_condition);
     TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
 
-    TS_ASSERT_EQUALS(out_size, (size_t)nyse_bbo_unpack_quote_msg);
+    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_BBO_QUOTE_MSG_SIZE);
 }
 
 };
