@@ -99,7 +99,8 @@ if( CXXTEST_FOUND )
     function( my_test_add name test_src_dir )
         cxxtest_add_test( ${name} ${name}.cpp ${test_src_dir}/${name}.hpp )
         target_link_libraries( ${name}
-            ${CONF_LIBRARIES}
+            ${lib_name}
+            ${PCAP_LIBRARIES}
             ${GMOCK_BOTH_LIBRARIES}
             ${GTEST_BOTH_LIBRARIES}
             pthread

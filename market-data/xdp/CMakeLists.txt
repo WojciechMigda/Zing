@@ -67,9 +67,6 @@ set_target_properties( ${lib_name} PROPERTIES
 set( CONF_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR} )
 set( CONF_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/api )
 get_target_property( CONF_LIBRARIES ${lib_name} LOCATION )
-set( CONF_LIBRARIES
-    ${CONF_LIBRARIES}
-)
 
 configure_file( ${CMAKE_CURRENT_LIST_DIR}/XdpConfig.cmake.in
     "${CMAKE_CURRENT_LIST_DIR}/XdpConfig.cmake" @ONLY
@@ -87,7 +84,7 @@ if( CXXTEST_FOUND )
     function( my_test_add name test_src_dir )
         cxxtest_add_test( ${name} ${name}.cpp ${test_src_dir}/${name}.hpp )
         target_link_libraries( ${name}
-            ${CONF_LIBRARIES}
+            ${lib_name}
             ${GMOCK_BOTH_LIBRARIES}
             ${GTEST_BOTH_LIBRARIES}
             pthread

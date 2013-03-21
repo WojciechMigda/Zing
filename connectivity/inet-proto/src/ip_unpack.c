@@ -27,6 +27,7 @@
 
 #include "ip_unpack.h"
 #include "inet_unpack_status.h"
+#include "compiler.h"
 
 /*******************************************************************************
  * @brief unpack IP header from the packet
@@ -57,10 +58,10 @@
  * @return status of unpacking - @c inet_proto_unpack_status_values
  ******************************************************************************/
 int ip_unitdata_unpack(
-    const uint8_t * in_data_p,
+    const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    ip_header_t * const out_ip_header_p,
-    size_t * const out_offset_p)
+    ip_header_t * const RESTRICT out_ip_header_p,
+    size_t * const RESTRICT out_offset_p)
 {
     int retval;
 

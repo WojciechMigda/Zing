@@ -24,22 +24,23 @@
 #ifndef ETH_UNPACK_H_
 #define ETH_UNPACK_H_
 
+#include <stdint.h>
+#include <stddef.h>
+#include <net/ethernet.h>
+#include "compiler.h"
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#include <stdint.h>
-#include <stddef.h>
-#include <net/ethernet.h>
-
 typedef struct ether_header eth_header_t;
 
 int eth_unitdata_unpack(
-    const uint8_t * in_data_p,
+    const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    eth_header_t * const out_eth_header_p,
-    size_t * const out_offset_p);
+    eth_header_t * const RESTRICT out_eth_header_p,
+    size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus
 } // extern C

@@ -28,6 +28,7 @@
 #include "nyse_alerts_pdp.h"
 #include "unpack_status.h"
 #include "nyse_alerts_unpack.h"
+#include "compiler.h"
 
 /*******************************************************************************
  * @brief Unpack general PDP header of the NYSE Alerts feedS
@@ -49,10 +50,10 @@
  * @return XDP unpack return code
  ******************************************************************************/
 int nyse_alerts_unpack_pdp_header(
-    const uint8_t * in_data_p,
+    const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_alerts_pdp_header_t * const out_body_p,
-    size_t * const out_offset_p)
+    nyse_alerts_pdp_header_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p)
 {
     if (NULL == in_data_p)
     {
