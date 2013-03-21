@@ -29,6 +29,7 @@
 #include <stddef.h>
 
 #include "nyse_bbo_pdp.h"
+#include "nyse_bbo_quote.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -41,6 +42,11 @@ int nyse_bbo_unpack_pdp_header(
     nyse_bbo_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
+int nyse_bbo_unpack_quote_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_bbo_quote_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus
 } // extern C

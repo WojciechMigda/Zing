@@ -84,7 +84,9 @@ typedef struct PACKED
     char            symbol[NYSE_BBO_SYMBOL_LEN];
 } nyse_bbo_quote_msg_t;
 
-STATIC_ASSERT(sizeof (nyse_bbo_quote_msg_t) == 58 - 16 + 2);
+enum { NYSE_BBO_QUOTE_MSG_SIZE = 44 };
+
+STATIC_ASSERT(sizeof (nyse_bbo_quote_msg_t) == NYSE_BBO_QUOTE_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C
