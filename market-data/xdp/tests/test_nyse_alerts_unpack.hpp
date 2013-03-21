@@ -7,7 +7,7 @@
  * Filename: test_nyse_alerts_unpack.hpp
  *
  * Description:
- *      description
+ *      NYSE Alerts feed unpack interface unit tests
  *
  * Authors:
  *          Wojciech Migda (wm)
