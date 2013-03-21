@@ -7,7 +7,7 @@
  * Filename: nyse_alerts_unpack.c
  *
  * Description:
- *      description
+ *      NYSE Alerts feed unpacking routines implementation
  *
  * Authors:
  *          Wojciech Migda (wm)

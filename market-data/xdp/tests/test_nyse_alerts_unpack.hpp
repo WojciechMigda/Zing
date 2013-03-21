@@ -7,7 +7,7 @@
  * Filename: test_nyse_alerts_unpack.hpp
  *
  * Description:
- *      description
+ *      NYSE Alerts feed unpack interface unit tests
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -90,6 +90,7 @@ public:
 NyseAlertsUnpackPdpHeader()
 {
     m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
 }
 ~NyseAlertsUnpackPdpHeader()
 {
@@ -244,6 +245,7 @@ public:
 NyseAlertsUnpackSecurityInfoMsg()
 {
     m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
 }
 ~NyseAlertsUnpackSecurityInfoMsg()
 {
@@ -374,6 +376,7 @@ public:
 NyseAlertsUnpackMarketImbalanceMsg()
 {
     m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
 }
 ~NyseAlertsUnpackMarketImbalanceMsg()
 {
@@ -482,6 +485,7 @@ public:
 NyseAlertsUnpackDelayHaltsMsg()
 {
     m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
 }
 ~NyseAlertsUnpackDelayHaltsMsg()
 {
@@ -595,6 +599,7 @@ public:
 NyseAlertsUnpackIndicationMsg()
 {
     m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
 }
 ~NyseAlertsUnpackIndicationMsg()
 {
@@ -705,6 +710,7 @@ public:
 NyseAlertsUnpackTTimeMsg()
 {
     m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
 }
 ~NyseAlertsUnpackTTimeMsg()
 {
@@ -810,6 +816,7 @@ public:
 NyseAlertsUnpackCircuitBreakerMsg()
 {
     m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
 }
 ~NyseAlertsUnpackCircuitBreakerMsg()
 {
@@ -926,6 +933,7 @@ public:
 NyseAlertsUnpackShortSaleRestrictionMsg()
 {
     m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
 }
 ~NyseAlertsUnpackShortSaleRestrictionMsg()
 {
@@ -1036,6 +1044,7 @@ public:
 NyseAlertsUnpackRpiMsg()
 {
     m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
 }
 ~NyseAlertsUnpackRpiMsg()
 {
