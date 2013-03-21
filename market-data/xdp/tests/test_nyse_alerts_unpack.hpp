@@ -63,15 +63,18 @@ uint8_t * format_pdp_header(nyse_alerts_pdp_header_t const * const i_hdr_p, uint
     size_t      random_offset =
         m_random->Generate(1 + o_buf_size - NYSE_ALERTS_PDP_HEADER_SIZE);
 
-    __serialize_be16(i_hdr_p->msg_size,     &o_buffer[random_offset + 0]);
-    __serialize_be16(i_hdr_p->msg_type,     &o_buffer[random_offset + 2]);
-    __serialize_be32(i_hdr_p->msg_seq_num,  &o_buffer[random_offset + 4]);
-    __serialize_be32(i_hdr_p->send_time,    &o_buffer[random_offset + 8]);
+    std::vector<uint8_t>    work_vec;
 
-    o_buffer[random_offset + 12] = i_hdr_p->product_id;
-    o_buffer[random_offset + 13] = i_hdr_p->retrans_flag;
-    o_buffer[random_offset + 14] = i_hdr_p->num_body_entries;
-    o_buffer[random_offset + 15] = i_hdr_p->filler;
+    serialize(i_hdr_p->msg_size, work_vec);
+    serialize(i_hdr_p->msg_type, work_vec);
+    serialize(i_hdr_p->msg_seq_num, work_vec);
+    serialize(i_hdr_p->send_time, work_vec);
+    serialize(i_hdr_p->product_id, work_vec);
+    serialize(i_hdr_p->retrans_flag, work_vec);
+    serialize(i_hdr_p->num_body_entries, work_vec);
+    serialize(i_hdr_p->filler, work_vec);
+
+    std::copy(work_vec.begin(), work_vec.end(), &o_buffer[random_offset]);
 
     return &o_buffer[random_offset];
 }
