@@ -34,7 +34,7 @@ extern "C"
 
 #define PURE __attribute__((pure))
 
-#define CONST __attribute__((__const__))
+#define CONST __attribute__((const))
 
 #define RESTRICT __restrict
 
