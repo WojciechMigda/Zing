@@ -4,10 +4,10 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: serialize.h
+ * Filename: anon_var.hpp
  *
  * Description:
- *      Helper serialization routines
+ *      Anonymous variable utilities
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -17,24 +17,18 @@
  * --------
  * Date         Who  Ticket     Description
  * ----------   ---  ---------  ------------------------------------------------
- * 2013-03-20   wm              Initial version
+ * 2013-03-21   wm              Initial version
  *
  ******************************************************************************/
 
 
-#ifndef SERIALIZE_H_
-#define SERIALIZE_H_
+#ifndef ANON_VAR_HPP_
+#define ANON_VAR_HPP_
 
-#include <stdint.h>
+#include <cstdlib>
+#include <algorithm>
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+#define ANON_ARRAY(x) do{std::generate_n(x, sizeof (x), random);}while(0)
+#define ANON_VAR(x) do{x = random();}while(0)
 
-
-#ifdef __cplusplus
-} // extern C
-#endif
-
-#endif /* SERIALIZE_H_ */
+#endif /* ANON_VAR_HPP_ */
