@@ -53,7 +53,9 @@ typedef struct PACKED
     uint8_t         rpi_indicator;
 } nyse_alerts_rpi_msg_t;
 
-STATIC_ASSERT(sizeof (nyse_alerts_rpi_msg_t) == 16);
+enum { NYSE_ALERTS_RPI_MSG_SIZE = 16 };
+
+STATIC_ASSERT(sizeof (nyse_alerts_rpi_msg_t) == NYSE_ALERTS_RPI_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

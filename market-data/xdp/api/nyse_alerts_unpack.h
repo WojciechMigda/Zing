@@ -35,6 +35,7 @@
 #include "nyse_alerts_t_time.h"
 #include "nyse_alerts_circuit_breaker.h"
 #include "nyse_alerts_short_sale_restriction.h"
+#include "nyse_alerts_rpi.h"
 #include "compiler.h"
 
 #ifdef __cplusplus
@@ -88,6 +89,12 @@ int nyse_alerts_unpack_short_sale_restriction_msg(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
     nyse_alerts_short_sale_restriction_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p);
+
+int nyse_alerts_unpack_rpi_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_alerts_rpi_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus
