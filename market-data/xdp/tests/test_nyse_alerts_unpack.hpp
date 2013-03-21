@@ -32,7 +32,6 @@
 
 #include "anon_var.hpp"
 #include "nyse_alerts_unpack.h"
-#include "serialize.h"
 #include "serializer.hpp"
 #include "nyse_alerts_pdp.h"
 #include "unpack_status.h"
