@@ -31,6 +31,7 @@
 #include "nyse_alerts_security_info.h"
 #include "nyse_alerts_market_imbalance.h"
 #include "nyse_alerts_delay_halts.h"
+#include "nyse_alerts_indication.h"
 #include "compiler.h"
 
 #ifdef __cplusplus
@@ -60,6 +61,12 @@ int nyse_alerts_unpack_delay_halt_msg(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
     nyse_alerts_delay_halts_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p);
+
+int nyse_alerts_unpack_indication_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_alerts_indication_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus

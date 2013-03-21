@@ -57,7 +57,9 @@ typedef struct PACKED
     uint8_t         adjustment;
 } nyse_alerts_indication_msg_t;
 
-STATIC_ASSERT(sizeof (nyse_alerts_indication_msg_t) == 26);
+enum { NYSE_ALERTS_INDICATION_MSG_SIZE = 26 };
+
+STATIC_ASSERT(sizeof (nyse_alerts_indication_msg_t) == NYSE_ALERTS_INDICATION_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C
