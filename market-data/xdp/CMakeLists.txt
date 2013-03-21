@@ -49,7 +49,6 @@ include_directories(
 
 set( src_list
     src/nyse_alerts_unpack.c
-    src/xdp_unpack.c
 )
 
 set( lib_name xdp )
