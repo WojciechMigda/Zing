@@ -21,15 +21,14 @@
  *
  ******************************************************************************/
 
-
 #ifndef NYSE_ALERTS_UNPACK_H_
 #define NYSE_ALERTS_UNPACK_H_
 
 #include <stdint.h>
 #include <stddef.h>
-#include <endian.h>
 
 #include "nyse_alerts_pdp.h"
+#include "nyse_alerts_security_info.h"
 #include "compiler.h"
 
 #ifdef __cplusplus
@@ -41,6 +40,12 @@ int nyse_alerts_unpack_pdp_header(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
     nyse_alerts_pdp_header_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p);
+
+int nyse_alerts_unpack_security_info_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_alerts_security_info_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus

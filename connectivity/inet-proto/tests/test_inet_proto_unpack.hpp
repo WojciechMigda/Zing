@@ -29,7 +29,9 @@
 #include <limits>
 #include <algorithm>
 #include <string.h>
+#include <cstdlib>
 
+#include "anon_var.hpp"
 #include "eth_unpack.h"
 #include "ip_unpack.h"
 #include "udp_unpack.h"
@@ -56,19 +58,10 @@ uint8_t * format_header(eth_header_t const * const i_hdr_p, uint8_t * o_buffer, 
 
 void compose_random_header(eth_header_t * o_header_p)
 {
-    // lame loops
-    for (size_t idx = 0; idx < sizeof (o_header_p->ether_dhost); ++idx)
-    {
-        o_header_p->ether_dhost[idx] = m_random->Generate(std::numeric_limits<uint8_t>::max());
-    }
-    for (size_t idx = 0; idx < sizeof (o_header_p->ether_shost); ++idx)
-    {
-        o_header_p->ether_shost[idx] = m_random->Generate(std::numeric_limits<uint8_t>::max());
-    }
+    ANON_ARRAY(o_header_p->ether_dhost);
+    ANON_ARRAY(o_header_p->ether_shost);
 
-#define ASSIGN_RAND(x) do{x = m_random->Generate(std::min((size_t)std::numeric_limits<typeof(x)>::max(), (size_t)m_random->kMaxRange));}while(0)
-    ASSIGN_RAND(o_header_p->ether_type);
-#undef ASSIGN_RAND
+    ANON_VAR(o_header_p->ether_type);
 }
 
 public:
@@ -76,6 +69,7 @@ public:
 EthUnitdataUnpack()
 {
     m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
 }
 ~EthUnitdataUnpack()
 {
@@ -149,19 +143,17 @@ uint8_t * format_header(ip_header_t const * const i_hdr_p, uint8_t * o_buffer, c
 
 void compose_random_header(ip_header_t * o_header_p)
 {
-    o_header_p->ihl = m_random->Generate(1 << 4);
-    o_header_p->version = m_random->Generate(1 << 4);
-#define ASSIGN_RAND(x) do{x = m_random->Generate(std::min((size_t)std::numeric_limits<typeof(x)>::max(), (size_t)m_random->kMaxRange));}while(0)
-    ASSIGN_RAND(o_header_p->tos);
-    ASSIGN_RAND(o_header_p->tot_len);
-    ASSIGN_RAND(o_header_p->id);
-    ASSIGN_RAND(o_header_p->frag_off);
-    ASSIGN_RAND(o_header_p->ttl);
-    ASSIGN_RAND(o_header_p->protocol);
-    ASSIGN_RAND(o_header_p->check);
-    ASSIGN_RAND(o_header_p->saddr);
-    ASSIGN_RAND(o_header_p->daddr);
-#undef ASSIGN_RAND
+    ANON_VAR(o_header_p->ihl);
+    ANON_VAR(o_header_p->version);
+    ANON_VAR(o_header_p->tos);
+    ANON_VAR(o_header_p->tot_len);
+    ANON_VAR(o_header_p->id);
+    ANON_VAR(o_header_p->frag_off);
+    ANON_VAR(o_header_p->ttl);
+    ANON_VAR(o_header_p->protocol);
+    ANON_VAR(o_header_p->check);
+    ANON_VAR(o_header_p->saddr);
+    ANON_VAR(o_header_p->daddr);
 }
 
 public:
@@ -250,12 +242,10 @@ uint8_t * format_header(udp_header_t const * const i_hdr_p, uint8_t * o_buffer, 
 
 void compose_random_header(udp_header_t * o_header_p)
 {
-#define ASSIGN_RAND(x) do{x = m_random->Generate(std::min((size_t)std::numeric_limits<typeof(x)>::max(), (size_t)m_random->kMaxRange));}while(0)
-    ASSIGN_RAND(o_header_p->source);
-    ASSIGN_RAND(o_header_p->dest);
-    ASSIGN_RAND(o_header_p->len);
-    ASSIGN_RAND(o_header_p->check);
-#undef ASSIGN_RAND
+    ANON_VAR(o_header_p->source);
+    ANON_VAR(o_header_p->dest);
+    ANON_VAR(o_header_p->len);
+    ANON_VAR(o_header_p->check);
 }
 
 public:
