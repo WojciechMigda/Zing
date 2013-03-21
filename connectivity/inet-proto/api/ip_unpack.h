@@ -37,10 +37,10 @@ extern "C"
 typedef struct iphdr ip_header_t;
 
 int ip_unitdata_unpack(
-    const uint8_t * in_data_p,
+    const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    ip_header_t * const out_ip_header_p,
-    size_t * const out_offset_p);
+    ip_header_t * const RESTRICT out_ip_header_p,
+    size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus
 } // extern C

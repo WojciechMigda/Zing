@@ -38,10 +38,10 @@ extern "C"
 #endif
 
 int nyse_alerts_unpack_pdp_header(
-    const uint8_t * in_data_p,
+    const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_alerts_pdp_header_t * const out_body_p,
-    size_t * const out_offset_p);
+    nyse_alerts_pdp_header_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus
 } // extern C
