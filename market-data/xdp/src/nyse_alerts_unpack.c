@@ -385,3 +385,31 @@ int nyse_alerts_unpack_circuit_breaker_msg(
 
     return XDP_UNPACK_SUCCESS;
 }
+
+/*******************************************************************************
+ * @brief Unpack Short Sale Restriction message of the NYSE Alerts feed
+ *******************************************************************************
+ * Endianness of the unpacked data is that of the host.
+ *******************************************************************************
+ * History:
+ * --------
+ * Date         Who  Ticket     Description
+ * ----------   ---  ---------  ------------------------------------------------
+ * 2013-03-21   wm              Initial version
+ *
+ *******************************************************************************
+ * @param in_data_p pointer to the input packet
+ * @param in_size number of octets in the input packet
+ * @param out_body_p pointer to the variable where the packet will be unpacked
+ * @param out_offset_p pointer to the output variable where the amount of
+ *        unpacked octets will be stored
+ * @return XDP unpack return code
+ ******************************************************************************/
+int nyse_alerts_unpack_short_sale_restriction_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_alerts_short_sale_restriction_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p)
+{
+    return XDP_UNPACK_SUCCESS;
+}

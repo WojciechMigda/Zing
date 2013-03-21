@@ -41,6 +41,7 @@
 #include "nyse_alerts_indication.h"
 #include "nyse_alerts_t_time.h"
 #include "nyse_alerts_circuit_breaker.h"
+#include "nyse_alerts_short_sale_restriction.h"
 
 class NyseAlertsUnpackPdpHeader : public CxxTest::TestSuite
 {
@@ -867,6 +868,128 @@ void test_00200_proper_packet_is_unpacked(void)
     TS_ASSERT_SAME_DATA(out_data.url, in_data.url, sizeof (out_data.url));
 
     TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE);
+}
+
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+class NyseAlertsUnpackShortSaleRestrictionMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
+
+void compose_random_msg(nyse_alerts_short_sale_restriction_msg_t * const out_p)
+{
+    ANON_VAR(out_p->source_time);
+    ANON_ARRAY(out_p->symbol);
+    ANON_VAR(out_p->security_status);
+    ANON_VAR(out_p->short_sale_restriction_indicator);
+    ANON_VAR(out_p->triggering_exchange_id);
+    ANON_VAR(out_p->short_sale_trigger_time);
+    ANON_VAR(out_p->trade_price);
+    ANON_VAR(out_p->price_scale_code);
+    ANON_VAR(out_p->trade_volume);
+}
+
+uint8_t * format_message(
+    nyse_alerts_short_sale_restriction_msg_t const * const i_msg_p,
+    uint8_t * o_buffer,
+    const size_t o_buf_size)
+{
+    assert(o_buf_size >= NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
+
+    size_t      random_offset =
+        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
+
+    std::vector<uint8_t>    work_vec;
+
+    serialize(i_msg_p->source_time, work_vec);
+    work_vec.insert(work_vec.end(), i_msg_p->symbol, i_msg_p->symbol + sizeof (i_msg_p->symbol));
+    serialize(i_msg_p->security_status, work_vec);
+    serialize(i_msg_p->short_sale_restriction_indicator, work_vec);
+    serialize(i_msg_p->triggering_exchange_id, work_vec);
+    serialize(i_msg_p->short_sale_trigger_time, work_vec);
+    serialize(i_msg_p->trade_price, work_vec);
+    serialize(i_msg_p->price_scale_code, work_vec);
+    serialize(i_msg_p->trade_volume, work_vec);
+
+    std::copy(work_vec.begin(), work_vec.end(), &o_buffer[random_offset]);
+
+    return &o_buffer[random_offset];
+}
+
+public:
+
+NyseAlertsUnpackShortSaleRestrictionMsg()
+{
+    m_random = new testing::internal::Random(time(0));
+}
+~NyseAlertsUnpackShortSaleRestrictionMsg()
+{
+    delete m_random;
+}
+
+void test_00100_fails_when_input_packet_ptr_is_null(void)
+{
+    size_t                      in_size = m_random->Generate(m_random->kMaxRange);
+
+    nyse_alerts_short_sale_restriction_msg_t    out_data;
+    size_t                                      out_size;
+    int                                         result;
+
+    result = nyse_alerts_unpack_short_sale_restriction_msg(NULL, in_size, &out_data, &out_size);
+
+    TS_ASSERT_EQUALS(XDP_UNPACK_NULL_INPUT_PACKET_PTR, result);
+}
+
+void test_00101_fails_when_input_packet_is_too_short(void)
+{
+    uint8_t                             in_packet[1];
+    size_t                              in_size = m_random->Generate(NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
+
+    nyse_alerts_short_sale_restriction_msg_t    out_data;
+    size_t                                      out_size;
+    int                                         result;
+
+    result = nyse_alerts_unpack_short_sale_restriction_msg(in_packet, in_size, &out_data, &out_size);
+
+    TS_ASSERT_EQUALS(XDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+}
+
+void test_00200_proper_packet_is_unpacked(void)
+{
+    nyse_alerts_short_sale_restriction_msg_t    in_data;
+
+    compose_random_msg(&in_data);
+
+    uint8_t                     in_packet[2 * NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE];
+    uint8_t *                   in_packet_p;
+
+    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
+
+    size_t                      in_size = NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE + m_random->Generate(NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
+
+    nyse_alerts_short_sale_restriction_msg_t    out_data;
+    size_t                                      out_size;
+    int                                         result;
+
+    result = nyse_alerts_unpack_short_sale_restriction_msg(in_packet_p, in_size, &out_data, &out_size);
+
+    TS_ASSERT_EQUALS(XDP_UNPACK_SUCCESS, result);
+
+    TS_ASSERT_EQUALS(out_data.source_time,                      in_data.source_time);
+    TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
+    TS_ASSERT_EQUALS(out_data.security_status,                  in_data.security_status);
+    TS_ASSERT_EQUALS(out_data.short_sale_restriction_indicator, in_data.short_sale_restriction_indicator);
+    TS_ASSERT_EQUALS(out_data.triggering_exchange_id,           in_data.triggering_exchange_id);
+    TS_ASSERT_EQUALS(out_data.short_sale_trigger_time,          in_data.short_sale_trigger_time);
+    TS_ASSERT_EQUALS(out_data.trade_price,                      in_data.trade_price);
+    TS_ASSERT_EQUALS(out_data.price_scale_code,                 in_data.price_scale_code);
+    TS_ASSERT_EQUALS(out_data.trade_volume,                     in_data.trade_volume);
+
+    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
 }
 
 };
