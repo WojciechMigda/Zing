@@ -362,5 +362,26 @@ int nyse_alerts_unpack_circuit_breaker_msg(
     nyse_alerts_circuit_breaker_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
+    if (NULL == in_data_p)
+    {
+        return XDP_UNPACK_NULL_INPUT_PACKET_PTR;
+    }
+
+    if (in_size < NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE)
+    {
+        return XDP_UNPACK_INPUT_PACKET_TOO_SHORT;
+    }
+
+    if (out_offset_p != NULL)
+    {
+        *out_offset_p = NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE;
+    }
+    if (out_body_p != NULL)
+    {
+        *out_body_p = *((nyse_alerts_circuit_breaker_msg_t *)in_data_p);
+
+        out_body_p->event_time = be32toh(out_body_p->event_time);
+    }
+
     return XDP_UNPACK_SUCCESS;
 }
