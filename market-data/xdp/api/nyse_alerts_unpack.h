@@ -29,6 +29,7 @@
 
 #include "nyse_alerts_pdp.h"
 #include "nyse_alerts_security_info.h"
+#include "nyse_alerts_market_imbalance.h"
 #include "compiler.h"
 
 #ifdef __cplusplus
@@ -46,6 +47,12 @@ int nyse_alerts_unpack_security_info_msg(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
     nyse_alerts_security_info_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p);
+
+int nyse_alerts_unpack_market_imbalance_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_alerts_market_imbalance_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus

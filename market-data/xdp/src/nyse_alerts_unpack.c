@@ -29,6 +29,7 @@
 #include "unpack_status.h"
 #include "nyse_alerts_unpack.h"
 #include "compiler.h"
+#include "nyse_alerts_market_imbalance.h"
 
 /*******************************************************************************
  * @brief Unpack general PDP header of the NYSE Alerts feed
@@ -133,5 +134,14 @@ int nyse_alerts_unpack_security_info_msg(
         out_body_p->ex_div_amount = be32toh(out_body_p->ex_div_amount);
     }
 
+    return XDP_UNPACK_SUCCESS;
+}
+
+int nyse_alerts_unpack_market_imbalance_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_alerts_market_imbalance_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p)
+{
     return XDP_UNPACK_SUCCESS;
 }
