@@ -7,7 +7,7 @@
  * Filename: nyse_lrp_pdp.h
  *
  * Description:
- *      NYSE LRP PDP header unpacking interface
+ *      NYSE LRP PDP header definitions
  *
  *      References:
  *      [1] NYSE LIQUIDITY REPLENISHMENT POINTS® (LRP),

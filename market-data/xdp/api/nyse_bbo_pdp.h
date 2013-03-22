@@ -7,7 +7,7 @@
  * Filename: nyse_bbo_pdp.h
  *
  * Description:
- *      NYSE BBO PDP header unpacking interface
+ *      NYSE BBO PDP header definitions
  *
  *      References:
  *      [1] NYSE BEST BID AND OFFER (BBO) CLIENT SPECIFICATION,

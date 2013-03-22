@@ -32,8 +32,7 @@ extern "C"
 enum xdp_symbol_field_length_values
 {
     NYSE_ALERTS_SYMBOL_LEN  = 11,
-    NYSE_BBO_SYMBOL_LEN     = 16,
-    NYSE_LRP_SYMBOL_LEN     = 16,
+    NYSE_SYMBOL_LEN         = 16,
 };
 
 #ifdef __cplusplus

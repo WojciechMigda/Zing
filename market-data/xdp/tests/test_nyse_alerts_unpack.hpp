@@ -501,7 +501,7 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
     size_t                              out_size;
     int                                 result;
 
-    result = nyse_alerts_unpack_delay_halt_msg(NULL, in_size, &out_data, &out_size);
+    result = nyse_alerts_unpack_delay_halts_msg(NULL, in_size, &out_data, &out_size);
 
     TS_ASSERT_EQUALS(XDP_UNPACK_NULL_INPUT_PACKET_PTR, result);
 }
@@ -515,7 +515,7 @@ void test_00101_fails_when_input_packet_is_too_short(void)
     size_t                              out_size;
     int                                 result;
 
-    result = nyse_alerts_unpack_delay_halt_msg(in_packet, in_size, &out_data, &out_size);
+    result = nyse_alerts_unpack_delay_halts_msg(in_packet, in_size, &out_data, &out_size);
 
     TS_ASSERT_EQUALS(XDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
 }
@@ -537,7 +537,7 @@ void test_00200_proper_packet_is_unpacked(void)
     size_t                              out_size;
     int                                 result;
 
-    result = nyse_alerts_unpack_delay_halt_msg(in_packet_p, in_size, &out_data, &out_size);
+    result = nyse_alerts_unpack_delay_halts_msg(in_packet_p, in_size, &out_data, &out_size);
 
     TS_ASSERT_EQUALS(XDP_UNPACK_SUCCESS, result);
 

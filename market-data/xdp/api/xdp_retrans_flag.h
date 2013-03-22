@@ -7,7 +7,7 @@
  * Filename: xdp_retrans_flag.h
  *
  * Description:
- *      Retransmission flag field definitions
+ *      Retransmission Flag field definitions
  *
  * Authors:
  *          Wojciech Migda (wm)

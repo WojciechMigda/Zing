@@ -206,7 +206,7 @@ int nyse_alerts_unpack_market_imbalance_msg(
  *        unpacked octets will be stored
  * @return XDP unpack return code
  ******************************************************************************/
-int nyse_alerts_unpack_delay_halt_msg(
+int nyse_alerts_unpack_delay_halts_msg(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
     nyse_alerts_delay_halts_msg_t * const RESTRICT out_body_p,

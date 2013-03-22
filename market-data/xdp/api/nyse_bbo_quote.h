@@ -81,7 +81,7 @@ typedef struct PACKED
     char            exchange_id;
     char            security_type;
     char            quote_condition;
-    char            symbol[NYSE_BBO_SYMBOL_LEN];
+    char            symbol[NYSE_SYMBOL_LEN];
 } nyse_bbo_quote_msg_t;
 
 enum { NYSE_BBO_QUOTE_MSG_SIZE = 44 };

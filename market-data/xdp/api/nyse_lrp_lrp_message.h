@@ -56,7 +56,7 @@ typedef struct PACKED
     uint8_t         price_scale_code;
     char            lrp_change_indicator;
     uint16_t        filler2;
-    char            symbol[NYSE_LRP_SYMBOL_LEN];
+    char            symbol[NYSE_SYMBOL_LEN];
 } nyse_lrp_lrp_msg_t;
 
 enum { NYSE_LRP_LRP_MSG_SIZE = 36 };
