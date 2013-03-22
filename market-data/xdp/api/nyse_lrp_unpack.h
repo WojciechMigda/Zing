@@ -30,6 +30,7 @@
 
 #include "compiler.h"
 #include "nyse_lrp_pdp.h"
+#include "nyse_lrp_lrp_message.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -40,6 +41,12 @@ int nyse_lrp_unpack_pdp_header(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
     nyse_lrp_pdp_header_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p);
+
+int nyse_lrp_unpack_lrp_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_lrp_lrp_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus

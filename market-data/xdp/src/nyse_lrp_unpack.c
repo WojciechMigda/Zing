@@ -26,6 +26,7 @@
 #include <endian.h>
 
 #include "nyse_lrp_pdp.h"
+#include "nyse_lrp_lrp_message.h"
 #include "unpack_status.h"
 
 /*******************************************************************************
@@ -77,5 +78,33 @@ int nyse_lrp_unpack_pdp_header(
         out_body_p->send_time =     be32toh(out_body_p->send_time);
     }
 
+    return XDP_UNPACK_SUCCESS;
+}
+
+/*******************************************************************************
+ * @brief Unpack LRP message of the NYSE BBO feed
+ *******************************************************************************
+ * Endianness of the unpacked data is that of the host.
+ *******************************************************************************
+ * History:
+ * --------
+ * Date         Who  Ticket     Description
+ * ----------   ---  ---------  ------------------------------------------------
+ * 2013-03-22   wm              Initial version
+ *
+ *******************************************************************************
+ * @param in_data_p pointer to the input packet
+ * @param in_size number of octets in the input packet
+ * @param out_body_p pointer to the variable where the packet will be unpacked
+ * @param out_offset_p pointer to the output variable where the amount of
+ *        unpacked octets will be stored
+ * @return XDP unpack return code
+ ******************************************************************************/
+int nyse_lrp_unpack_lrp_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_lrp_lrp_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p)
+{
     return XDP_UNPACK_SUCCESS;
 }

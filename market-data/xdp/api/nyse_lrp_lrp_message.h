@@ -59,7 +59,9 @@ typedef struct PACKED
     char            symbol[NYSE_LRP_SYMBOL_LEN];
 } nyse_lrp_lrp_msg_t;
 
-STATIC_ASSERT(sizeof (nyse_lrp_lrp_msg_t) == 50 - 16 + 2);
+enum { NYSE_LRP_LRP_MSG_SIZE = 36 };
+
+STATIC_ASSERT(sizeof (nyse_lrp_lrp_msg_t) == NYSE_LRP_LRP_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C
