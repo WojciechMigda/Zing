@@ -40,7 +40,7 @@ enum nyse_alerts_message_type_values
 {
     NYSE_ALERTS_MSG_SECURITY_INFO            = 36,
     NYSE_ALERTS_MSG_MARKET_IMBALANCE         = 120,
-    NYSE_ALERTS_MSG_DELAY_HALT               = 121,
+    NYSE_ALERTS_MSG_DELAY_HALTS               = 121,
     NYSE_ALERTS_MSG_INDICATION               = 122,
     NYSE_ALERTS_MSG_T_TIME                   = 123,
     NYSE_ALERTS_MSG_CIRCUIT_BREAKER          = 124,
