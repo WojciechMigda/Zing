@@ -6,7 +6,7 @@
  * Filename: nyse_alerts_pdp.h
  *
  * Description:
- *      NYSE Alerts PDP header unpacking interface
+ *      NYSE Alerts PDP header definitions
  *
  *      References:
  *      [1] NYSE ALERTS CLIENT SPECIFICATION, Version 2.12, 2013-01-24
