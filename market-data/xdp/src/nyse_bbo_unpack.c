@@ -48,7 +48,6 @@
  *        unpacked octets will be stored
  * @return XDP unpack return code
  ******************************************************************************/
-
 int nyse_bbo_unpack_pdp_header(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
