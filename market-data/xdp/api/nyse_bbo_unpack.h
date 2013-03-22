@@ -28,6 +28,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "compiler.h"
 #include "nyse_bbo_pdp.h"
 #include "nyse_bbo_quote.h"
 
