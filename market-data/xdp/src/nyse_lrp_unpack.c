@@ -53,5 +53,29 @@ int nyse_lrp_unpack_pdp_header(
     nyse_lrp_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
+    if (NULL == in_data_p)
+    {
+        return XDP_UNPACK_NULL_INPUT_PACKET_PTR;
+    }
+
+    if (in_size < NYSE_LRP_PDP_HEADER_SIZE)
+    {
+        return XDP_UNPACK_INPUT_PACKET_TOO_SHORT;
+    }
+
+    if (out_offset_p != NULL)
+    {
+        *out_offset_p = NYSE_LRP_PDP_HEADER_SIZE;
+    }
+    if (out_body_p != NULL)
+    {
+        *out_body_p = *((nyse_lrp_pdp_header_t *)in_data_p);
+
+        out_body_p->msg_size =      be16toh(out_body_p->msg_size);
+        out_body_p->msg_type =      be16toh(out_body_p->msg_type);
+        out_body_p->msg_seq_num =   be32toh(out_body_p->msg_seq_num);
+        out_body_p->send_time =     be32toh(out_body_p->send_time);
+    }
+
     return XDP_UNPACK_SUCCESS;
 }
