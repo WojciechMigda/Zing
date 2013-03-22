@@ -185,7 +185,6 @@ uint8_t * format_message(
     serialize(i_msg_p->high_lrp_numerator, work_vec);
     serialize(i_msg_p->price_scale_code, work_vec);
     serialize(i_msg_p->lrp_change_indicator, work_vec);
-    serialize(i_msg_p->price_scale_code, work_vec);
     serialize(i_msg_p->filler2, work_vec);
     work_vec.insert(work_vec.end(), i_msg_p->symbol, i_msg_p->symbol + sizeof (i_msg_p->symbol));
 
