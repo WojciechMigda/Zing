@@ -29,6 +29,7 @@
 #include <ctime>
 #include <algorithm>
 #include <string.h>
+#include <cassert>
 
 #include "anon_var.hpp"
 #include "nyse_alerts_unpack.h"

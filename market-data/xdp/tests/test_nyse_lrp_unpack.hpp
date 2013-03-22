@@ -4,10 +4,10 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: test_nyse_bbo_unpack.hpp
+ * Filename: test_nyse_lrp_unpack.hpp
  *
  * Description:
- *      NYSE BBO feed unpack interface unit tests
+ *      NYSE LRP feed unpack interface unit tests
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -17,7 +17,7 @@
  * --------
  * Date         Who  Ticket     Description
  * ----------   ---  ---------  ------------------------------------------------
- * 2013-03-21   wm              Initial version
+ * 2013-03-22   wm              Initial version
  *
  ******************************************************************************/
 
@@ -29,17 +29,18 @@
 
 #include "anon_var.hpp"
 #include "serializer.hpp"
-#include "nyse_bbo_pdp.h"
+#include "nyse_lrp_pdp.h"
 #include "unpack_status.h"
-#include "nyse_bbo_unpack.h"
+#include "nyse_lrp_unpack.h"
+#include "nyse_lrp_lrp_message.h"
 
-class NyseBboUnpackPdpHeader : public CxxTest::TestSuite
+class NyseLrpUnpackPdpHeader : public CxxTest::TestSuite
 {
 private:
 
 testing::internal::Random * m_random;
 
-void compose_random_pdp_header(nyse_bbo_pdp_header_t * const out_p)
+void compose_random_pdp_header(nyse_lrp_pdp_header_t * const out_p)
 {
     ANON_VAR(out_p->msg_size);
     ANON_VAR(out_p->msg_type);
@@ -51,12 +52,12 @@ void compose_random_pdp_header(nyse_bbo_pdp_header_t * const out_p)
     ANON_ARRAY(out_p->filler);
 }
 
-uint8_t * format_pdp_header(nyse_bbo_pdp_header_t const * const i_hdr_p, uint8_t * o_buffer, const size_t o_buf_size)
+uint8_t * format_pdp_header(nyse_lrp_pdp_header_t const * const i_hdr_p, uint8_t * o_buffer, const size_t o_buf_size)
 {
-    assert(o_buf_size >= NYSE_BBO_PDP_HEADER_SIZE);
+    assert(o_buf_size >= NYSE_LRP_PDP_HEADER_SIZE);
 
     size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_BBO_PDP_HEADER_SIZE);
+        m_random->Generate(1 + o_buf_size - NYSE_LRP_PDP_HEADER_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -75,12 +76,12 @@ uint8_t * format_pdp_header(nyse_bbo_pdp_header_t const * const i_hdr_p, uint8_t
 }
 
 public:
-NyseBboUnpackPdpHeader()
+NyseLrpUnpackPdpHeader()
 {
     m_random = new testing::internal::Random(time(0));
     srandom(time(0));
 }
-~NyseBboUnpackPdpHeader()
+~NyseLrpUnpackPdpHeader()
 {
     delete m_random;
 }
@@ -89,11 +90,11 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 {
     size_t                      in_size = m_random->Generate(m_random->kMaxRange);
 
-    nyse_bbo_pdp_header_t       out_data;
+    nyse_lrp_pdp_header_t       out_data;
     size_t                      out_size;
     int                         result;
 
-    result = nyse_bbo_unpack_pdp_header(NULL, in_size, &out_data, &out_size);
+    result = nyse_lrp_unpack_pdp_header(NULL, in_size, &out_data, &out_size);
 
     TS_ASSERT_EQUALS(XDP_UNPACK_NULL_INPUT_PACKET_PTR, result);
 }
@@ -101,35 +102,35 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
     uint8_t                     in_packet[1];
-    size_t                      in_size = m_random->Generate(NYSE_BBO_PDP_HEADER_SIZE);
+    size_t                      in_size = m_random->Generate(NYSE_LRP_PDP_HEADER_SIZE);
 
-    nyse_bbo_pdp_header_t       out_data;
+    nyse_lrp_pdp_header_t       out_data;
     size_t                      out_size;
     int                         result;
 
-    result = nyse_bbo_unpack_pdp_header(in_packet, in_size, &out_data, &out_size);
+    result = nyse_lrp_unpack_pdp_header(in_packet, in_size, &out_data, &out_size);
 
     TS_ASSERT_EQUALS(XDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_bbo_pdp_header_t       in_data;
+    nyse_lrp_pdp_header_t       in_data;
 
     compose_random_pdp_header(&in_data);
 
-    uint8_t                     in_packet[2 * NYSE_BBO_PDP_HEADER_SIZE];
+    uint8_t                     in_packet[2 * NYSE_LRP_PDP_HEADER_SIZE];
     uint8_t *                   in_packet_p;
 
     in_packet_p = format_pdp_header(&in_data, in_packet, sizeof (in_packet));
 
-    size_t                      in_size = NYSE_BBO_PDP_HEADER_SIZE + m_random->Generate(NYSE_BBO_PDP_HEADER_SIZE);
+    size_t                      in_size = NYSE_LRP_PDP_HEADER_SIZE + m_random->Generate(NYSE_LRP_PDP_HEADER_SIZE);
 
-    nyse_bbo_pdp_header_t       out_data;
+    nyse_lrp_pdp_header_t       out_data;
     size_t                      out_size;
     int                         result;
 
-    result = nyse_bbo_unpack_pdp_header(in_packet_p, in_size, &out_data, &out_size);
+    result = nyse_lrp_unpack_pdp_header(in_packet_p, in_size, &out_data, &out_size);
 
     TS_ASSERT_EQUALS(XDP_UNPACK_SUCCESS, result);
 
@@ -141,58 +142,50 @@ void test_00200_proper_packet_is_unpacked(void)
     TS_ASSERT_EQUALS(out_data.retrans_flag,     in_data.retrans_flag);
     TS_ASSERT_EQUALS(out_data.num_body_entries, in_data.num_body_entries);
 
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_BBO_PDP_HEADER_SIZE);
+    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_LRP_PDP_HEADER_SIZE);
 }
 
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseBboUnpackQuoteMsg : public CxxTest::TestSuite
+class NyseLrpUnpackLrpMsg : public CxxTest::TestSuite
 {
 private:
 
 testing::internal::Random * m_random;
 
-void compose_random_msg(nyse_bbo_quote_msg_t * const out_p)
+void compose_random_msg(nyse_lrp_lrp_msg_t * const out_p)
 {
+    ANON_VAR(out_p->filler1);
     ANON_VAR(out_p->source_time);
-    ANON_ARRAY(out_p->filler);
-    ANON_VAR(out_p->rpi_interest);
-    ANON_VAR(out_p->ask_price_nominator);
-    ANON_VAR(out_p->ask_size);
-    ANON_VAR(out_p->bid_price_numerator);
-    ANON_VAR(out_p->bid_size);
+    ANON_VAR(out_p->low_lrp_numerator);
+    ANON_VAR(out_p->high_lrp_numerator);
     ANON_VAR(out_p->price_scale_code);
-    ANON_VAR(out_p->exchange_id);
-    ANON_VAR(out_p->security_type);
-    ANON_VAR(out_p->quote_condition);
+    ANON_VAR(out_p->lrp_change_indicator);
+    ANON_VAR(out_p->filler2);
     ANON_ARRAY(out_p->symbol);
 }
 
 uint8_t * format_message(
-    nyse_bbo_quote_msg_t const * const i_msg_p,
+    nyse_lrp_lrp_msg_t const * const i_msg_p,
     uint8_t * o_buffer,
     const size_t o_buf_size)
 {
-    assert(o_buf_size >= NYSE_BBO_QUOTE_MSG_SIZE);
+    assert(o_buf_size >= NYSE_LRP_LRP_MSG_SIZE);
 
     size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_BBO_QUOTE_MSG_SIZE);
+        m_random->Generate(1 + o_buf_size - NYSE_LRP_LRP_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
+    serialize(i_msg_p->filler1, work_vec);
     serialize(i_msg_p->source_time, work_vec);
-    work_vec.insert(work_vec.end(), i_msg_p->filler, i_msg_p->filler + sizeof (i_msg_p->filler));
-    serialize(i_msg_p->rpi_interest, work_vec);
-    serialize(i_msg_p->ask_price_nominator, work_vec);
-    serialize(i_msg_p->ask_size, work_vec);
-    serialize(i_msg_p->bid_price_numerator, work_vec);
-    serialize(i_msg_p->bid_size, work_vec);
+    serialize(i_msg_p->low_lrp_numerator, work_vec);
+    serialize(i_msg_p->high_lrp_numerator, work_vec);
     serialize(i_msg_p->price_scale_code, work_vec);
-    serialize(i_msg_p->exchange_id, work_vec);
-    serialize(i_msg_p->security_type, work_vec);
-    serialize(i_msg_p->quote_condition, work_vec);
+    serialize(i_msg_p->lrp_change_indicator, work_vec);
+    serialize(i_msg_p->filler2, work_vec);
     work_vec.insert(work_vec.end(), i_msg_p->symbol, i_msg_p->symbol + sizeof (i_msg_p->symbol));
 
     std::copy(work_vec.begin(), work_vec.end(), &o_buffer[random_offset]);
@@ -202,12 +195,12 @@ uint8_t * format_message(
 
 public:
 
-NyseBboUnpackQuoteMsg()
+NyseLrpUnpackLrpMsg()
 {
     m_random = new testing::internal::Random(time(0));
     srandom(time(0));
 }
-~NyseBboUnpackQuoteMsg()
+~NyseLrpUnpackLrpMsg()
 {
     delete m_random;
 }
@@ -216,11 +209,11 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 {
     size_t                      in_size = m_random->Generate(m_random->kMaxRange);
 
-    nyse_bbo_quote_msg_t        out_data;
+    nyse_lrp_lrp_msg_t          out_data;
     size_t                      out_size;
     int                         result;
 
-    result = nyse_bbo_unpack_quote_msg(NULL, in_size, &out_data, &out_size);
+    result = nyse_lrp_unpack_lrp_msg(NULL, in_size, &out_data, &out_size);
 
     TS_ASSERT_EQUALS(XDP_UNPACK_NULL_INPUT_PACKET_PTR, result);
 }
@@ -228,52 +221,46 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
     uint8_t                 in_packet[1];
-    size_t                  in_size = m_random->Generate(NYSE_BBO_QUOTE_MSG_SIZE);
+    size_t                  in_size = m_random->Generate(NYSE_LRP_LRP_MSG_SIZE);
 
-    nyse_bbo_quote_msg_t    out_data;
+    nyse_lrp_lrp_msg_t      out_data;
     size_t                  out_size;
     int                     result;
 
-    result = nyse_bbo_unpack_quote_msg(in_packet, in_size, &out_data, &out_size);
+    result = nyse_lrp_unpack_lrp_msg(in_packet, in_size, &out_data, &out_size);
 
     TS_ASSERT_EQUALS(XDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_bbo_quote_msg_t        in_data;
+    nyse_lrp_lrp_msg_t          in_data;
 
     compose_random_msg(&in_data);
 
-    uint8_t                     in_packet[2 * NYSE_BBO_QUOTE_MSG_SIZE];
+    uint8_t                     in_packet[2 * NYSE_LRP_LRP_MSG_SIZE];
     uint8_t *                   in_packet_p;
 
     in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
 
-    size_t                      in_size = NYSE_BBO_QUOTE_MSG_SIZE + m_random->Generate(NYSE_BBO_QUOTE_MSG_SIZE);
+    size_t                      in_size = NYSE_LRP_LRP_MSG_SIZE + m_random->Generate(NYSE_LRP_LRP_MSG_SIZE);
 
-    nyse_bbo_quote_msg_t        out_data;
+    nyse_lrp_lrp_msg_t          out_data;
     size_t                      out_size;
     int                         result;
 
-    result = nyse_bbo_unpack_quote_msg(in_packet_p, in_size, &out_data, &out_size);
+    result = nyse_lrp_unpack_lrp_msg(in_packet_p, in_size, &out_data, &out_size);
 
     TS_ASSERT_EQUALS(XDP_UNPACK_SUCCESS, result);
 
     TS_ASSERT_EQUALS(out_data.source_time,                      in_data.source_time);
-    TS_ASSERT_SAME_DATA(out_data.filler, in_data.filler, sizeof (out_data.filler));
-    TS_ASSERT_EQUALS(out_data.rpi_interest,                     in_data.rpi_interest);
-    TS_ASSERT_EQUALS(out_data.ask_price_nominator,              in_data.ask_price_nominator);
-    TS_ASSERT_EQUALS(out_data.ask_size,                         in_data.ask_size);
-    TS_ASSERT_EQUALS(out_data.bid_price_numerator,              in_data.bid_price_numerator);
-    TS_ASSERT_EQUALS(out_data.bid_size,                         in_data.bid_size);
+    TS_ASSERT_EQUALS(out_data.low_lrp_numerator,                in_data.low_lrp_numerator);
+    TS_ASSERT_EQUALS(out_data.high_lrp_numerator,               in_data.high_lrp_numerator);
     TS_ASSERT_EQUALS(out_data.price_scale_code,                 in_data.price_scale_code);
-    TS_ASSERT_EQUALS(out_data.exchange_id,                      in_data.exchange_id);
-    TS_ASSERT_EQUALS(out_data.security_type,                    in_data.security_type);
-    TS_ASSERT_EQUALS(out_data.quote_condition,                  in_data.quote_condition);
+    TS_ASSERT_EQUALS(out_data.lrp_change_indicator,             in_data.lrp_change_indicator);
     TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
 
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_BBO_QUOTE_MSG_SIZE);
+    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_LRP_LRP_MSG_SIZE);
 }
 
 };

@@ -55,7 +55,9 @@ typedef struct PACKED
     char            filler[1];
 } nyse_lrp_pdp_header_t;
 
-STATIC_ASSERT(sizeof (nyse_lrp_pdp_header_t) == 16);
+enum { NYSE_LRP_PDP_HEADER_SIZE = 16 };
+
+STATIC_ASSERT(sizeof (nyse_lrp_pdp_header_t) == NYSE_LRP_PDP_HEADER_SIZE);
 
 #ifdef __cplusplus
 } // extern C

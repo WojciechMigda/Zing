@@ -4,10 +4,10 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: nyse_bbo_unpack.c
+ * Filename: nyse_lrp_unpack.c
  *
  * Description:
- *      NYSE BBO feed unpacking routines implementation
+ *      NYSE LRP feed unpacking routines implementation
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -17,7 +17,7 @@
  * --------
  * Date         Who  Ticket     Description
  * ----------   ---  ---------  ------------------------------------------------
- * 2013-03-21   wm              Initial version
+ * 2013-03-22   wm              Initial version
  *
  ******************************************************************************/
 
@@ -25,12 +25,12 @@
 #include <stddef.h>
 #include <endian.h>
 
-#include "nyse_bbo_pdp.h"
+#include "nyse_lrp_pdp.h"
+#include "nyse_lrp_lrp_message.h"
 #include "unpack_status.h"
-#include "nyse_bbo_quote.h"
 
 /*******************************************************************************
- * @brief Unpack general PDP header of the NYSE BBO feed
+ * @brief Unpack general PDP header of the NYSE LRP feed
  *******************************************************************************
  * Endianness of the unpacked data is that of the host.
  *******************************************************************************
@@ -38,7 +38,7 @@
  * --------
  * Date         Who  Ticket     Description
  * ----------   ---  ---------  ------------------------------------------------
- * 2013-03-21   wm              Initial version
+ * 2013-03-22   wm              Initial version
  *
  *******************************************************************************
  * @param in_data_p pointer to the input packet
@@ -48,10 +48,10 @@
  *        unpacked octets will be stored
  * @return XDP unpack return code
  ******************************************************************************/
-int nyse_bbo_unpack_pdp_header(
+int nyse_lrp_unpack_pdp_header(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_bbo_pdp_header_t * const RESTRICT out_body_p,
+    nyse_lrp_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
     if (NULL == in_data_p)
@@ -59,18 +59,18 @@ int nyse_bbo_unpack_pdp_header(
         return XDP_UNPACK_NULL_INPUT_PACKET_PTR;
     }
 
-    if (in_size < NYSE_BBO_PDP_HEADER_SIZE)
+    if (in_size < NYSE_LRP_PDP_HEADER_SIZE)
     {
         return XDP_UNPACK_INPUT_PACKET_TOO_SHORT;
     }
 
     if (out_offset_p != NULL)
     {
-        *out_offset_p = NYSE_BBO_PDP_HEADER_SIZE;
+        *out_offset_p = NYSE_LRP_PDP_HEADER_SIZE;
     }
     if (out_body_p != NULL)
     {
-        *out_body_p = *((nyse_bbo_pdp_header_t *)in_data_p);
+        *out_body_p = *((nyse_lrp_pdp_header_t *)in_data_p);
 
         out_body_p->msg_size =      be16toh(out_body_p->msg_size);
         out_body_p->msg_type =      be16toh(out_body_p->msg_type);
@@ -82,7 +82,7 @@ int nyse_bbo_unpack_pdp_header(
 }
 
 /*******************************************************************************
- * @brief Unpack Quote message of the NYSE BBO feed
+ * @brief Unpack LRP message of the NYSE BBO feed
  *******************************************************************************
  * Endianness of the unpacked data is that of the host.
  *******************************************************************************
@@ -90,7 +90,7 @@ int nyse_bbo_unpack_pdp_header(
  * --------
  * Date         Who  Ticket     Description
  * ----------   ---  ---------  ------------------------------------------------
- * 2013-03-21   wm              Initial version
+ * 2013-03-22   wm              Initial version
  *
  *******************************************************************************
  * @param in_data_p pointer to the input packet
@@ -100,10 +100,10 @@ int nyse_bbo_unpack_pdp_header(
  *        unpacked octets will be stored
  * @return XDP unpack return code
  ******************************************************************************/
-int nyse_bbo_unpack_quote_msg(
+int nyse_lrp_unpack_lrp_msg(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_bbo_quote_msg_t * const RESTRICT out_body_p,
+    nyse_lrp_lrp_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
     if (NULL == in_data_p)
@@ -111,24 +111,22 @@ int nyse_bbo_unpack_quote_msg(
         return XDP_UNPACK_NULL_INPUT_PACKET_PTR;
     }
 
-    if (in_size < NYSE_BBO_QUOTE_MSG_SIZE)
+    if (in_size < NYSE_LRP_LRP_MSG_SIZE)
     {
         return XDP_UNPACK_INPUT_PACKET_TOO_SHORT;
     }
 
     if (out_offset_p != NULL)
     {
-        *out_offset_p = NYSE_BBO_QUOTE_MSG_SIZE;
+        *out_offset_p = NYSE_LRP_LRP_MSG_SIZE;
     }
     if (out_body_p != NULL)
     {
-        *out_body_p = *((nyse_bbo_quote_msg_t *)in_data_p);
+        *out_body_p = *((nyse_lrp_lrp_msg_t *)in_data_p);
 
         out_body_p->source_time =           be32toh(out_body_p->source_time);
-        out_body_p->ask_price_nominator =   be32toh(out_body_p->ask_price_nominator);
-        out_body_p->ask_size =              be32toh(out_body_p->ask_size);
-        out_body_p->bid_price_numerator =   be32toh(out_body_p->bid_price_numerator);
-        out_body_p->bid_size =              be32toh(out_body_p->bid_size);
+        out_body_p->low_lrp_numerator =     be32toh(out_body_p->low_lrp_numerator);
+        out_body_p->high_lrp_numerator =    be32toh(out_body_p->high_lrp_numerator);
     }
 
     return XDP_UNPACK_SUCCESS;

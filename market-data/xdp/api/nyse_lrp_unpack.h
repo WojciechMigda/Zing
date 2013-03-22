@@ -4,10 +4,10 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: nyse_bbo_unpack.h
+ * Filename: nyse_lrp_unpack.h
  *
  * Description:
- *      NYSE BBO unpack interface
+ *      NYSE LRP unpack interface
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -17,40 +17,40 @@
  * --------
  * Date         Who  Ticket     Description
  * ----------   ---  ---------  ------------------------------------------------
- * 2013-03-21   wm              Initial version
+ * 2013-03-22   wm              Initial version
  *
  ******************************************************************************/
 
 
-#ifndef NYSE_BBO_UNPACK_H_
-#define NYSE_BBO_UNPACK_H_
+#ifndef NYSE_LRP_UNPACK_H_
+#define NYSE_LRP_UNPACK_H_
 
 #include <stdint.h>
 #include <stddef.h>
 
 #include "compiler.h"
-#include "nyse_bbo_pdp.h"
-#include "nyse_bbo_quote.h"
+#include "nyse_lrp_pdp.h"
+#include "nyse_lrp_lrp_message.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-int nyse_bbo_unpack_pdp_header(
+int nyse_lrp_unpack_pdp_header(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_bbo_pdp_header_t * const RESTRICT out_body_p,
+    nyse_lrp_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
-int nyse_bbo_unpack_quote_msg(
+int nyse_lrp_unpack_lrp_msg(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_bbo_quote_msg_t * const RESTRICT out_body_p,
+    nyse_lrp_lrp_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* NYSE_BBO_UNPACK_H_ */
+#endif /* NYSE_LRP_UNPACK_H_ */
