@@ -50,6 +50,7 @@ include_directories(
 set( src_list
     src/nyse_alerts_unpack.c
     src/nyse_bbo_unpack.c
+    src/nyse_lrp_unpack.c
 )
 
 set( lib_name xdp )
@@ -93,5 +94,6 @@ if( CXXTEST_FOUND )
 
     my_test_add( test_nyse_alerts_unpack    ${CMAKE_CURRENT_LIST_DIR}/tests )
     my_test_add( test_nyse_bbo_unpack       ${CMAKE_CURRENT_LIST_DIR}/tests )
+    my_test_add( test_nyse_lrp_unpack       ${CMAKE_CURRENT_LIST_DIR}/tests )
 
 endif( CXXTEST_FOUND )
