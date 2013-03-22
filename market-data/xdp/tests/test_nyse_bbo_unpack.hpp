@@ -25,6 +25,7 @@
 #include <gmock/gmock.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <cassert>
 
 #include "anon_var.hpp"
 #include "serializer.hpp"
