@@ -30,7 +30,6 @@
 
 #include <stdint.h>
 #include "pdp_symbol.h"
-#include "static_assert.h"
 #include "compiler.h"
 
 #ifdef __cplusplus
@@ -47,7 +46,7 @@ enum short_sale_restriction_indicator_values
     SHORT_SALE_RESTR_IND_IN_EFFECT      = 'E',
 };
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        source_time;
     char            symbol[NYSE_ALERTS_SYMBOL_LEN];
@@ -61,8 +60,6 @@ typedef struct PACKED
 } nyse_alerts_short_sale_restriction_msg_t;
 
 enum { NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE = 31 };
-
-STATIC_ASSERT(sizeof (nyse_alerts_short_sale_restriction_msg_t) == NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

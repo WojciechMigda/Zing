@@ -28,7 +28,6 @@
 #define NYSE_ALERTS_PDP_HEADER_H_
 
 #include <stdint.h>
-#include "static_assert.h"
 
 #ifdef __cplusplus
 extern "C"

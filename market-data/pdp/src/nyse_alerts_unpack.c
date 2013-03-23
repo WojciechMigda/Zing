@@ -34,16 +34,6 @@
 #include "static_assert.h"
 #include "pdp_symbol.h"
 
-typedef struct PACKED
-{
-    uint32_t        source_time;
-    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
-    uint8_t         security_status;
-    uint32_t        imbalance_quantity;
-    char            imbalance_side;
-} market_imbalance_msg_packed_t;
-STATIC_ASSERT(sizeof (market_imbalance_msg_packed_t) == NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
-
 /*******************************************************************************
  * @brief Unpack general PDP header of the NYSE Alerts feed
  *******************************************************************************
@@ -73,6 +63,7 @@ int nyse_alerts_unpack_pdp_header(
 #define __STRUCT_SIZE NYSE_ALERTS_PDP_HEADER_SIZE
 
 #include "unpack_generic.i"
+#include "nyse_alerts_security_info.h"
 }
 
 /*******************************************************************************
@@ -135,6 +126,7 @@ int nyse_alerts_unpack_market_imbalance_msg(
 #define __STRUCT_SIZE NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE
 
 #include "unpack_generic.i"
+#include "nyse_alerts_delay_halts.h"
 }
 
 /*******************************************************************************
@@ -162,28 +154,11 @@ int nyse_alerts_unpack_delay_halts_msg(
     nyse_alerts_delay_halts_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    if (NULL == in_data_p)
-    {
-        return PDP_UNPACK_NULL_INPUT_PACKET_PTR;
-    }
+#define __STRUCT_FILE "nyse_alerts_delay_halts_msg.i"
+#define __STRUCT_SIZE NYSE_ALERTS_DELAY_HALTS_MSG_SIZE
 
-    if (in_size < NYSE_ALERTS_DELAY_HALTS_MSG_SIZE)
-    {
-        return PDP_UNPACK_INPUT_PACKET_TOO_SHORT;
-    }
-
-    if (out_offset_p != NULL)
-    {
-        *out_offset_p = NYSE_ALERTS_DELAY_HALTS_MSG_SIZE;
-    }
-    if (out_body_p != NULL)
-    {
-        *out_body_p = *((nyse_alerts_delay_halts_msg_t *)in_data_p);
-
-        out_body_p->source_time =           be32toh(out_body_p->source_time);
-    }
-
-    return PDP_UNPACK_SUCCESS;
+#include "unpack_generic.i"
+#include "nyse_alerts_indication.h"
 }
 
 /*******************************************************************************
@@ -211,30 +186,11 @@ int nyse_alerts_unpack_indication_msg(
     nyse_alerts_indication_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    if (NULL == in_data_p)
-    {
-        return PDP_UNPACK_NULL_INPUT_PACKET_PTR;
-    }
+#define __STRUCT_FILE "nyse_alerts_indication_msg.i"
+#define __STRUCT_SIZE NYSE_ALERTS_INDICATION_MSG_SIZE
 
-    if (in_size < NYSE_ALERTS_INDICATION_MSG_SIZE)
-    {
-        return PDP_UNPACK_INPUT_PACKET_TOO_SHORT;
-    }
-
-    if (out_offset_p != NULL)
-    {
-        *out_offset_p = NYSE_ALERTS_INDICATION_MSG_SIZE;
-    }
-    if (out_body_p != NULL)
-    {
-        *out_body_p = *((nyse_alerts_indication_msg_t *)in_data_p);
-
-        out_body_p->source_time =           be32toh(out_body_p->source_time);
-        out_body_p->bid_price =             be32toh(out_body_p->bid_price);
-        out_body_p->ask_price =             be32toh(out_body_p->ask_price);
-    }
-
-    return PDP_UNPACK_SUCCESS;
+#include "unpack_generic.i"
+#include "nyse_alerts_t_time.h"
 }
 
 /*******************************************************************************
@@ -262,29 +218,11 @@ int nyse_alerts_unpack_t_time_msg(
     nyse_alerts_t_time_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    if (NULL == in_data_p)
-    {
-        return PDP_UNPACK_NULL_INPUT_PACKET_PTR;
-    }
+#define __STRUCT_FILE "nyse_alerts_t_time_msg.i"
+#define __STRUCT_SIZE NYSE_ALERTS_T_TIME_MSG_SIZE
 
-    if (in_size < NYSE_ALERTS_T_TIME_MSG_SIZE)
-    {
-        return PDP_UNPACK_INPUT_PACKET_TOO_SHORT;
-    }
-
-    if (out_offset_p != NULL)
-    {
-        *out_offset_p = NYSE_ALERTS_T_TIME_MSG_SIZE;
-    }
-    if (out_body_p != NULL)
-    {
-        *out_body_p = *((nyse_alerts_t_time_msg_t *)in_data_p);
-
-        out_body_p->source_time =               be32toh(out_body_p->source_time);
-        out_body_p->trade_dissemination_time =  be32toh(out_body_p->trade_dissemination_time);
-    }
-
-    return PDP_UNPACK_SUCCESS;
+#include "unpack_generic.i"
+#include "nyse_alerts_circuit_breaker.h"
 }
 
 /*******************************************************************************
@@ -312,28 +250,11 @@ int nyse_alerts_unpack_circuit_breaker_msg(
     nyse_alerts_circuit_breaker_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    if (NULL == in_data_p)
-    {
-        return PDP_UNPACK_NULL_INPUT_PACKET_PTR;
-    }
+#define __STRUCT_FILE "nyse_alerts_circuit_breaker_msg.i"
+#define __STRUCT_SIZE NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE
 
-    if (in_size < NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE)
-    {
-        return PDP_UNPACK_INPUT_PACKET_TOO_SHORT;
-    }
-
-    if (out_offset_p != NULL)
-    {
-        *out_offset_p = NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE;
-    }
-    if (out_body_p != NULL)
-    {
-        *out_body_p = *((nyse_alerts_circuit_breaker_msg_t *)in_data_p);
-
-        out_body_p->event_time = be32toh(out_body_p->event_time);
-    }
-
-    return PDP_UNPACK_SUCCESS;
+#include "unpack_generic.i"
+#include "nyse_alerts_short_sale_restriction.h"
 }
 
 /*******************************************************************************
@@ -361,31 +282,11 @@ int nyse_alerts_unpack_short_sale_restriction_msg(
     nyse_alerts_short_sale_restriction_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    if (NULL == in_data_p)
-    {
-        return PDP_UNPACK_NULL_INPUT_PACKET_PTR;
-    }
+#define __STRUCT_FILE "nyse_alerts_short_sale_restriction_msg.i"
+#define __STRUCT_SIZE NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE
 
-    if (in_size < NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE)
-    {
-        return PDP_UNPACK_INPUT_PACKET_TOO_SHORT;
-    }
-
-    if (out_offset_p != NULL)
-    {
-        *out_offset_p = NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE;
-    }
-    if (out_body_p != NULL)
-    {
-        *out_body_p = *((nyse_alerts_short_sale_restriction_msg_t *)in_data_p);
-
-        out_body_p->source_time =               be32toh(out_body_p->source_time);
-        out_body_p->short_sale_trigger_time =   be32toh(out_body_p->short_sale_trigger_time);
-        out_body_p->trade_price =               be32toh(out_body_p->trade_price);
-        out_body_p->trade_volume =              be32toh(out_body_p->trade_volume);
-    }
-
-    return PDP_UNPACK_SUCCESS;
+#include "unpack_generic.i"
+#include "nyse_alerts_rpi.h"
 }
 
 /*******************************************************************************
@@ -413,26 +314,8 @@ int nyse_alerts_unpack_rpi_msg(
     nyse_alerts_rpi_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    if (NULL == in_data_p)
-    {
-        return PDP_UNPACK_NULL_INPUT_PACKET_PTR;
-    }
+#define __STRUCT_FILE "nyse_alerts_rpi_msg.i"
+#define __STRUCT_SIZE NYSE_ALERTS_RPI_MSG_SIZE
 
-    if (in_size < NYSE_ALERTS_RPI_MSG_SIZE)
-    {
-        return PDP_UNPACK_INPUT_PACKET_TOO_SHORT;
-    }
-
-    if (out_offset_p != NULL)
-    {
-        *out_offset_p = NYSE_ALERTS_RPI_MSG_SIZE;
-    }
-    if (out_body_p != NULL)
-    {
-        *out_body_p = *((nyse_alerts_rpi_msg_t *)in_data_p);
-
-        out_body_p->source_time =               be32toh(out_body_p->source_time);
-    }
-
-    return PDP_UNPACK_SUCCESS;
+#include "unpack_generic.i"
 }

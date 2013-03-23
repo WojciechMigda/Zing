@@ -31,7 +31,6 @@
 #include <stdint.h>
 #include "pdp_symbol.h"
 #include "pdp_security_status.h"
-#include "static_assert.h"
 
 #ifdef __cplusplus
 extern "C"

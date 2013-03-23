@@ -31,7 +31,6 @@
 #include <stdint.h>
 #include "pdp_symbol.h"
 #include "pdp_security_status.h"
-#include "static_assert.h"
 #include "compiler.h"
 
 #ifdef __cplusplus
@@ -63,7 +62,7 @@ enum halt_condition_values
     HALT_COND_RESUME                                        = 'T',
 };
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        source_time;
     char            symbol[NYSE_ALERTS_SYMBOL_LEN];
@@ -72,8 +71,6 @@ typedef struct PACKED
 } nyse_alerts_delay_halts_msg_t;
 
 enum { NYSE_ALERTS_DELAY_HALTS_MSG_SIZE = 17 };
-
-STATIC_ASSERT(sizeof (nyse_alerts_delay_halts_msg_t) == NYSE_ALERTS_DELAY_HALTS_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

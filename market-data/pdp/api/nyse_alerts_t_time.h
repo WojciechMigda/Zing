@@ -30,7 +30,6 @@
 
 #include <stdint.h>
 #include "pdp_symbol.h"
-#include "static_assert.h"
 #include "compiler.h"
 
 #ifdef __cplusplus
@@ -38,7 +37,7 @@ extern "C"
 {
 #endif
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        source_time;
     char            symbol[NYSE_ALERTS_SYMBOL_LEN];
@@ -47,8 +46,6 @@ typedef struct PACKED
 } nyse_alerts_t_time_msg_t;
 
 enum { NYSE_ALERTS_T_TIME_MSG_SIZE = 20 };
-
-STATIC_ASSERT(sizeof (nyse_alerts_t_time_msg_t) == NYSE_ALERTS_T_TIME_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C
