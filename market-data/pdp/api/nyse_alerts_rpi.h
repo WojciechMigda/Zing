@@ -30,7 +30,6 @@
 
 #include <stdint.h>
 #include "pdp_symbol.h"
-#include "static_assert.h"
 #include "compiler.h"
 
 #ifdef __cplusplus
@@ -46,7 +45,7 @@ enum rpi_indicator_values
     RPI_IND_BID_AND_OFFER   = 3,
 };
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        source_time;
     char            symbol[NYSE_ALERTS_SYMBOL_LEN];
@@ -54,8 +53,6 @@ typedef struct PACKED
 } nyse_alerts_rpi_msg_t;
 
 enum { NYSE_ALERTS_RPI_MSG_SIZE = 16 };
-
-STATIC_ASSERT(sizeof (nyse_alerts_rpi_msg_t) == NYSE_ALERTS_RPI_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

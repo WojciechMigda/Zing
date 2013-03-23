@@ -48,7 +48,7 @@ enum circuit_breaker_status_values
 
 enum {CIRCUIT_BREAKER_URL_LEN = 128 };
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        event_time;
     uint8_t         status;
@@ -56,8 +56,6 @@ typedef struct PACKED
 } nyse_alerts_circuit_breaker_msg_t;
 
 enum { NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE = 133 };
-
-STATIC_ASSERT(sizeof (nyse_alerts_circuit_breaker_msg_t) == NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

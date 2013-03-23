@@ -30,7 +30,6 @@
 
 #include <stdint.h>
 #include "pdp_symbol.h"
-#include "static_assert.h"
 #include "compiler.h"
 
 #ifdef __cplusplus
