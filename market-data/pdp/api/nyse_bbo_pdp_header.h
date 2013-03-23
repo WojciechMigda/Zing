@@ -30,8 +30,6 @@
 #define NYSE_BBO_PDP_HEADER_H_
 
 #include <stdint.h>
-#include "static_assert.h"
-#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -43,7 +41,7 @@ enum nyse_bbo_message_type_values
     NYSE_BBO_MSG_QUOTE_MSG      = 140,
 };
 
-typedef struct PACKED
+typedef struct
 {
     uint16_t        msg_size;
     uint16_t        msg_type;
@@ -56,8 +54,6 @@ typedef struct PACKED
 } nyse_bbo_pdp_header_t;
 
 enum { NYSE_BBO_PDP_HEADER_SIZE = 16 };
-
-STATIC_ASSERT(sizeof (nyse_bbo_pdp_header_t) == NYSE_BBO_PDP_HEADER_SIZE);
 
 #ifdef __cplusplus
 } // extern C
