@@ -32,7 +32,6 @@
 #include "pdp_symbol.h"
 #include "pdp_security_status.h"
 #include "static_assert.h"
-#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -46,7 +45,7 @@ enum imbalance_side_values
     IMB_SIDE_NA         = ' ',
 };
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        source_time;
     char            symbol[NYSE_ALERTS_SYMBOL_LEN];
@@ -56,8 +55,6 @@ typedef struct PACKED
 } nyse_alerts_market_imbalance_msg_t;
 
 enum { NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE = 21 };
-
-STATIC_ASSERT(sizeof (nyse_alerts_market_imbalance_msg_t) == NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

@@ -24,6 +24,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <endian.h>
+#include <string.h>
 
 #include "nyse_alerts_pdp_header.h"
 #include "unpack_status.h"
@@ -31,6 +32,7 @@
 #include "compiler.h"
 #include "nyse_alerts_market_imbalance.h"
 #include "static_assert.h"
+#include "pdp_symbol.h"
 
 typedef struct PACKED
 {
@@ -44,6 +46,16 @@ typedef struct PACKED
     uint8_t         filler;
 } header_packed_t;
 STATIC_ASSERT(sizeof (header_packed_t) == NYSE_ALERTS_PDP_HEADER_SIZE);
+
+typedef struct PACKED
+{
+    uint32_t        source_time;
+    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
+    uint8_t         security_status;
+    uint32_t        imbalance_quantity;
+    char            imbalance_side;
+} market_imbalance_msg_packed_t;
+STATIC_ASSERT(sizeof (market_imbalance_msg_packed_t) == NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
 
 /*******************************************************************************
  * @brief Unpack general PDP header of the NYSE Alerts feed
@@ -195,10 +207,13 @@ int nyse_alerts_unpack_market_imbalance_msg(
     }
     if (out_body_p != NULL)
     {
-        *out_body_p = *((nyse_alerts_market_imbalance_msg_t *)in_data_p);
+        market_imbalance_msg_packed_t const * const in_hdr_p = (market_imbalance_msg_packed_t const * const)in_data_p;
 
-        out_body_p->source_time =           be32toh(out_body_p->source_time);
-        out_body_p->imbalance_quantity =    be32toh(out_body_p->imbalance_quantity);
+        out_body_p->source_time             = be32toh(in_hdr_p->source_time);
+        memcpy(out_body_p->symbol, in_hdr_p->symbol, sizeof (out_body_p->symbol));
+        out_body_p->security_status         = in_hdr_p->security_status;
+        out_body_p->imbalance_quantity      = be32toh(in_hdr_p->imbalance_quantity);
+        out_body_p->imbalance_side          = in_hdr_p->imbalance_side;
     }
 
     return PDP_UNPACK_SUCCESS;
