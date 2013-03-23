@@ -29,7 +29,6 @@
 
 #include <stdint.h>
 #include "static_assert.h"
-#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -48,7 +47,9 @@ enum nyse_alerts_message_type_values
     NYSE_ALERTS_MSG_RPI                      = 126,
 };
 
-typedef struct PACKED
+enum { NYSE_ALERTS_PDP_HEADER_SIZE = 16 };
+
+typedef struct
 {
     uint16_t        msg_size;
     uint16_t        msg_type;
@@ -59,10 +60,6 @@ typedef struct PACKED
     uint8_t         num_body_entries;
     uint8_t         filler;
 } nyse_alerts_pdp_header_t;
-
-enum { NYSE_ALERTS_PDP_HEADER_SIZE = 16 };
-
-STATIC_ASSERT(sizeof (nyse_alerts_pdp_header_t) == NYSE_ALERTS_PDP_HEADER_SIZE);
 
 #ifdef __cplusplus
 } // extern C
