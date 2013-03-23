@@ -30,7 +30,6 @@
 
 #include <stdint.h>
 #include "pdp_symbol.h"
-#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"

@@ -31,8 +31,6 @@
 #define NYSE_BBO_QUOTE_H_
 
 #include <stdint.h>
-#include "compiler.h"
-#include "static_assert.h"
 #include "pdp_symbol.h"
 
 #ifdef __cplusplus
@@ -68,7 +66,7 @@ enum quote_condition_values
     QUOTE_COND_SLOW_ON_THE_BID_AND_ASK_DUE_TO_A_SET_SLOW_LIST       = 'W',
 };
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        source_time;
     uint8_t         filler[3];
@@ -85,8 +83,6 @@ typedef struct PACKED
 } nyse_bbo_quote_msg_t;
 
 enum { NYSE_BBO_QUOTE_MSG_SIZE = 44 };
-
-STATIC_ASSERT(sizeof (nyse_bbo_quote_msg_t) == NYSE_BBO_QUOTE_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C

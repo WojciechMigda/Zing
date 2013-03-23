@@ -29,8 +29,6 @@
 #define NYSE_ALERTS_CIRCUIT_BREAKER_H_
 
 #include <stdint.h>
-#include "static_assert.h"
-#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
