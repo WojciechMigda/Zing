@@ -171,8 +171,6 @@ typedef struct PACKED
 
 enum { NYSE_ALERTS_SECURITY_INFO_MSG_SIZE = 53 };
 
-STATIC_ASSERT(sizeof (nyse_alerts_security_info_msg_t) == NYSE_ALERTS_SECURITY_INFO_MSG_SIZE);
-
 #ifdef __cplusplus
 } // extern C
 #endif
