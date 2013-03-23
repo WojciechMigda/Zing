@@ -30,6 +30,20 @@
 #include "nyse_alerts_unpack.h"
 #include "compiler.h"
 #include "nyse_alerts_market_imbalance.h"
+#include "static_assert.h"
+
+typedef struct PACKED
+{
+    uint16_t        msg_size;
+    uint16_t        msg_type;
+    uint32_t        msg_seq_num;
+    uint32_t        send_time;
+    uint8_t         product_id;
+    uint8_t         retrans_flag;
+    uint8_t         num_body_entries;
+    uint8_t         filler;
+} header_packed_t;
+STATIC_ASSERT(sizeof (header_packed_t) == NYSE_ALERTS_PDP_HEADER_SIZE);
 
 /*******************************************************************************
  * @brief Unpack general PDP header of the NYSE Alerts feed
@@ -72,12 +86,15 @@ int nyse_alerts_unpack_pdp_header(
     }
     if (out_body_p != NULL)
     {
-        *out_body_p = *((nyse_alerts_pdp_header_t *)in_data_p);
+        header_packed_t const * const in_hdr_p = (header_packed_t const * const)in_data_p;
 
-        out_body_p->msg_size =      be16toh(out_body_p->msg_size);
-        out_body_p->msg_type =      be16toh(out_body_p->msg_type);
-        out_body_p->msg_seq_num =   be32toh(out_body_p->msg_seq_num);
-        out_body_p->send_time =     be32toh(out_body_p->send_time);
+        out_body_p->msg_size            = be16toh(in_hdr_p->msg_size);
+        out_body_p->msg_type            = be16toh(in_hdr_p->msg_type);
+        out_body_p->msg_seq_num         = be32toh(in_hdr_p->msg_seq_num);
+        out_body_p->send_time           = be32toh(in_hdr_p->send_time);
+        out_body_p->product_id          = in_hdr_p->product_id;
+        out_body_p->retrans_flag        = in_hdr_p->retrans_flag;
+        out_body_p->num_body_entries    = in_hdr_p->num_body_entries;
     }
 
     return PDP_UNPACK_SUCCESS;
