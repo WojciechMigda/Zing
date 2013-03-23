@@ -51,6 +51,37 @@ typedef struct PACKED
 {
     uint32_t        source_time;
     char            symbol[NYSE_ALERTS_SYMBOL_LEN];
+    uint8_t         security_type;
+    uint16_t        filler;
+    uint16_t        mpv;
+    uint8_t         post;
+    char            panel[PANEL_LEN];
+    char            ticker_designation;
+    char            ipo_flag;
+    char            country_code[COUNTRY_CODE_LEN];
+    uint16_t        uot;
+    uint8_t         price_scale_code;
+    uint8_t         lrp_price_scale_code;
+    uint16_t        lrp;
+    char            bankruptcy_flag;
+    uint8_t         financial_status;
+    char            ex_distribution_flag;
+    char            ex_rights_flag;
+    char            ex_dividend_flag;
+    uint8_t         ex_div_amount_price_scale_code;
+    uint32_t        ex_div_amount;
+    char            ex_div_date[EX_DIVIDEND_DATE_LEN];
+    char            special_div_flag;
+    char            stock_splt;
+    char            rule_19C3;
+    char            its_eligible;
+} security_info_msg_packed_t;
+STATIC_ASSERT(sizeof (security_info_msg_packed_t) == NYSE_ALERTS_SECURITY_INFO_MSG_SIZE);
+
+typedef struct PACKED
+{
+    uint32_t        source_time;
+    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
     uint8_t         security_status;
     uint32_t        imbalance_quantity;
     char            imbalance_side;
@@ -153,14 +184,33 @@ int nyse_alerts_unpack_security_info_msg(
     }
     if (out_body_p != NULL)
     {
-        *out_body_p = *((nyse_alerts_security_info_msg_t *)in_data_p);
+        security_info_msg_packed_t const * const in_hdr_p = (security_info_msg_packed_t const * const)in_data_p;
 
-        out_body_p->source_time =   be32toh(out_body_p->source_time);
-        out_body_p->filler =        be16toh(out_body_p->filler);
-        out_body_p->mpv =           be16toh(out_body_p->mpv);
-        out_body_p->uot =           be16toh(out_body_p->uot);
-        out_body_p->lrp =           be16toh(out_body_p->lrp);
-        out_body_p->ex_div_amount = be32toh(out_body_p->ex_div_amount);
+        out_body_p->source_time                     = be32toh(in_hdr_p->source_time);
+        memcpy(out_body_p->symbol, in_hdr_p->symbol, sizeof (out_body_p->symbol));
+        out_body_p->security_type                   = in_hdr_p->security_type;
+        out_body_p->mpv                             = be16toh(in_hdr_p->mpv);
+        out_body_p->post                            = in_hdr_p->post;
+        memcpy(out_body_p->panel, in_hdr_p->panel, sizeof (out_body_p->panel));
+        out_body_p->ticker_designation              = in_hdr_p->ticker_designation;
+        out_body_p->ipo_flag                        = in_hdr_p->ipo_flag;
+        memcpy(out_body_p->country_code, in_hdr_p->country_code, sizeof (out_body_p->country_code));
+        out_body_p->uot                             = be16toh(in_hdr_p->uot);
+        out_body_p->price_scale_code                = in_hdr_p->price_scale_code;
+        out_body_p->lrp_price_scale_code            = in_hdr_p->lrp_price_scale_code;
+        out_body_p->lrp                             = be16toh(in_hdr_p->lrp);
+        out_body_p->bankruptcy_flag                 = in_hdr_p->bankruptcy_flag;
+        out_body_p->financial_status                = in_hdr_p->financial_status;
+        out_body_p->ex_distribution_flag            = in_hdr_p->ex_distribution_flag;
+        out_body_p->ex_rights_flag                  = in_hdr_p->ex_rights_flag;
+        out_body_p->ex_dividend_flag                = in_hdr_p->ex_dividend_flag;
+        out_body_p->ex_div_amount_price_scale_code  = in_hdr_p->ex_div_amount_price_scale_code;
+        out_body_p->ex_div_amount                   = be32toh(in_hdr_p->ex_div_amount);
+        memcpy(out_body_p->ex_div_date, in_hdr_p->ex_div_date, sizeof (out_body_p->ex_div_date));
+        out_body_p->special_div_flag                = in_hdr_p->special_div_flag;
+        out_body_p->stock_splt                      = in_hdr_p->stock_splt;
+        out_body_p->rule_19C3                       = in_hdr_p->rule_19C3;
+        out_body_p->its_eligible                    = in_hdr_p->its_eligible;
     }
 
     return PDP_UNPACK_SUCCESS;
