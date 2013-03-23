@@ -30,8 +30,6 @@
 #define NYSE_LRP_PDP_HEADER_H_
 
 #include <stdint.h>
-#include "static_assert.h"
-#include "compiler.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -43,7 +41,7 @@ enum nyse_lrp_message_type_values
     NYSE_LRP_LRP_MSG        = 210,
 };
 
-typedef struct PACKED
+typedef struct
 {
     uint16_t        msg_size;
     uint16_t        msg_type;
@@ -56,8 +54,6 @@ typedef struct PACKED
 } nyse_lrp_pdp_header_t;
 
 enum { NYSE_LRP_PDP_HEADER_SIZE = 16 };
-
-STATIC_ASSERT(sizeof (nyse_lrp_pdp_header_t) == NYSE_LRP_PDP_HEADER_SIZE);
 
 #ifdef __cplusplus
 } // extern C

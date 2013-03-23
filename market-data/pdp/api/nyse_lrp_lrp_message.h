@@ -31,8 +31,6 @@
 #define NYSE_LRP_LRP_MESSAGE_H_
 
 #include <stdint.h>
-#include "compiler.h"
-#include "static_assert.h"
 #include "pdp_symbol.h"
 
 #ifdef __cplusplus
@@ -60,8 +58,6 @@ typedef struct PACKED
 } nyse_lrp_lrp_msg_t;
 
 enum { NYSE_LRP_LRP_MSG_SIZE = 36 };
-
-STATIC_ASSERT(sizeof (nyse_lrp_lrp_msg_t) == NYSE_LRP_LRP_MSG_SIZE);
 
 #ifdef __cplusplus
 } // extern C
