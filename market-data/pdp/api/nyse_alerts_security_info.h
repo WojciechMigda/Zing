@@ -139,7 +139,7 @@ enum its_eligible_values
     ITS_ELIG_YES         = 'Y',
 };
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        source_time;
     char            symbol[NYSE_ALERTS_SYMBOL_LEN];
@@ -164,7 +164,7 @@ typedef struct PACKED
     uint32_t        ex_div_amount;
     char            ex_div_date[EX_DIVIDEND_DATE_LEN];
     char            special_div_flag;
-    char            stock_splt;
+    char            stock_split;
     char            rule_19C3;
     char            its_eligible;
 } nyse_alerts_security_info_msg_t;

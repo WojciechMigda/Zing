@@ -192,7 +192,7 @@ void compose_random_msg(nyse_alerts_security_info_msg_t * const out_p)
     ANON_VAR(out_p->ex_div_amount);
     ANON_ARRAY(out_p->ex_div_date);
     ANON_VAR(out_p->special_div_flag);
-    ANON_VAR(out_p->stock_splt);
+    ANON_VAR(out_p->stock_split);
     ANON_VAR(out_p->rule_19C3);
     ANON_VAR(out_p->its_eligible);
 }
@@ -232,7 +232,7 @@ uint8_t * format_message(
     serialize(i_msg_p->ex_div_amount, work_vec);
     work_vec.insert(work_vec.end(), i_msg_p->ex_div_date, i_msg_p->ex_div_date + sizeof (i_msg_p->ex_div_date));
     serialize(i_msg_p->special_div_flag, work_vec);
-    serialize(i_msg_p->stock_splt, work_vec);
+    serialize(i_msg_p->stock_split, work_vec);
     serialize(i_msg_p->rule_19C3, work_vec);
     serialize(i_msg_p->its_eligible, work_vec);
 
@@ -323,7 +323,7 @@ void test_00200_proper_packet_is_unpacked(void)
     TS_ASSERT_EQUALS(out_data.ex_div_amount,                    in_data.ex_div_amount);
     TS_ASSERT_SAME_DATA(out_data.ex_div_date, in_data.ex_div_date, sizeof (out_data.ex_div_date));
     TS_ASSERT_EQUALS(out_data.special_div_flag,                 in_data.special_div_flag);
-    TS_ASSERT_EQUALS(out_data.stock_splt,                       in_data.stock_splt);
+    TS_ASSERT_EQUALS(out_data.stock_split,                      in_data.stock_split);
     TS_ASSERT_EQUALS(out_data.rule_19C3,                        in_data.rule_19C3);
     TS_ASSERT_EQUALS(out_data.its_eligible,                     in_data.its_eligible);
 
