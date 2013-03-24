@@ -72,6 +72,17 @@ uint8_t * format_pdp_header(nyse_lrp_pdp_header_t const * const i_hdr_p, uint8_t
     return &o_buffer[random_offset];
 }
 
+void assert_pdp_headers_are_equal(const nyse_lrp_pdp_header_t & lhs, const nyse_lrp_pdp_header_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.msg_size,         rhs.msg_size);
+    TS_ASSERT_EQUALS(lhs.msg_type,         rhs.msg_type);
+    TS_ASSERT_EQUALS(lhs.msg_seq_num,      rhs.msg_seq_num);
+    TS_ASSERT_EQUALS(lhs.send_time,        rhs.send_time);
+    TS_ASSERT_EQUALS(lhs.product_id,       rhs.product_id);
+    TS_ASSERT_EQUALS(lhs.retrans_flag,     rhs.retrans_flag);
+    TS_ASSERT_EQUALS(lhs.num_body_entries, rhs.num_body_entries);
+}
+
 class NyseLrpUnpackPdpHeader : public CxxTest::TestSuite
 {
 private:
@@ -103,34 +114,14 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_lrp_pdp_header_t       in_data;
-
-    compose_random_pdp_header(&in_data);
-
-    uint8_t                     in_packet[2 * NYSE_LRP_PDP_HEADER_SIZE];
-    uint8_t *                   in_packet_p;
-
-    in_packet_p = format_pdp_header(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_LRP_PDP_HEADER_SIZE + m_random->Generate(NYSE_LRP_PDP_HEADER_SIZE);
-
-    nyse_lrp_pdp_header_t       out_data;
-    size_t                      out_size;
-    int                         result;
-
-    result = nyse_lrp_unpack_pdp_header(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.msg_size,         in_data.msg_size);
-    TS_ASSERT_EQUALS(out_data.msg_type,         in_data.msg_type);
-    TS_ASSERT_EQUALS(out_data.msg_seq_num,      in_data.msg_seq_num);
-    TS_ASSERT_EQUALS(out_data.send_time,        in_data.send_time);
-    TS_ASSERT_EQUALS(out_data.product_id,       in_data.product_id);
-    TS_ASSERT_EQUALS(out_data.retrans_flag,     in_data.retrans_flag);
-    TS_ASSERT_EQUALS(out_data.num_body_entries, in_data.num_body_entries);
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_LRP_PDP_HEADER_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_lrp_pdp_header_t>
+        (
+            compose_random_pdp_header,
+            format_pdp_header,
+            nyse_lrp_unpack_pdp_header,
+            assert_pdp_headers_are_equal,
+            NYSE_LRP_PDP_HEADER_SIZE,
+            m_random);
 }
 
 };
@@ -175,6 +166,16 @@ uint8_t * format_message(
     return &o_buffer[random_offset];
 }
 
+void assert_messages_are_equal(const nyse_lrp_lrp_msg_t & lhs, const nyse_lrp_lrp_msg_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.source_time,                      rhs.source_time);
+    TS_ASSERT_EQUALS(lhs.low_lrp_numerator,                rhs.low_lrp_numerator);
+    TS_ASSERT_EQUALS(lhs.high_lrp_numerator,               rhs.high_lrp_numerator);
+    TS_ASSERT_EQUALS(lhs.price_scale_code,                 rhs.price_scale_code);
+    TS_ASSERT_EQUALS(lhs.lrp_change_indicator,             rhs.lrp_change_indicator);
+    TS_ASSERT_SAME_DATA(lhs.symbol, rhs.symbol, sizeof (lhs.symbol));
+}
+
 class NyseLrpUnpackLrpMsg : public CxxTest::TestSuite
 {
 private:
@@ -207,33 +208,14 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_lrp_lrp_msg_t          in_data;
-
-    compose_random_msg(&in_data);
-
-    uint8_t                     in_packet[2 * NYSE_LRP_LRP_MSG_SIZE];
-    uint8_t *                   in_packet_p;
-
-    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_LRP_LRP_MSG_SIZE + m_random->Generate(NYSE_LRP_LRP_MSG_SIZE);
-
-    nyse_lrp_lrp_msg_t          out_data;
-    size_t                      out_size;
-    int                         result;
-
-    result = nyse_lrp_unpack_lrp_msg(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.source_time,                      in_data.source_time);
-    TS_ASSERT_EQUALS(out_data.low_lrp_numerator,                in_data.low_lrp_numerator);
-    TS_ASSERT_EQUALS(out_data.high_lrp_numerator,               in_data.high_lrp_numerator);
-    TS_ASSERT_EQUALS(out_data.price_scale_code,                 in_data.price_scale_code);
-    TS_ASSERT_EQUALS(out_data.lrp_change_indicator,             in_data.lrp_change_indicator);
-    TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_LRP_LRP_MSG_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_lrp_lrp_msg_t>
+        (
+            compose_random_msg,
+            format_message,
+            nyse_lrp_unpack_lrp_msg,
+            assert_messages_are_equal,
+            NYSE_LRP_LRP_MSG_SIZE,
+            m_random);
 }
 
 };

@@ -86,7 +86,7 @@ uint8_t * format_pdp_header(
     return &o_buffer[random_offset];
 }
 
-void assert_pdp_header_equality(const nyse_alerts_pdp_header_t & lhs, const nyse_alerts_pdp_header_t & rhs)
+void assert_pdp_headers_are_equal(const nyse_alerts_pdp_header_t & lhs, const nyse_alerts_pdp_header_t & rhs)
 {
     TS_ASSERT_EQUALS(lhs.msg_size,         rhs.msg_size);
     TS_ASSERT_EQUALS(lhs.msg_type,         rhs.msg_type);
@@ -134,7 +134,7 @@ void test_00200_proper_packet_is_unpacked(void)
             compose_random_pdp_header,
             format_pdp_header,
             nyse_alerts_unpack_pdp_header,
-            assert_pdp_header_equality,
+            assert_pdp_headers_are_equal,
             NYSE_ALERTS_PDP_HEADER_SIZE,
             m_random);
 }
@@ -217,6 +217,35 @@ uint8_t * format_message(
     return &o_buffer[random_offset];
 }
 
+void assert_messages_are_equal(const nyse_alerts_security_info_msg_t & lhs, const nyse_alerts_security_info_msg_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.source_time,                      rhs.source_time);
+    TS_ASSERT_SAME_DATA(lhs.symbol, rhs.symbol, sizeof (lhs.symbol));
+    TS_ASSERT_EQUALS(lhs.security_type,                    rhs.security_type);
+    TS_ASSERT_EQUALS(lhs.mpv,                              rhs.mpv);
+    TS_ASSERT_EQUALS(lhs.post,                             rhs.post);
+    TS_ASSERT_SAME_DATA(lhs.panel, rhs.panel, sizeof (lhs.panel));
+    TS_ASSERT_EQUALS(lhs.ticker_designation,               rhs.ticker_designation);
+    TS_ASSERT_EQUALS(lhs.ipo_flag,                         rhs.ipo_flag);
+    TS_ASSERT_SAME_DATA(lhs.country_code, rhs.country_code, sizeof (lhs.country_code));
+    TS_ASSERT_EQUALS(lhs.uot,                              rhs.uot);
+    TS_ASSERT_EQUALS(lhs.price_scale_code,                 rhs.price_scale_code);
+    TS_ASSERT_EQUALS(lhs.lrp_price_scale_code,             rhs.lrp_price_scale_code);
+    TS_ASSERT_EQUALS(lhs.lrp,                              rhs.lrp);
+    TS_ASSERT_EQUALS(lhs.bankruptcy_flag,                  rhs.bankruptcy_flag);
+    TS_ASSERT_EQUALS(lhs.financial_status,                 rhs.financial_status);
+    TS_ASSERT_EQUALS(lhs.ex_distribution_flag,             rhs.ex_distribution_flag);
+    TS_ASSERT_EQUALS(lhs.ex_rights_flag,                   rhs.ex_rights_flag);
+    TS_ASSERT_EQUALS(lhs.ex_dividend_flag,                 rhs.ex_dividend_flag);
+    TS_ASSERT_EQUALS(lhs.ex_div_amount_price_scale_code,   rhs.ex_div_amount_price_scale_code);
+    TS_ASSERT_EQUALS(lhs.ex_div_amount,                    rhs.ex_div_amount);
+    TS_ASSERT_SAME_DATA(lhs.ex_div_date, rhs.ex_div_date, sizeof (lhs.ex_div_date));
+    TS_ASSERT_EQUALS(lhs.special_div_flag,                 rhs.special_div_flag);
+    TS_ASSERT_EQUALS(lhs.stock_split,                      rhs.stock_split);
+    TS_ASSERT_EQUALS(lhs.rule_19C3,                        rhs.rule_19C3);
+    TS_ASSERT_EQUALS(lhs.its_eligible,                     rhs.its_eligible);
+}
+
 class NyseAlertsUnpackSecurityInfoMsg : public CxxTest::TestSuite
 {
 private:
@@ -249,52 +278,14 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_alerts_security_info_msg_t     in_data;
-
-    compose_random_msg(&in_data);
-
-    uint8_t                     in_packet[2 * NYSE_ALERTS_SECURITY_INFO_MSG_SIZE];
-    uint8_t *                   in_packet_p;
-
-    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_ALERTS_SECURITY_INFO_MSG_SIZE + m_random->Generate(NYSE_ALERTS_SECURITY_INFO_MSG_SIZE);
-
-    nyse_alerts_security_info_msg_t     out_data;
-    size_t                              out_size;
-    int                                 result;
-
-    result = nyse_alerts_unpack_security_info_msg(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.source_time,                      in_data.source_time);
-    TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
-    TS_ASSERT_EQUALS(out_data.security_type,                    in_data.security_type);
-    TS_ASSERT_EQUALS(out_data.mpv,                              in_data.mpv);
-    TS_ASSERT_EQUALS(out_data.post,                             in_data.post);
-    TS_ASSERT_SAME_DATA(out_data.panel, in_data.panel, sizeof (out_data.panel));
-    TS_ASSERT_EQUALS(out_data.ticker_designation,               in_data.ticker_designation);
-    TS_ASSERT_EQUALS(out_data.ipo_flag,                         in_data.ipo_flag);
-    TS_ASSERT_SAME_DATA(out_data.country_code, in_data.country_code, sizeof (out_data.country_code));
-    TS_ASSERT_EQUALS(out_data.uot,                              in_data.uot);
-    TS_ASSERT_EQUALS(out_data.price_scale_code,                 in_data.price_scale_code);
-    TS_ASSERT_EQUALS(out_data.lrp_price_scale_code,             in_data.lrp_price_scale_code);
-    TS_ASSERT_EQUALS(out_data.lrp,                              in_data.lrp);
-    TS_ASSERT_EQUALS(out_data.bankruptcy_flag,                  in_data.bankruptcy_flag);
-    TS_ASSERT_EQUALS(out_data.financial_status,                 in_data.financial_status);
-    TS_ASSERT_EQUALS(out_data.ex_distribution_flag,             in_data.ex_distribution_flag);
-    TS_ASSERT_EQUALS(out_data.ex_rights_flag,                   in_data.ex_rights_flag);
-    TS_ASSERT_EQUALS(out_data.ex_dividend_flag,                 in_data.ex_dividend_flag);
-    TS_ASSERT_EQUALS(out_data.ex_div_amount_price_scale_code,   in_data.ex_div_amount_price_scale_code);
-    TS_ASSERT_EQUALS(out_data.ex_div_amount,                    in_data.ex_div_amount);
-    TS_ASSERT_SAME_DATA(out_data.ex_div_date, in_data.ex_div_date, sizeof (out_data.ex_div_date));
-    TS_ASSERT_EQUALS(out_data.special_div_flag,                 in_data.special_div_flag);
-    TS_ASSERT_EQUALS(out_data.stock_split,                      in_data.stock_split);
-    TS_ASSERT_EQUALS(out_data.rule_19C3,                        in_data.rule_19C3);
-    TS_ASSERT_EQUALS(out_data.its_eligible,                     in_data.its_eligible);
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_SECURITY_INFO_MSG_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_alerts_security_info_msg_t>
+        (
+            compose_random_msg,
+            format_message,
+            nyse_alerts_unpack_security_info_msg,
+            assert_messages_are_equal,
+            NYSE_ALERTS_SECURITY_INFO_MSG_SIZE,
+            m_random);
 }
 
 };
@@ -333,6 +324,15 @@ uint8_t * format_message(
     return &o_buffer[random_offset];
 }
 
+void assert_messages_are_equal(const nyse_alerts_market_imbalance_msg_t & lhs, const nyse_alerts_market_imbalance_msg_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.source_time,                      rhs.source_time);
+    TS_ASSERT_SAME_DATA(lhs.symbol, rhs.symbol, sizeof (lhs.symbol));
+    TS_ASSERT_EQUALS(lhs.security_status,                  rhs.security_status);
+    TS_ASSERT_EQUALS(lhs.imbalance_quantity,               rhs.imbalance_quantity);
+    TS_ASSERT_EQUALS(lhs.imbalance_side,                   rhs.imbalance_side);
+}
+
 class NyseAlertsUnpackMarketImbalanceMsg : public CxxTest::TestSuite
 {
 private:
@@ -365,32 +365,14 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_alerts_market_imbalance_msg_t  in_data;
-
-    compose_random_msg(&in_data);
-
-    uint8_t                     in_packet[2 * NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE];
-    uint8_t *                   in_packet_p;
-
-    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE + m_random->Generate(NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
-
-    nyse_alerts_market_imbalance_msg_t  out_data;
-    size_t                              out_size;
-    int                                 result;
-
-    result = nyse_alerts_unpack_market_imbalance_msg(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.source_time,                      in_data.source_time);
-    TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
-    TS_ASSERT_EQUALS(out_data.security_status,                  in_data.security_status);
-    TS_ASSERT_EQUALS(out_data.imbalance_quantity,               in_data.imbalance_quantity);
-    TS_ASSERT_EQUALS(out_data.imbalance_side,                   in_data.imbalance_side);
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_alerts_market_imbalance_msg_t>
+        (
+            compose_random_msg,
+            format_message,
+            nyse_alerts_unpack_market_imbalance_msg,
+            assert_messages_are_equal,
+            NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE,
+            m_random);
 }
 
 };
@@ -425,6 +407,14 @@ uint8_t * format_message(
     std::copy(work_vec.begin(), work_vec.end(), &o_buffer[random_offset]);
 
     return &o_buffer[random_offset];
+}
+
+void assert_messages_are_equal(const nyse_alerts_delay_halts_msg_t & lhs, const nyse_alerts_delay_halts_msg_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.source_time,                      rhs.source_time);
+    TS_ASSERT_SAME_DATA(lhs.symbol, rhs.symbol, sizeof (lhs.symbol));
+    TS_ASSERT_EQUALS(lhs.security_status,                  rhs.security_status);
+    TS_ASSERT_EQUALS(lhs.halt_condition,                   rhs.halt_condition);
 }
 
 class NyseAlertsUnpackDelayHaltsMsg : public CxxTest::TestSuite
@@ -467,31 +457,14 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_alerts_delay_halts_msg_t   in_data;
-
-    compose_random_msg(&in_data);
-
-    uint8_t                     in_packet[2 * NYSE_ALERTS_DELAY_HALTS_MSG_SIZE];
-    uint8_t *                   in_packet_p;
-
-    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_ALERTS_DELAY_HALTS_MSG_SIZE + m_random->Generate(NYSE_ALERTS_DELAY_HALTS_MSG_SIZE);
-
-    nyse_alerts_delay_halts_msg_t       out_data;
-    size_t                              out_size;
-    int                                 result;
-
-    result = nyse_alerts_unpack_delay_halts_msg(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.source_time,                      in_data.source_time);
-    TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
-    TS_ASSERT_EQUALS(out_data.security_status,                  in_data.security_status);
-    TS_ASSERT_EQUALS(out_data.halt_condition,                   in_data.halt_condition);
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_DELAY_HALTS_MSG_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_alerts_delay_halts_msg_t>
+        (
+            compose_random_msg,
+            format_message,
+            nyse_alerts_unpack_delay_halts_msg,
+            assert_messages_are_equal,
+            NYSE_ALERTS_DELAY_HALTS_MSG_SIZE,
+            m_random);
 }
 
 };
@@ -534,6 +507,17 @@ uint8_t * format_message(
     return &o_buffer[random_offset];
 }
 
+void assert_messages_are_equal(const nyse_alerts_indication_msg_t & lhs, const nyse_alerts_indication_msg_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.source_time,                      rhs.source_time);
+    TS_ASSERT_SAME_DATA(lhs.symbol, rhs.symbol, sizeof (lhs.symbol));
+    TS_ASSERT_EQUALS(lhs.security_status,                  rhs.security_status);
+    TS_ASSERT_EQUALS(lhs.bid_price,                        rhs.bid_price);
+    TS_ASSERT_EQUALS(lhs.ask_price,                        rhs.ask_price);
+    TS_ASSERT_EQUALS(lhs.price_scale_code,                 rhs.price_scale_code);
+    TS_ASSERT_EQUALS(lhs.adjustment,                       rhs.adjustment);
+}
+
 class NyseAlertsUnpackIndicationMsg : public CxxTest::TestSuite
 {
 private:
@@ -566,34 +550,14 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_alerts_indication_msg_t    in_data;
-
-    compose_random_msg(&in_data);
-
-    uint8_t                     in_packet[2 * NYSE_ALERTS_INDICATION_MSG_SIZE];
-    uint8_t *                   in_packet_p;
-
-    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_ALERTS_INDICATION_MSG_SIZE + m_random->Generate(NYSE_ALERTS_INDICATION_MSG_SIZE);
-
-    nyse_alerts_indication_msg_t        out_data;
-    size_t                              out_size;
-    int                                 result;
-
-    result = nyse_alerts_unpack_indication_msg(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.source_time,                      in_data.source_time);
-    TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
-    TS_ASSERT_EQUALS(out_data.security_status,                  in_data.security_status);
-    TS_ASSERT_EQUALS(out_data.bid_price,                        in_data.bid_price);
-    TS_ASSERT_EQUALS(out_data.ask_price,                        in_data.ask_price);
-    TS_ASSERT_EQUALS(out_data.price_scale_code,                 in_data.price_scale_code);
-    TS_ASSERT_EQUALS(out_data.adjustment,                       in_data.adjustment);
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_INDICATION_MSG_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_alerts_indication_msg_t>
+        (
+            compose_random_msg,
+            format_message,
+            nyse_alerts_unpack_indication_msg,
+            assert_messages_are_equal,
+            NYSE_ALERTS_INDICATION_MSG_SIZE,
+            m_random);
 }
 
 };
@@ -630,6 +594,14 @@ uint8_t * format_message(
     return &o_buffer[random_offset];
 }
 
+void assert_messages_are_equal(const nyse_alerts_t_time_msg_t & lhs, const nyse_alerts_t_time_msg_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.source_time,                      rhs.source_time);
+    TS_ASSERT_SAME_DATA(lhs.symbol, rhs.symbol, sizeof (lhs.symbol));
+    TS_ASSERT_EQUALS(lhs.security_status,                  rhs.security_status);
+    TS_ASSERT_EQUALS(lhs.trade_dissemination_time,         rhs.trade_dissemination_time);
+}
+
 class NyseAlertsUnpackTTimeMsg : public CxxTest::TestSuite
 {
 private:
@@ -662,31 +634,14 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_alerts_t_time_msg_t    in_data;
-
-    compose_random_msg(&in_data);
-
-    uint8_t                     in_packet[2 * NYSE_ALERTS_T_TIME_MSG_SIZE];
-    uint8_t *                   in_packet_p;
-
-    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_ALERTS_T_TIME_MSG_SIZE + m_random->Generate(NYSE_ALERTS_T_TIME_MSG_SIZE);
-
-    nyse_alerts_t_time_msg_t        out_data;
-    size_t                          out_size;
-    int                             result;
-
-    result = nyse_alerts_unpack_t_time_msg(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.source_time,                      in_data.source_time);
-    TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
-    TS_ASSERT_EQUALS(out_data.security_status,                  in_data.security_status);
-    TS_ASSERT_EQUALS(out_data.trade_dissemination_time,         in_data.trade_dissemination_time);
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_T_TIME_MSG_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_alerts_t_time_msg_t>
+        (
+            compose_random_msg,
+            format_message,
+            nyse_alerts_unpack_t_time_msg,
+            assert_messages_are_equal,
+            NYSE_ALERTS_T_TIME_MSG_SIZE,
+            m_random);
 }
 
 };
@@ -721,6 +676,13 @@ uint8_t * format_message(
     return &o_buffer[random_offset];
 }
 
+void assert_messages_are_equal(const nyse_alerts_circuit_breaker_msg_t & lhs, const nyse_alerts_circuit_breaker_msg_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.event_time,                   rhs.event_time);
+    TS_ASSERT_EQUALS(lhs.status,                       rhs.status);
+    TS_ASSERT_SAME_DATA(lhs.url, rhs.url, sizeof (lhs.url));
+}
+
 class NyseAlertsUnpackCircuitBreakerMsg : public CxxTest::TestSuite
 {
 private:
@@ -753,30 +715,14 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_alerts_circuit_breaker_msg_t   in_data;
-
-    compose_random_msg(&in_data);
-
-    uint8_t                             in_packet[2 * NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE];
-    uint8_t *                           in_packet_p;
-
-    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE + m_random->Generate(NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE);
-
-    nyse_alerts_circuit_breaker_msg_t   out_data;
-    size_t                              out_size;
-    int                                 result;
-
-    result = nyse_alerts_unpack_circuit_breaker_msg(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.event_time,                   in_data.event_time);
-    TS_ASSERT_EQUALS(out_data.status,                       in_data.status);
-    TS_ASSERT_SAME_DATA(out_data.url, in_data.url, sizeof (out_data.url));
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_alerts_circuit_breaker_msg_t>
+        (
+            compose_random_msg,
+            format_message,
+            nyse_alerts_unpack_circuit_breaker_msg,
+            assert_messages_are_equal,
+            NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE,
+            m_random);
 }
 
 };
@@ -823,6 +769,19 @@ uint8_t * format_message(
     return &o_buffer[random_offset];
 }
 
+void assert_messages_are_equal(const nyse_alerts_short_sale_restriction_msg_t & lhs, const nyse_alerts_short_sale_restriction_msg_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.source_time,                      rhs.source_time);
+    TS_ASSERT_SAME_DATA(lhs.symbol, rhs.symbol, sizeof (lhs.symbol));
+    TS_ASSERT_EQUALS(lhs.security_status,                  rhs.security_status);
+    TS_ASSERT_EQUALS(lhs.short_sale_restriction_indicator, rhs.short_sale_restriction_indicator);
+    TS_ASSERT_EQUALS(lhs.triggering_exchange_id,           rhs.triggering_exchange_id);
+    TS_ASSERT_EQUALS(lhs.short_sale_trigger_time,          rhs.short_sale_trigger_time);
+    TS_ASSERT_EQUALS(lhs.trade_price,                      rhs.trade_price);
+    TS_ASSERT_EQUALS(lhs.price_scale_code,                 rhs.price_scale_code);
+    TS_ASSERT_EQUALS(lhs.trade_volume,                     rhs.trade_volume);
+}
+
 class NyseAlertsUnpackShortSaleRestrictionMsg : public CxxTest::TestSuite
 {
 private:
@@ -855,36 +814,14 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_alerts_short_sale_restriction_msg_t    in_data;
-
-    compose_random_msg(&in_data);
-
-    uint8_t                     in_packet[2 * NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE];
-    uint8_t *                   in_packet_p;
-
-    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE + m_random->Generate(NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
-
-    nyse_alerts_short_sale_restriction_msg_t    out_data;
-    size_t                                      out_size;
-    int                                         result;
-
-    result = nyse_alerts_unpack_short_sale_restriction_msg(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.source_time,                      in_data.source_time);
-    TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
-    TS_ASSERT_EQUALS(out_data.security_status,                  in_data.security_status);
-    TS_ASSERT_EQUALS(out_data.short_sale_restriction_indicator, in_data.short_sale_restriction_indicator);
-    TS_ASSERT_EQUALS(out_data.triggering_exchange_id,           in_data.triggering_exchange_id);
-    TS_ASSERT_EQUALS(out_data.short_sale_trigger_time,          in_data.short_sale_trigger_time);
-    TS_ASSERT_EQUALS(out_data.trade_price,                      in_data.trade_price);
-    TS_ASSERT_EQUALS(out_data.price_scale_code,                 in_data.price_scale_code);
-    TS_ASSERT_EQUALS(out_data.trade_volume,                     in_data.trade_volume);
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_alerts_short_sale_restriction_msg_t>
+        (
+            compose_random_msg,
+            format_message,
+            nyse_alerts_unpack_short_sale_restriction_msg,
+            assert_messages_are_equal,
+            NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE,
+            m_random);
 }
 
 };
@@ -919,6 +856,13 @@ uint8_t * format_message(
     return &o_buffer[random_offset];
 }
 
+void assert_messages_are_equal(const nyse_alerts_rpi_msg_t & lhs, const nyse_alerts_rpi_msg_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.source_time,                      rhs.source_time);
+    TS_ASSERT_SAME_DATA(lhs.symbol, rhs.symbol, sizeof (lhs.symbol));
+    TS_ASSERT_EQUALS(lhs.rpi_indicator,                    rhs.rpi_indicator);
+}
+
 class NyseAlertsUnpackRpiMsg : public CxxTest::TestSuite
 {
 private:
@@ -951,30 +895,14 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_alerts_rpi_msg_t       in_data;
-
-    compose_random_msg(&in_data);
-
-    uint8_t                     in_packet[2 * NYSE_ALERTS_RPI_MSG_SIZE];
-    uint8_t *                   in_packet_p;
-
-    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_ALERTS_RPI_MSG_SIZE + m_random->Generate(NYSE_ALERTS_RPI_MSG_SIZE);
-
-    nyse_alerts_rpi_msg_t       out_data;
-    size_t                      out_size;
-    int                         result;
-
-    result = nyse_alerts_unpack_rpi_msg(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.source_time,                      in_data.source_time);
-    TS_ASSERT_SAME_DATA(out_data.symbol, in_data.symbol, sizeof (out_data.symbol));
-    TS_ASSERT_EQUALS(out_data.rpi_indicator,                    in_data.rpi_indicator);
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_RPI_MSG_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_alerts_rpi_msg_t>
+        (
+            compose_random_msg,
+            format_message,
+            nyse_alerts_unpack_rpi_msg,
+            assert_messages_are_equal,
+            NYSE_ALERTS_RPI_MSG_SIZE,
+            m_random);
 }
 
 };
