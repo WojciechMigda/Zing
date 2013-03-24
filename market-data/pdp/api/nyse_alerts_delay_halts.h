@@ -64,7 +64,7 @@ enum halt_condition_values
 typedef struct
 {
     uint32_t        source_time;
-    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
+    char            symbol[NYSE_SHORT_SYMBOL_LEN];
     uint8_t         security_status;
     char            halt_condition;
 } nyse_alerts_delay_halts_msg_t;

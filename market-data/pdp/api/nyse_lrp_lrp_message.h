@@ -45,7 +45,7 @@ enum lrp_change_indicator_values
     LRP_CHANGE_IND_LOW_AND_HIGH_LRP     = 'B',
 };
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        filler1;
     uint32_t        source_time;

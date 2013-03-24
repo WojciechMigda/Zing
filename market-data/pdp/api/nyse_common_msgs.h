@@ -58,7 +58,7 @@ enum nyse_common_message_type_values
 
 /******************************************************************************/
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        next_seq_number;
 } nyse_common_sequence_number_reset_msg_t;
@@ -73,7 +73,7 @@ enum { SOURCE_ID_LEN = 20 };
 
 /******************************************************************************/
 
-typedef struct PACKED
+typedef struct
 {
     char            source_id[SOURCE_ID_LEN];
 } nyse_common_heartbeat_subscription_msg_t;
@@ -84,7 +84,7 @@ STATIC_ASSERT(sizeof (nyse_common_heartbeat_subscription_msg_t) == NYSE_COMMON_H
 
 /******************************************************************************/
 
-typedef struct PACKED
+typedef struct
 {
     char            source_id[SOURCE_ID_LEN];
 } nyse_common_heartbeat_res_msg_t;
@@ -95,7 +95,7 @@ STATIC_ASSERT(sizeof (nyse_common_heartbeat_res_msg_t) == NYSE_COMMON_HEARTBEAT_
 
 /******************************************************************************/
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        begin_seq_num;
     uint32_t        end_seq_num;
@@ -124,7 +124,7 @@ enum retransmission_reject_reason_values
     RETX_REJECT_REASON_DUE_TO_MAX_REFRESH_REQS_IN_DAY   = 5,
 };
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        source_seq_num;
     char            source_id[SOURCE_ID_LEN];
@@ -140,11 +140,11 @@ typedef struct PACKED
 
 enum { NYSE_COMMON_RETRANSMISSION_RES_MSG_SIZE = 26 };
 
-STATIC_ASSERT(sizeof (nyse_common_retransmission_res_msg_t) == NYSE_COMMON_RETRANSMISSION_RES_MSG_SIZE);
+//STATIC_ASSERT(sizeof (nyse_common_retransmission_res_msg_t) == NYSE_COMMON_RETRANSMISSION_RES_MSG_SIZE);
 
 /******************************************************************************/
 
-typedef struct PACKED
+typedef struct
 {
     uint32_t        begin_seq_num;
     uint32_t        end_seq_num;
@@ -156,7 +156,7 @@ STATIC_ASSERT(sizeof (nyse_common_message_unavailable_msg_t) == NYSE_COMMON_MESS
 
 /******************************************************************************/
 
-typedef struct PACKED
+typedef struct
 {
     char            symbol[NYSE_SYMBOL_LEN];
     char            source_id[SOURCE_ID_LEN];

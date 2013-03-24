@@ -51,21 +51,6 @@ enum nyse_bbo_security_type_values
     SEC_TYPE_EQUITY         = 'E',
 };
 
-enum quote_condition_values
-{
-    QUOTE_COND_SLOW_ON_ASK_SIDE                                     = 'A',
-    QUOTE_COND_SLOW_ON_BID_SIDE                                     = 'B',
-    QUOTE_COND_CLOSING                                              = 'C',
-    QUOTE_COND_SLOW_ON_THE_BID_DUE_TO_AN_LRP_OR_GAP_QUOTE           = 'E',
-    QUOTE_COND_SLOW_ON_THE_ASK_DUE_TO_AN_LRP_OR_GAP_QUOTE           = 'F',
-    QUOTE_COND_SLOW_ON_BOTH_ASK_AND_BID                             = 'H',
-    QUOTE_COND_NON_FIRM_QUOTE                                       = 'N',
-    QUOTE_COND_OPENING_QUOTE                                        = 'O',
-    QUOTE_COND_REGULAR_QUOTE                                        = 'R',
-    QUOTE_COND_SLOW_ON_THE_BID_AND_ASK_DUE_TO_AN_LRP_OR_GAP_QUOTE   = 'U',
-    QUOTE_COND_SLOW_ON_THE_BID_AND_ASK_DUE_TO_A_SET_SLOW_LIST       = 'W',
-};
-
 typedef struct
 {
     uint32_t        source_time;

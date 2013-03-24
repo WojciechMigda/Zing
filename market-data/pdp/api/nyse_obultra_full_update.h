@@ -38,18 +38,16 @@ extern "C"
 {
 #endif
 
-enum side_values
+enum
 {
-    SIDE_BUY        = 'B',
-    SIDE_SELL       = 'S',
+    NYSE_OBULTRA_FULL_UPDATE_FIXED_MSG_SIZE     = 32,
+    NYSE_OBULTRA_FULL_UPDATE_PRICE_POINT_SIZE   = 12,
 };
 
-enum trading_status_values
+enum
 {
-    TRADING_STS_PRE_OPENING         = 'P',
-    TRADING_STS_OPENED_REOPENED     = 'O',
-    TRADING_STS_CLOSED              = 'C',
-    TRADING_STS_HALTED              = 'H',
+    MAX_NUM_PRICE_POINTS_FULL_UPDATE =
+        (1500 - NYSE_OBULTRA_FULL_UPDATE_FIXED_MSG_SIZE + NYSE_OBULTRA_FULL_UPDATE_PRICE_POINT_SIZE - 1) / NYSE_OBULTRA_FULL_UPDATE_PRICE_POINT_SIZE,
 };
 
 typedef struct
@@ -59,7 +57,7 @@ typedef struct
     uint16_t        num_orders;
     char            side;
     uint8_t         filler;
-} nyse_obultra_price_point_t;
+} nyse_obultra_full_update_price_point_t;
 
 typedef struct
 {
@@ -75,13 +73,11 @@ typedef struct
     char            trading_status;
     uint8_t         filler;
     uint16_t        mpv;
-} nyse_obultra_full_update_msg_t;
 
-enum
-{
-    NYSE_OBULTRA_FULL_UPDATE_FIXED_MSG_SIZE     = 32,
-    NYSE_OBULTRA_FULL_UPDATE_PRICE_POINT_SIZE   = 12,
-};
+    size_t          num_price_points;
+    nyse_obultra_full_update_price_point_t
+                    price_points[MAX_NUM_PRICE_POINTS_FULL_UPDATE];
+} nyse_obultra_full_update_msg_t;
 
 #ifdef __cplusplus
 } // extern C

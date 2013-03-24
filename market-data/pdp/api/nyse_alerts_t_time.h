@@ -39,7 +39,7 @@ extern "C"
 typedef struct
 {
     uint32_t        source_time;
-    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
+    char            symbol[NYSE_SHORT_SYMBOL_LEN];
     uint8_t         security_status;
     uint32_t        trade_dissemination_time;
 } nyse_alerts_t_time_msg_t;
