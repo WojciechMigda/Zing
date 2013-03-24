@@ -48,12 +48,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseAlertsUnpackPdpHeader : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
-
 void compose_random_pdp_header(nyse_alerts_pdp_header_t * const out_p)
 {
     ANON_VAR(out_p->msg_size);
@@ -66,12 +60,15 @@ void compose_random_pdp_header(nyse_alerts_pdp_header_t * const out_p)
     ANON_VAR(out_p->filler);
 }
 
-uint8_t * format_pdp_header(nyse_alerts_pdp_header_t const * const i_hdr_p, uint8_t * o_buffer, const size_t o_buf_size)
+uint8_t * format_pdp_header(
+    nyse_alerts_pdp_header_t const * const i_hdr_p,
+    uint8_t * o_buffer,
+    const size_t o_buf_size)
 {
     assert(o_buf_size >= NYSE_ALERTS_PDP_HEADER_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_PDP_HEADER_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_ALERTS_PDP_HEADER_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_PDP_HEADER_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -88,6 +85,23 @@ uint8_t * format_pdp_header(nyse_alerts_pdp_header_t const * const i_hdr_p, uint
 
     return &o_buffer[random_offset];
 }
+
+void assert_pdp_header_equality(const nyse_alerts_pdp_header_t & lhs, const nyse_alerts_pdp_header_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.msg_size,         rhs.msg_size);
+    TS_ASSERT_EQUALS(lhs.msg_type,         rhs.msg_type);
+    TS_ASSERT_EQUALS(lhs.msg_seq_num,      rhs.msg_seq_num);
+    TS_ASSERT_EQUALS(lhs.send_time,        rhs.send_time);
+    TS_ASSERT_EQUALS(lhs.product_id,       rhs.product_id);
+    TS_ASSERT_EQUALS(lhs.retrans_flag,     rhs.retrans_flag);
+    TS_ASSERT_EQUALS(lhs.num_body_entries, rhs.num_body_entries);
+}
+
+class NyseAlertsUnpackPdpHeader : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 
@@ -115,45 +129,19 @@ void test_00101_fails_when_input_packet_is_too_short(void)
 
 void test_00200_proper_packet_is_unpacked(void)
 {
-    nyse_alerts_pdp_header_t    in_data;
-
-    compose_random_pdp_header(&in_data);
-
-    uint8_t                     in_packet[2 * NYSE_ALERTS_PDP_HEADER_SIZE];
-    uint8_t *                   in_packet_p;
-
-    in_packet_p = format_pdp_header(&in_data, in_packet, sizeof (in_packet));
-
-    size_t                      in_size = NYSE_ALERTS_PDP_HEADER_SIZE + m_random->Generate(NYSE_ALERTS_PDP_HEADER_SIZE);
-
-    nyse_alerts_pdp_header_t    out_data;
-    size_t                      out_size;
-    int                         result;
-
-    result = nyse_alerts_unpack_pdp_header(in_packet_p, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
-
-    TS_ASSERT_EQUALS(out_data.msg_size,         in_data.msg_size);
-    TS_ASSERT_EQUALS(out_data.msg_type,         in_data.msg_type);
-    TS_ASSERT_EQUALS(out_data.msg_seq_num,      in_data.msg_seq_num);
-    TS_ASSERT_EQUALS(out_data.send_time,        in_data.send_time);
-    TS_ASSERT_EQUALS(out_data.product_id,       in_data.product_id);
-    TS_ASSERT_EQUALS(out_data.retrans_flag,     in_data.retrans_flag);
-    TS_ASSERT_EQUALS(out_data.num_body_entries, in_data.num_body_entries);
-
-    TS_ASSERT_EQUALS(out_size, (size_t)NYSE_ALERTS_PDP_HEADER_SIZE);
+    gen_test_input_packet_is_unpacked<nyse_alerts_pdp_header_t>
+        (
+            compose_random_pdp_header,
+            format_pdp_header,
+            nyse_alerts_unpack_pdp_header,
+            assert_pdp_header_equality,
+            NYSE_ALERTS_PDP_HEADER_SIZE,
+            m_random);
 }
 
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-
-class NyseAlertsUnpackSecurityInfoMsg : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
 
 void compose_random_msg(nyse_alerts_security_info_msg_t * const out_p)
 {
@@ -192,8 +180,8 @@ uint8_t * format_message(
 {
     assert(o_buf_size >= NYSE_ALERTS_SECURITY_INFO_MSG_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_SECURITY_INFO_MSG_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_ALERTS_SECURITY_INFO_MSG_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_SECURITY_INFO_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -228,6 +216,12 @@ uint8_t * format_message(
 
     return &o_buffer[random_offset];
 }
+
+class NyseAlertsUnpackSecurityInfoMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 
@@ -307,12 +301,6 @@ void test_00200_proper_packet_is_unpacked(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseAlertsUnpackMarketImbalanceMsg : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
-
 void compose_random_msg(nyse_alerts_market_imbalance_msg_t * const out_p)
 {
     ANON_VAR(out_p->source_time);
@@ -329,8 +317,8 @@ uint8_t * format_message(
 {
     assert(o_buf_size >= NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -344,6 +332,12 @@ uint8_t * format_message(
 
     return &o_buffer[random_offset];
 }
+
+class NyseAlertsUnpackMarketImbalanceMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 
@@ -403,12 +397,6 @@ void test_00200_proper_packet_is_unpacked(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseAlertsUnpackDelayHaltsMsg : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
-
 void compose_random_msg(nyse_alerts_delay_halts_msg_t * const out_p)
 {
     ANON_VAR(out_p->source_time);
@@ -424,8 +412,8 @@ uint8_t * format_message(
 {
     assert(o_buf_size >= NYSE_ALERTS_DELAY_HALTS_MSG_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_DELAY_HALTS_MSG_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_ALERTS_DELAY_HALTS_MSG_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_DELAY_HALTS_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -438,6 +426,12 @@ uint8_t * format_message(
 
     return &o_buffer[random_offset];
 }
+
+class NyseAlertsUnpackDelayHaltsMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 
@@ -504,12 +498,6 @@ void test_00200_proper_packet_is_unpacked(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseAlertsUnpackIndicationMsg : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
-
 void compose_random_msg(nyse_alerts_indication_msg_t * const out_p)
 {
     ANON_VAR(out_p->source_time);
@@ -528,8 +516,8 @@ uint8_t * format_message(
 {
     assert(o_buf_size >= NYSE_ALERTS_INDICATION_MSG_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_INDICATION_MSG_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_ALERTS_INDICATION_MSG_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_INDICATION_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -545,6 +533,12 @@ uint8_t * format_message(
 
     return &o_buffer[random_offset];
 }
+
+class NyseAlertsUnpackIndicationMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 
@@ -606,12 +600,6 @@ void test_00200_proper_packet_is_unpacked(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseAlertsUnpackTTimeMsg : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
-
 void compose_random_msg(nyse_alerts_t_time_msg_t * const out_p)
 {
     ANON_VAR(out_p->source_time);
@@ -627,8 +615,8 @@ uint8_t * format_message(
 {
     assert(o_buf_size >= NYSE_ALERTS_T_TIME_MSG_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_T_TIME_MSG_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_ALERTS_T_TIME_MSG_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_T_TIME_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -641,6 +629,12 @@ uint8_t * format_message(
 
     return &o_buffer[random_offset];
 }
+
+class NyseAlertsUnpackTTimeMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 
@@ -699,12 +693,6 @@ void test_00200_proper_packet_is_unpacked(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseAlertsUnpackCircuitBreakerMsg : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
-
 void compose_random_msg(nyse_alerts_circuit_breaker_msg_t * const out_p)
 {
     ANON_VAR(out_p->event_time);
@@ -719,8 +707,8 @@ uint8_t * format_message(
 {
     assert(o_buf_size >= NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -732,6 +720,12 @@ uint8_t * format_message(
 
     return &o_buffer[random_offset];
 }
+
+class NyseAlertsUnpackCircuitBreakerMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 
@@ -789,12 +783,6 @@ void test_00200_proper_packet_is_unpacked(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseAlertsUnpackShortSaleRestrictionMsg : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
-
 void compose_random_msg(nyse_alerts_short_sale_restriction_msg_t * const out_p)
 {
     ANON_VAR(out_p->source_time);
@@ -815,8 +803,8 @@ uint8_t * format_message(
 {
     assert(o_buf_size >= NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -834,6 +822,12 @@ uint8_t * format_message(
 
     return &o_buffer[random_offset];
 }
+
+class NyseAlertsUnpackShortSaleRestrictionMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 
@@ -897,12 +891,6 @@ void test_00200_proper_packet_is_unpacked(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseAlertsUnpackRpiMsg : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
-
 void compose_random_msg(nyse_alerts_rpi_msg_t * const out_p)
 {
     ANON_VAR(out_p->source_time);
@@ -917,8 +905,8 @@ uint8_t * format_message(
 {
     assert(o_buf_size >= NYSE_ALERTS_RPI_MSG_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_RPI_MSG_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_ALERTS_RPI_MSG_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_ALERTS_RPI_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -930,6 +918,12 @@ uint8_t * format_message(
 
     return &o_buffer[random_offset];
 }
+
+class NyseAlertsUnpackRpiMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 

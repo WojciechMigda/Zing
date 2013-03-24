@@ -34,11 +34,7 @@
 #include "nyse_bbo_unpack.h"
 #include "gen_test.hpp"
 
-class NyseBboUnpackPdpHeader : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
+////////////////////////////////////////////////////////////////////////////////
 
 void compose_random_pdp_header(nyse_bbo_pdp_header_t * const out_p)
 {
@@ -56,8 +52,8 @@ uint8_t * format_pdp_header(nyse_bbo_pdp_header_t const * const i_hdr_p, uint8_t
 {
     assert(o_buf_size >= NYSE_BBO_PDP_HEADER_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_BBO_PDP_HEADER_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_BBO_PDP_HEADER_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_BBO_PDP_HEADER_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -74,6 +70,12 @@ uint8_t * format_pdp_header(nyse_bbo_pdp_header_t const * const i_hdr_p, uint8_t
 
     return &o_buffer[random_offset];
 }
+
+class NyseBboUnpackPdpHeader : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 NyseBboUnpackPdpHeader()
@@ -134,12 +136,6 @@ void test_00200_proper_packet_is_unpacked(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseBboUnpackQuoteMsg : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
-
 void compose_random_msg(nyse_bbo_quote_msg_t * const out_p)
 {
     ANON_VAR(out_p->source_time);
@@ -163,8 +159,8 @@ uint8_t * format_message(
 {
     assert(o_buf_size >= NYSE_BBO_QUOTE_MSG_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_BBO_QUOTE_MSG_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_BBO_QUOTE_MSG_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_BBO_QUOTE_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -185,6 +181,12 @@ uint8_t * format_message(
 
     return &o_buffer[random_offset];
 }
+
+class NyseBboUnpackQuoteMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 

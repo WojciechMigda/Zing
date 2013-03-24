@@ -35,11 +35,7 @@
 #include "nyse_lrp_lrp_message.h"
 #include "gen_test.hpp"
 
-class NyseLrpUnpackPdpHeader : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
+////////////////////////////////////////////////////////////////////////////////
 
 void compose_random_pdp_header(nyse_lrp_pdp_header_t * const out_p)
 {
@@ -57,8 +53,8 @@ uint8_t * format_pdp_header(nyse_lrp_pdp_header_t const * const i_hdr_p, uint8_t
 {
     assert(o_buf_size >= NYSE_LRP_PDP_HEADER_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_LRP_PDP_HEADER_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_LRP_PDP_HEADER_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_LRP_PDP_HEADER_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -75,6 +71,12 @@ uint8_t * format_pdp_header(nyse_lrp_pdp_header_t const * const i_hdr_p, uint8_t
 
     return &o_buffer[random_offset];
 }
+
+class NyseLrpUnpackPdpHeader : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 NyseLrpUnpackPdpHeader()
@@ -135,12 +137,6 @@ void test_00200_proper_packet_is_unpacked(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class NyseLrpUnpackLrpMsg : public CxxTest::TestSuite
-{
-private:
-
-testing::internal::Random * m_random;
-
 void compose_random_msg(nyse_lrp_lrp_msg_t * const out_p)
 {
     ANON_VAR(out_p->filler1);
@@ -160,8 +156,8 @@ uint8_t * format_message(
 {
     assert(o_buf_size >= NYSE_LRP_LRP_MSG_SIZE);
 
-    size_t      random_offset =
-        m_random->Generate(1 + o_buf_size - NYSE_LRP_LRP_MSG_SIZE);
+    size_t      random_offset = random() % (1 + o_buf_size - NYSE_LRP_LRP_MSG_SIZE);
+//        m_random->Generate(1 + o_buf_size - NYSE_LRP_LRP_MSG_SIZE);
 
     std::vector<uint8_t>    work_vec;
 
@@ -178,6 +174,12 @@ uint8_t * format_message(
 
     return &o_buffer[random_offset];
 }
+
+class NyseLrpUnpackLrpMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
 
 public:
 
