@@ -32,6 +32,7 @@
 #include "nyse_bbo_pdp_header.h"
 #include "unpack_status.h"
 #include "nyse_bbo_unpack.h"
+#include "gen_test.hpp"
 
 class NyseBboUnpackPdpHeader : public CxxTest::TestSuite
 {
@@ -87,15 +88,8 @@ NyseBboUnpackPdpHeader()
 
 void test_00100_fails_when_input_packet_ptr_is_null(void)
 {
-    size_t                      in_size = m_random->Generate(m_random->kMaxRange);
-
-    nyse_bbo_pdp_header_t       out_data;
-    size_t                      out_size;
-    int                         result;
-
-    result = nyse_bbo_unpack_pdp_header(NULL, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_NULL_INPUT_PACKET_PTR, result);
+    gen_test_input_packet_ptr_is_null<nyse_bbo_pdp_header_t>
+        (nyse_bbo_unpack_pdp_header, m_random);
 }
 
 void test_00101_fails_when_input_packet_is_too_short(void)
@@ -214,15 +208,8 @@ NyseBboUnpackQuoteMsg()
 
 void test_00100_fails_when_input_packet_ptr_is_null(void)
 {
-    size_t                      in_size = m_random->Generate(m_random->kMaxRange);
-
-    nyse_bbo_quote_msg_t        out_data;
-    size_t                      out_size;
-    int                         result;
-
-    result = nyse_bbo_unpack_quote_msg(NULL, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_NULL_INPUT_PACKET_PTR, result);
+    gen_test_input_packet_ptr_is_null<nyse_bbo_quote_msg_t>
+        (nyse_bbo_unpack_quote_msg, m_random);
 }
 
 void test_00101_fails_when_input_packet_is_too_short(void)
