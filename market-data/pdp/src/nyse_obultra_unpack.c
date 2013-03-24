@@ -56,9 +56,8 @@ int nyse_obultra_unpack_pdp_header(
     nyse_obultra_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-//#define __STRUCT_FILE "nyse_lrp_pdp_header.i"
-//#define __STRUCT_SIZE NYSE_LRP_PDP_HEADER_SIZE
-//
-//#include "unpack_generic.i"
-    return 3;
+#define __STRUCT_FILE "nyse_obultra_pdp_header.i"
+#define __STRUCT_SIZE NYSE_OBULTRA_PDP_HEADER_SIZE
+
+#include "unpack_generic.i"
 }
