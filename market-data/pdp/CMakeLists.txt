@@ -7,7 +7,9 @@
 ## Filename: CMakeLists.txt
 ##
 ## Description:
-##      Main CMakeLists.txt file.
+##      Main CMakeLists.txt file for the PDP (Proprietary Data Product) binary
+##      protocol library.
+##
 ##      To build:
 ##      1. cd .build
 ##      2. cmake -G "Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=DEBUG ..
