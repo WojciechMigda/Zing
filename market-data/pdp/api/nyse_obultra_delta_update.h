@@ -64,9 +64,9 @@ typedef struct
     uint16_t        num_orders;
     char            side;
     char            reason_code;
-    uint32_t        link_id1;
-    uint32_t        link_id2;
-    uint32_t        link_id3;
+    uint32_t        link_id_1;
+    uint32_t        link_id_2;
+    uint32_t        link_id_3;
 } nyse_obultra_delta_update_price_point_t;
 
 typedef struct
