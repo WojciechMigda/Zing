@@ -109,16 +109,8 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
-    uint8_t                     in_packet[1];
-    size_t                      in_size = m_random->Generate(NYSE_ALERTS_PDP_HEADER_SIZE);
-
-    nyse_alerts_pdp_header_t    out_data;
-    size_t                      out_size;
-    int                         result;
-
-    result = nyse_alerts_unpack_pdp_header(in_packet, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+    gen_test_input_packet_is_too_short<nyse_alerts_pdp_header_t>
+        (nyse_alerts_unpack_pdp_header, NYSE_ALERTS_PDP_HEADER_SIZE, m_random);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
@@ -257,16 +249,8 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
-    uint8_t                             in_packet[1];
-    size_t                              in_size = m_random->Generate(NYSE_ALERTS_SECURITY_INFO_MSG_SIZE);
-
-    nyse_alerts_security_info_msg_t     out_data;
-    size_t                              out_size;
-    int                                 result;
-
-    result = nyse_alerts_unpack_security_info_msg(in_packet, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+    gen_test_input_packet_is_too_short<nyse_alerts_security_info_msg_t>
+        (nyse_alerts_unpack_security_info_msg, NYSE_ALERTS_SECURITY_INFO_MSG_SIZE, m_random);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
@@ -381,16 +365,8 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
-    uint8_t                             in_packet[1];
-    size_t                              in_size = m_random->Generate(NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE);
-
-    nyse_alerts_market_imbalance_msg_t  out_data;
-    size_t                              out_size;
-    int                                 result;
-
-    result = nyse_alerts_unpack_market_imbalance_msg(in_packet, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+    gen_test_input_packet_is_too_short<nyse_alerts_market_imbalance_msg_t>
+        (nyse_alerts_unpack_market_imbalance_msg, NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE, m_random);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
@@ -590,16 +566,8 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
-    uint8_t                             in_packet[1];
-    size_t                              in_size = m_random->Generate(NYSE_ALERTS_INDICATION_MSG_SIZE);
-
-    nyse_alerts_indication_msg_t        out_data;
-    size_t                              out_size;
-    int                                 result;
-
-    result = nyse_alerts_unpack_indication_msg(in_packet, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+    gen_test_input_packet_is_too_short<nyse_alerts_indication_msg_t>
+        (nyse_alerts_unpack_indication_msg, NYSE_ALERTS_INDICATION_MSG_SIZE, m_random);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
@@ -694,16 +662,8 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
-    uint8_t                             in_packet[1];
-    size_t                              in_size = m_random->Generate(NYSE_ALERTS_T_TIME_MSG_SIZE);
-
-    nyse_alerts_t_time_msg_t            out_data;
-    size_t                              out_size;
-    int                                 result;
-
-    result = nyse_alerts_unpack_t_time_msg(in_packet, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+    gen_test_input_packet_is_too_short<nyse_alerts_t_time_msg_t>
+        (nyse_alerts_unpack_t_time_msg, NYSE_ALERTS_T_TIME_MSG_SIZE, m_random);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
@@ -793,16 +753,8 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
-    uint8_t                             in_packet[1];
-    size_t                              in_size = m_random->Generate(NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE);
-
-    nyse_alerts_circuit_breaker_msg_t   out_data;
-    size_t                              out_size;
-    int                                 result;
-
-    result = nyse_alerts_unpack_circuit_breaker_msg(in_packet, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+    gen_test_input_packet_is_too_short<nyse_alerts_circuit_breaker_msg_t>
+        (nyse_alerts_unpack_circuit_breaker_msg, NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE, m_random);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
@@ -903,16 +855,8 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
-    uint8_t                             in_packet[1];
-    size_t                              in_size = m_random->Generate(NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE);
-
-    nyse_alerts_short_sale_restriction_msg_t    out_data;
-    size_t                                      out_size;
-    int                                         result;
-
-    result = nyse_alerts_unpack_short_sale_restriction_msg(in_packet, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+    gen_test_input_packet_is_too_short<nyse_alerts_short_sale_restriction_msg_t>
+        (nyse_alerts_unpack_short_sale_restriction_msg, NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE, m_random);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
@@ -1007,16 +951,8 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
-    uint8_t                 in_packet[1];
-    size_t                  in_size = m_random->Generate(NYSE_ALERTS_RPI_MSG_SIZE);
-
-    nyse_alerts_rpi_msg_t   out_data;
-    size_t                  out_size;
-    int                     result;
-
-    result = nyse_alerts_unpack_rpi_msg(in_packet, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+    gen_test_input_packet_is_too_short<nyse_alerts_rpi_msg_t>
+        (nyse_alerts_unpack_rpi_msg, NYSE_ALERTS_RPI_MSG_SIZE, m_random);
 }
 
 void test_00200_proper_packet_is_unpacked(void)

@@ -69,4 +69,28 @@ void gen_test_input_packet_ptr_is_null(
     TS_ASSERT_EQUALS(PDP_UNPACK_NULL_INPUT_PACKET_PTR, result);
 }
 
+template<typename _Tp>
+void gen_test_input_packet_is_too_short(
+    int (*fn)
+    (
+        const uint8_t * RESTRICT in_data_p,
+        const size_t in_size,
+        _Tp * const RESTRICT out_body_p,
+        size_t * const RESTRICT out_offset_p
+    ),
+    const size_t limiting_size,
+    testing::internal::Random * random_p)
+{
+    uint8_t     in_packet[1];
+    size_t      in_size = random_p->Generate(limiting_size);
+
+    _Tp         out_data;
+    size_t      out_size;
+    int         result;
+
+    result = fn(in_packet, in_size, &out_data, &out_size);
+
+    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+}
+
 #endif /* GEN_TEST_HPP_ */

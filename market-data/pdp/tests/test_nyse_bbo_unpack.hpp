@@ -94,16 +94,8 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
-    uint8_t                     in_packet[1];
-    size_t                      in_size = m_random->Generate(NYSE_BBO_PDP_HEADER_SIZE);
-
-    nyse_bbo_pdp_header_t       out_data;
-    size_t                      out_size;
-    int                         result;
-
-    result = nyse_bbo_unpack_pdp_header(in_packet, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+    gen_test_input_packet_is_too_short<nyse_bbo_pdp_header_t>
+        (nyse_bbo_unpack_pdp_header, NYSE_BBO_PDP_HEADER_SIZE, m_random);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
@@ -214,16 +206,8 @@ void test_00100_fails_when_input_packet_ptr_is_null(void)
 
 void test_00101_fails_when_input_packet_is_too_short(void)
 {
-    uint8_t                 in_packet[1];
-    size_t                  in_size = m_random->Generate(NYSE_BBO_QUOTE_MSG_SIZE);
-
-    nyse_bbo_quote_msg_t    out_data;
-    size_t                  out_size;
-    int                     result;
-
-    result = nyse_bbo_unpack_quote_msg(in_packet, in_size, &out_data, &out_size);
-
-    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+    gen_test_input_packet_is_too_short<nyse_bbo_quote_msg_t>
+        (nyse_bbo_unpack_quote_msg, NYSE_BBO_QUOTE_MSG_SIZE, m_random);
 }
 
 void test_00200_proper_packet_is_unpacked(void)
