@@ -69,6 +69,22 @@ void gen_test_input_packet_ptr_is_null(
     TS_ASSERT_EQUALS(PDP_UNPACK_NULL_INPUT_PACKET_PTR, result);
 }
 
+/*******************************************************************************
+ * @brief Generic test case body for scenario when input packet length is too
+ *        short
+ *******************************************************************************
+ * History:
+ * --------
+ * Date         Who  Ticket     Description
+ * ----------   ---  ---------  ------------------------------------------------
+ * 2013-03-24   wm              Initial version
+ *
+ *******************************************************************************
+ * @param _Tp data type representing unpacked packet contents
+ * @param fn function pointer to the packet unpacking routine
+ * @param limiting_size length of the input data
+ * @param random_p pointer to the GMock random number genarator instance
+ ******************************************************************************/
 template<typename _Tp>
 void gen_test_input_packet_is_too_short(
     int (*fn)
