@@ -60,7 +60,10 @@ int nyse_protrac_unpack_pdp_header(
     nyse_protrac_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    return 3;
+#define __STRUCT_FILE "nyse_protrac_pdp_header.i"
+#define __STRUCT_SIZE NYSE_PROTRAC_PDP_HEADER_SIZE
+
+#include "unpack_generic.i"
 }
 
 /*******************************************************************************
@@ -88,7 +91,10 @@ int nyse_protrac_unpack_execution_report_msg(
     nyse_protrac_execution_report_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    return 4;
+#define __STRUCT_FILE "nyse_protrac_execution_report_msg.i"
+#define __STRUCT_SIZE NYSE_PROTRAC_EXECUTION_REPORT_MSG_SIZE
+
+#include "unpack_generic.i"
 }
 
 /*******************************************************************************
@@ -116,7 +122,10 @@ int nyse_protrac_unpack_execution_report_cancellation_msg(
     nyse_protrac_execution_report_cancellation_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    return 5;
+#define __STRUCT_FILE "nyse_protrac_execution_report_cancellation_msg.i"
+#define __STRUCT_SIZE NYSE_PROTRAC_EXECUTION_REPORT_CANCELLATION_MSG_SIZE
+
+#include "unpack_generic.i"
 }
 
 /*******************************************************************************
@@ -144,5 +153,8 @@ int nyse_protrac_unpack_summary_msg(
     nyse_protrac_summary_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    return 6;
+#define __STRUCT_FILE "nyse_protrac_summary_msg.i"
+#define __STRUCT_SIZE NYSE_PROTRAC_SUMMARY_MSG_SIZE
+
+#include "unpack_generic.i"
 }
