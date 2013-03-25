@@ -3,14 +3,15 @@
  * All rights reserved
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
- * Filename: nyse_ordimb_pdp_header.h
+ *
+ * Filename: nyse_ordimb_closing_imbalance.h
  *
  * Description:
- *      NYSE Order Imbalances PDP header definitions
+ *      NYSE Order Imbalances Closing Imbalance message definitions
  *
  *      References:
  *      [1] NYSE ORDER IMBALANCES CLIENT SPECIFICATION, Version 1.12, 2012-11-09
- *          Section 4.8
+ *          Section 4.10
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -24,38 +25,36 @@
  *
  ******************************************************************************/
 
-#ifndef NYSE_ORDIMB_PDP_HEADER_H_
-#define NYSE_ORDIMB_PDP_HEADER_H_
+
+#ifndef NYSE_ORDIMB_CLOSING_IMBALANCE_H_
+#define NYSE_ORDIMB_CLOSING_IMBALANCE_H_
 
 #include <stdint.h>
+#include "pdp_symbol.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-enum nyse_ordimb_message_type_values
-{
-    NYSE_ORDIMB_MSG_OPENING_IMBALANCE       = 240,
-    NYSE_ORDIMB_MSG_CLOSING_IMBALANCE       = 241,
-};
-
-enum { NYSE_ORDIMB_PDP_HEADER_SIZE = 16 };
+enum { NYSE_ORDIMB_CLOSING_IMBALANCE_MSG_SIZE = 38 };
 
 typedef struct
 {
-    uint16_t        msg_size;
-    uint16_t        msg_type;
-    uint32_t        msg_seq_num;
-    uint32_t        send_time;
-    uint8_t         product_id;
-    uint8_t         retrans_flag;
-    uint8_t         num_body_entries;
-    char            filler[1];
-} nyse_ordimb_pdp_header_t;
+    char                symbol[NYSE_SHORT_SYMBOL_LEN];
+    uint8_t             regulatory_imbalance_indicator;
+    char                imbalance_side;
+    uint8_t             price_scale_code;
+    uint32_t            reference_price_numerator;
+    uint32_t            imbalance_quantity;
+    uint32_t            paired_quantity;
+    uint32_t            continuous_book_clearing_price_numerator;
+    uint32_t            closing_only_clearing_price_numerator;
+    uint32_t            source_time;
+} nyse_ordimb_closing_imb_msg_t;
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* NYSE_ORDIMB_PDP_HEADER_H_ */
+#endif /* NYSE_ORDIMB_CLOSING_IMBALANCE_H_ */

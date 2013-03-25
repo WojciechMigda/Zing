@@ -30,8 +30,8 @@
 #include "static_assert.h"
 #include "unpack_status.h"
 #include "nyse_ordimb_pdp_header.h"
-#include "nyse_ordimb_opening_imbalance_msg.h"
-#include "nyse_ordimb_closing_imbalance_msg.h"
+#include "nyse_ordimb_opening_imbalance.h"
+#include "nyse_ordimb_closing_imbalance.h"
 
 /*******************************************************************************
  * @brief Unpack general PDP header of the NYSE Order Imbalances feed

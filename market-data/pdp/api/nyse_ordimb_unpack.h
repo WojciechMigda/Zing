@@ -30,8 +30,8 @@
 
 #include "compiler.h"
 #include "nyse_ordimb_pdp_header.h"
-#include "nyse_ordimb_opening_imbalance_msg.h"
-#include "nyse_ordimb_closing_imbalance_msg.h"
+#include "nyse_ordimb_opening_imbalance.h"
+#include "nyse_ordimb_closing_imbalance.h"
 
 #ifdef __cplusplus
 extern "C"
