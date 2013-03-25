@@ -53,7 +53,7 @@ typedef struct
     uint8_t         product_id;
     uint8_t         retrans_flag;
     uint8_t         num_body_entries;
-    char            filler[1];
+    char            FILLER[1];
 } nyse_protrac_pdp_header_t;
 
 
