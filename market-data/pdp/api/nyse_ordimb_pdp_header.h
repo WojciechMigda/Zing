@@ -51,7 +51,7 @@ typedef struct
     uint8_t         product_id;
     uint8_t         retrans_flag;
     uint8_t         num_body_entries;
-    uint8_t         link_flag;
+    char            filler[1];
 } nyse_ordimb_pdp_header_t;
 
 #ifdef __cplusplus
