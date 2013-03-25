@@ -31,7 +31,7 @@ extern "C"
 
 enum pdp_symbol_field_length_values
 {
-    NYSE_ALERTS_SYMBOL_LEN  = 11,
+    NYSE_SHORT_SYMBOL_LEN   = 11,
     NYSE_SYMBOL_LEN         = 16,
 };
 

@@ -4,10 +4,10 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: nyse_alerts_short_sale_restriction_msg.i
+ * Filename: nyse_obultra_pdp_header.i
  *
  * Description:
- *      NYSE Alerts Short Sale Restriction message definition
+ *      NYSE OpenBook Ultra PDP header definition
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -17,16 +17,15 @@
  * --------
  * Date         Who  Ticket     Description
  * ----------   ---  ---------  ------------------------------------------------
- * 2013-03-23   wm              Initial version
+ * 2013-03-24   wm              Initial version
  *
  ******************************************************************************/
 
-__OP_FIELD( source_time,            uint32_t    )
-__OP_ARRAY( symbol,                 char,       NYSE_SHORT_SYMBOL_LEN  )
-__OP_FIELD( security_status,        uint8_t     )
-__OP_FIELD( short_sale_restriction_indicator, char        )
-__OP_FIELD( triggering_exchange_id, char        )
-__OP_FIELD( short_sale_trigger_time, uint32_t    )
-__OP_FIELD( trade_price,            uint32_t    )
-__OP_FIELD( price_scale_code,       uint8_t     )
-__OP_FIELD( trade_volume,           uint32_t    )
+__OP_FIELD( msg_size,               uint16_t    )
+__OP_FIELD( msg_type,               uint16_t    )
+__OP_FIELD( msg_seq_num,            uint32_t    )
+__OP_FIELD( send_time,              uint32_t    )
+__OP_FIELD( product_id,             uint8_t     )
+__OP_FIELD( retrans_flag,           uint8_t     )
+__OP_FIELD( num_body_entries,       uint8_t     )
+__OP_FIELD( link_flag,              uint8_t     )

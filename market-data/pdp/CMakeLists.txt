@@ -7,7 +7,9 @@
 ## Filename: CMakeLists.txt
 ##
 ## Description:
-##      Main CMakeLists.txt file.
+##      Main CMakeLists.txt file for the PDP (Proprietary Data Product) binary
+##      protocol library.
+##
 ##      To build:
 ##      1. cd .build
 ##      2. cmake -G "Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=DEBUG ..
@@ -51,6 +53,7 @@ set( src_list
     src/nyse_alerts_unpack.c
     src/nyse_bbo_unpack.c
     src/nyse_lrp_unpack.c
+    src/nyse_obultra_unpack.c
 )
 
 set( lib_name pdp )
@@ -95,5 +98,6 @@ if( CXXTEST_FOUND )
     my_test_add( test_nyse_alerts_unpack    ${CMAKE_CURRENT_LIST_DIR}/tests )
     my_test_add( test_nyse_bbo_unpack       ${CMAKE_CURRENT_LIST_DIR}/tests )
     my_test_add( test_nyse_lrp_unpack       ${CMAKE_CURRENT_LIST_DIR}/tests )
+    my_test_add( test_nyse_obultra_unpack   ${CMAKE_CURRENT_LIST_DIR}/tests )
 
 endif( CXXTEST_FOUND )

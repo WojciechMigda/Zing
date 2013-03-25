@@ -47,7 +47,7 @@ enum adjustment_values
 typedef struct
 {
     uint32_t        source_time;
-    char            symbol[NYSE_ALERTS_SYMBOL_LEN];
+    char            symbol[NYSE_SHORT_SYMBOL_LEN];
     uint8_t         security_status;
     uint32_t        bid_price;
     uint32_t        ask_price;

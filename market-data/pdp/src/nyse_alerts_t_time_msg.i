@@ -22,6 +22,6 @@
  ******************************************************************************/
 
 __OP_FIELD( source_time,            uint32_t    )
-__OP_ARRAY( symbol,                 char,       NYSE_ALERTS_SYMBOL_LEN  )
+__OP_ARRAY( symbol,                 char,       NYSE_SHORT_SYMBOL_LEN  )
 __OP_FIELD( security_status,        uint8_t     )
 __OP_FIELD( trade_dissemination_time, uint32_t    )
