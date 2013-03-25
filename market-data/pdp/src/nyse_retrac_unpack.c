@@ -59,11 +59,10 @@ int nyse_retrac_unpack_pdp_header(
     nyse_retrac_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-//#define __STRUCT_FILE "nyse_retrac_pdp_header.i"
-//#define __STRUCT_SIZE NYSE_RETRAC_PDP_HEADER_SIZE
-//
-//#include "unpack_generic.i"
-    return 3;
+#define __STRUCT_FILE "nyse_retrac_pdp_header.i"
+#define __STRUCT_SIZE NYSE_RETRAC_PDP_HEADER_SIZE
+
+#include "unpack_generic.i"
 }
 
 /*******************************************************************************
@@ -91,11 +90,10 @@ int nyse_retrac_unpack_execution_report_msg(
     nyse_retrac_execution_report_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-//#define __STRUCT_FILE "nyse_retrac_execution_report_msg.i"
-//#define __STRUCT_SIZE NYSE_RETRAC_EXECUTION_REPORT_MSG_SIZE
-//
-//#include "unpack_generic.i"
-    return 4;
+#define __STRUCT_FILE "nyse_retrac_execution_report_msg.i"
+#define __STRUCT_SIZE NYSE_RETRAC_EXECUTION_REPORT_MSG_SIZE
+
+#include "unpack_generic.i"
 }
 
 /*******************************************************************************
@@ -123,11 +121,10 @@ int nyse_retrac_unpack_execution_report_cancellation_msg(
     nyse_retrac_execution_report_cancellation_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-//#define __STRUCT_FILE "nyse_retrac_execution_report_cancellation_msg.i"
-//#define __STRUCT_SIZE NYSE_RETRAC_EXECUTION_REPORT_CANCELLATION_MSG_SIZE
-//
-//#include "unpack_generic.i"
-    return 5;
+#define __STRUCT_FILE "nyse_retrac_execution_report_cancellation_msg.i"
+#define __STRUCT_SIZE NYSE_RETRAC_EXECUTION_REPORT_CANCELLATION_MSG_SIZE
+
+#include "unpack_generic.i"
 }
 
 /*******************************************************************************
@@ -155,9 +152,8 @@ int nyse_retrac_unpack_summary_msg(
     nyse_retrac_summary_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-//#define __STRUCT_FILE "nyse_retrac_summary_msg.i"
-//#define __STRUCT_SIZE NYSE_RETRAC_SUMMARY_MSG_SIZE
-//
-//#include "unpack_generic.i"
-    return 6;
+#define __STRUCT_FILE "nyse_retrac_summary_msg.i"
+#define __STRUCT_SIZE NYSE_RETRAC_SUMMARY_MSG_SIZE
+
+#include "unpack_generic.i"
 }
