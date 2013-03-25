@@ -42,14 +42,14 @@ enum { NYSE_ORDIMB_CLOSING_IMBALANCE_MSG_SIZE = 38 };
 typedef struct
 {
     char                symbol[NYSE_SHORT_SYMBOL_LEN];
-    uint32_t            regulatory_imbalance_indicator;
+    uint8_t             regulatory_imbalance_indicator;
     char                imbalance_side;
     uint8_t             price_scale_code;
     uint32_t            reference_price_numerator;
     uint32_t            imbalance_quantity;
     uint32_t            paired_quantity;
     uint32_t            continuous_book_clearing_price_numerator;
-    uint32_t            closing_only_book_clearing_price_numerator;
+    uint32_t            closing_only_clearing_price_numerator;
     uint32_t            source_time;
 } nyse_ordimb_closing_imb_msg_t;
 
