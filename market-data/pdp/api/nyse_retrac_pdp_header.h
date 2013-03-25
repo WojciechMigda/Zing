@@ -4,14 +4,14 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: nyse_protrac_pdp_header.h
+ * Filename: nyse_retrac_pdp_header.h
  *
  * Description:
- *      NYSE ProTrac PDP header definitions
+ *      NYSE ReTrac PDP header definitions
  *
  *      References:
- *      [1] NYSE PROGRAM TRADING EXECUTION REPORTS (PROTRAC) CLIENT
- *          SPECIFICATION, Version 2.3a, 2012-08-10
+ *      [1] NYSE RETAIL EXECUTION REPORT (RETRAC) CLIENT SPECIFICATION,
+ *          Version 2.2a, 2012-08-10
  *          Section 4.7
  *
  * Authors:
@@ -27,22 +27,22 @@
  ******************************************************************************/
 
 
-#ifndef NYSE_PROTRAC_PDP_HEADER_H_
-#define NYSE_PROTRAC_PDP_HEADER_H_
+#ifndef NYSE_RETRAC_PDP_HEADER_H_
+#define NYSE_RETRAC_PDP_HEADER_H_
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-enum nyse_protrac_message_type_values
+enum nyse_retrac_message_type_values
 {
-    NYSE_PROTRAC_MSG_EXECUTION_REPORT                   = 180,
-    NYSE_PROTRAC_MSG_EXECUTION_REPORT_CANCELLATION      = 181,
-    NYSE_PROTRAC_MSG_SUMMARY                            = 182,
+    NYSE_RETRAC_MSG_EXECUTION_REPORT                    = 190,
+    NYSE_RETRAC_MSG_EXECUTION_REPORT_CANCELLATION       = 191,
+    NYSE_RETRAC_MSG_SUMMARY                             = 192,
 };
 
-enum { NYSE_PROTRAC_PDP_HEADER_SIZE = 16 };
+enum { NYSE_RETRAC_PDP_HEADER_SIZE = 16 };
 
 typedef struct
 {
@@ -54,12 +54,10 @@ typedef struct
     uint8_t         retrans_flag;
     uint8_t         num_body_entries;
     char            FILLER[1];
-} nyse_protrac_pdp_header_t;
-
-
+} nyse_retrac_pdp_header_t;
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* NYSE_PROTRAC_PDP_HEADER_H_ */
+#endif /* NYSE_RETRAC_PDP_HEADER_H_ */

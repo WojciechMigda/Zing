@@ -4,10 +4,15 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: pdp_execution_type.h
+ * Filename: nyse_retrac_execution_report.h
  *
  * Description:
- *      PDP Execution Type element definitions
+ *      NYSE ReTrac Execution Report message definitions
+ *
+ *      References:
+ *      [1] NYSE RETAIL EXECUTION REPORT (RETRAC) CLIENT SPECIFICATION,
+ *          Version 2.2a, 2012-08-10
+ *          Section 4.8
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -22,27 +27,31 @@
  ******************************************************************************/
 
 
-#ifndef PDP_EXECUTION_TYPE_H_
-#define PDP_EXECUTION_TYPE_H_
+#ifndef NYSE_RETRAC_EXECUTION_REPORT_H_
+#define NYSE_RETRAC_EXECUTION_REPORT_H_
+
+#include <stdint.h>
+
+#include "pdp_symbol.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-enum execution_type_values
+enum { NYSE_RETRAC_EXECUTION_REPORT_MSG_SIZE = 30 };
+
+typedef struct
 {
-    EXEC_TYPE_RETAIL                        = 0,
-    EXEC_TYPE_RETAIL_BUY                    = 1,
-    EXEC_TYPE_RETAIL_SELL                   = 2,
-    EXEC_TYPE_PROGRAM_TRADING               = 3,
-    EXEC_TYPE_INDEX_ARB                     = 4,
-    EXEC_TYPE_ALGORITHMIC                   = 5,
-    EXEC_TYPE_NON_ALGORITHMIC               = 6,
-};
+    uint32_t        exec_time;
+    char            symbol[NYSE_SYMBOL_LEN];
+    uint32_t        volume;
+    uint32_t        link_id;
+    uint16_t        execution_type;
+} nyse_retrac_execution_report_msg_t;
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* PDP_EXECUTION_TYPE_H_ */
+#endif /* NYSE_RETRAC_EXECUTION_REPORT_H_ */

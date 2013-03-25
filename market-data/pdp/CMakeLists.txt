@@ -56,6 +56,7 @@ set( src_list
     src/nyse_obultra_unpack.c
     src/nyse_ordimb_unpack.c
     src/nyse_protrac_unpack.c
+    src/nyse_retrac_unpack.c
 )
 
 set( lib_name pdp )
