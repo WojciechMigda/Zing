@@ -242,7 +242,7 @@ void compose_random_msg(nyse_ordimb_closing_imb_msg_t * const out_p)
     ANON_VAR(out_p->imbalance_quantity);
     ANON_VAR(out_p->paired_quantity);
     ANON_VAR(out_p->continuous_book_clearing_price_numerator);
-    ANON_VAR(out_p->closing_only_book_clearing_price_numerator);
+    ANON_VAR(out_p->closing_only_clearing_price_numerator);
     ANON_VAR(out_p->source_time);
 }
 
@@ -265,7 +265,7 @@ uint8_t * format_message(
     serialize(i_msg_p->imbalance_quantity, work_vec);
     serialize(i_msg_p->paired_quantity, work_vec);
     serialize(i_msg_p->continuous_book_clearing_price_numerator, work_vec);
-    serialize(i_msg_p->closing_only_book_clearing_price_numerator, work_vec);
+    serialize(i_msg_p->closing_only_clearing_price_numerator, work_vec);
     serialize(i_msg_p->source_time, work_vec);
 
     std::copy(work_vec.begin(), work_vec.end(), &o_buffer[random_offset]);
@@ -283,7 +283,7 @@ void assert_messages_are_equal(const nyse_ordimb_closing_imb_msg_t & lhs, const 
     TS_ASSERT_EQUALS(lhs.imbalance_quantity,                rhs.imbalance_quantity);
     TS_ASSERT_EQUALS(lhs.paired_quantity,                   rhs.paired_quantity);
     TS_ASSERT_EQUALS(lhs.continuous_book_clearing_price_numerator, rhs.continuous_book_clearing_price_numerator);
-    TS_ASSERT_EQUALS(lhs.closing_only_book_clearing_price_numerator, rhs.closing_only_book_clearing_price_numerator);
+    TS_ASSERT_EQUALS(lhs.closing_only_clearing_price_numerator, rhs.closing_only_clearing_price_numerator);
     TS_ASSERT_EQUALS(lhs.source_time,                       rhs.source_time);
 }
 
