@@ -4,10 +4,10 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: pdp_execution_type.h
+ * Filename: nyse_retrac_execution_report_cancellation_msg.i
  *
  * Description:
- *      PDP Execution Type element definitions
+ *      NYSE ReTrac Execution Report Cancellation message definition
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -21,28 +21,8 @@
  *
  ******************************************************************************/
 
-
-#ifndef PDP_EXECUTION_TYPE_H_
-#define PDP_EXECUTION_TYPE_H_
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-enum execution_type_values
-{
-    EXEC_TYPE_RETAIL                        = 0,
-    EXEC_TYPE_RETAIL_BUY                    = 1,
-    EXEC_TYPE_RETAIL_SELL                   = 2,
-    EXEC_TYPE_PROGRAM_TRADING               = 3,
-    EXEC_TYPE_INDEX_ARB                     = 4,
-    EXEC_TYPE_ALGORITHMIC                   = 5,
-    EXEC_TYPE_NON_ALGORITHMIC               = 6,
-};
-
-#ifdef __cplusplus
-} // extern C
-#endif
-
-#endif /* PDP_EXECUTION_TYPE_H_ */
+__OP_FIELD( exec_time,              uint32_t    )
+__OP_ARRAY( symbol,                 char,       NYSE_SYMBOL_LEN )
+__OP_FIELD( volume,                 uint32_t    )
+__OP_FIELD( link_id,                uint32_t    )
+__OP_FIELD( execution_type,         uint16_t    )
