@@ -48,7 +48,7 @@ enum stock_open_indicator_values
 typedef struct
 {
     char                symbol[NYSE_SHORT_SYMBOL_LEN];
-    uint32_t            stock_open_indicator;
+    uint8_t             stock_open_indicator;
     char                imbalance_side;
     uint8_t             price_scale_code;
     uint32_t            reference_price_numerator;
