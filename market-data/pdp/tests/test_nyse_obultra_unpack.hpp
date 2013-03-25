@@ -7,7 +7,7 @@
  * Filename: test_nyse_obultra_unpack.hpp
  *
  * Description:
- *      Testcases for the BYSE OpenBook Ultra unpacking routines
+ *      Testcases for the NYSE OpenBook Ultra unpacking routines
  *
  * Authors:
  *          Wojciech Migda (wm)

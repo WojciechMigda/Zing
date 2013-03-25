@@ -54,6 +54,7 @@ set( src_list
     src/nyse_bbo_unpack.c
     src/nyse_lrp_unpack.c
     src/nyse_obultra_unpack.c
+    src/nyse_ordimb_unpack.c
 )
 
 set( lib_name pdp )
@@ -99,5 +100,6 @@ if( CXXTEST_FOUND )
     my_test_add( test_nyse_bbo_unpack       ${CMAKE_CURRENT_LIST_DIR}/tests )
     my_test_add( test_nyse_lrp_unpack       ${CMAKE_CURRENT_LIST_DIR}/tests )
     my_test_add( test_nyse_obultra_unpack   ${CMAKE_CURRENT_LIST_DIR}/tests )
+    my_test_add( test_nyse_ordimb_unpack    ${CMAKE_CURRENT_LIST_DIR}/tests )
 
 endif( CXXTEST_FOUND )

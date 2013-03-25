@@ -33,6 +33,13 @@
 #include "nyse_alerts_market_imbalance.h"
 #include "static_assert.h"
 #include "pdp_symbol.h"
+#include "nyse_alerts_rpi.h"
+#include "nyse_alerts_short_sale_restriction.h"
+#include "nyse_alerts_circuit_breaker.h"
+#include "nyse_alerts_t_time.h"
+#include "nyse_alerts_indication.h"
+#include "nyse_alerts_security_info.h"
+#include "nyse_alerts_delay_halts.h"
 
 /*******************************************************************************
  * @brief Unpack general PDP header of the NYSE Alerts feed
@@ -63,7 +70,6 @@ int nyse_alerts_unpack_pdp_header(
 #define __STRUCT_SIZE NYSE_ALERTS_PDP_HEADER_SIZE
 
 #include "unpack_generic.i"
-#include "nyse_alerts_security_info.h"
 }
 
 /*******************************************************************************
@@ -126,7 +132,6 @@ int nyse_alerts_unpack_market_imbalance_msg(
 #define __STRUCT_SIZE NYSE_ALERTS_MARKET_IMBALANCE_MSG_SIZE
 
 #include "unpack_generic.i"
-#include "nyse_alerts_delay_halts.h"
 }
 
 /*******************************************************************************
@@ -158,7 +163,6 @@ int nyse_alerts_unpack_delay_halts_msg(
 #define __STRUCT_SIZE NYSE_ALERTS_DELAY_HALTS_MSG_SIZE
 
 #include "unpack_generic.i"
-#include "nyse_alerts_indication.h"
 }
 
 /*******************************************************************************
@@ -190,7 +194,6 @@ int nyse_alerts_unpack_indication_msg(
 #define __STRUCT_SIZE NYSE_ALERTS_INDICATION_MSG_SIZE
 
 #include "unpack_generic.i"
-#include "nyse_alerts_t_time.h"
 }
 
 /*******************************************************************************
@@ -222,7 +225,6 @@ int nyse_alerts_unpack_t_time_msg(
 #define __STRUCT_SIZE NYSE_ALERTS_T_TIME_MSG_SIZE
 
 #include "unpack_generic.i"
-#include "nyse_alerts_circuit_breaker.h"
 }
 
 /*******************************************************************************
@@ -254,7 +256,6 @@ int nyse_alerts_unpack_circuit_breaker_msg(
 #define __STRUCT_SIZE NYSE_ALERTS_CIRCUIT_BREAKER_MSG_SIZE
 
 #include "unpack_generic.i"
-#include "nyse_alerts_short_sale_restriction.h"
 }
 
 /*******************************************************************************
@@ -286,7 +287,6 @@ int nyse_alerts_unpack_short_sale_restriction_msg(
 #define __STRUCT_SIZE NYSE_ALERTS_SHORT_SALE_RESTRICTION_MSG_SIZE
 
 #include "unpack_generic.i"
-#include "nyse_alerts_rpi.h"
 }
 
 /*******************************************************************************
