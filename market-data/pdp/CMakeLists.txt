@@ -104,5 +104,6 @@ if( CXXTEST_FOUND )
     my_test_add( test_nyse_obultra_unpack   ${CMAKE_CURRENT_LIST_DIR}/tests )
     my_test_add( test_nyse_ordimb_unpack    ${CMAKE_CURRENT_LIST_DIR}/tests )
     my_test_add( test_nyse_protrac_unpack   ${CMAKE_CURRENT_LIST_DIR}/tests )
+    my_test_add( test_nyse_retrac_unpack    ${CMAKE_CURRENT_LIST_DIR}/tests )
 
 endif( CXXTEST_FOUND )
