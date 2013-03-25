@@ -32,6 +32,7 @@
 #include <stdint.h>
 
 #include "pdp_symbol.h"
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -48,6 +49,12 @@ enum
 {
     MAX_NUM_PRICE_POINTS_FULL_UPDATE =
         (1500 - NYSE_OBULTRA_FULL_UPDATE_FIXED_MSG_SIZE + NYSE_OBULTRA_FULL_UPDATE_PRICE_POINT_SIZE - 1) / NYSE_OBULTRA_FULL_UPDATE_PRICE_POINT_SIZE,
+};
+
+enum
+{
+    NYSE_OBULTRA_FULL_UPDATE_MAX_SIZE           = NYSE_OBULTRA_FULL_UPDATE_FIXED_MSG_SIZE +
+                                            MAX_NUM_PRICE_POINTS_FULL_UPDATE * NYSE_OBULTRA_FULL_UPDATE_PRICE_POINT_SIZE,
 };
 
 typedef struct

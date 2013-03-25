@@ -30,6 +30,8 @@
 
 #include "compiler.h"
 #include "nyse_obultra_pdp_header.h"
+#include "nyse_obultra_full_update.h"
+#include "nyse_obultra_delta_update.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -42,6 +44,17 @@ int nyse_obultra_unpack_pdp_header(
     nyse_obultra_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
+int nyse_obultra_unpack_full_update_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_obultra_full_update_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p);
+
+int nyse_obultra_unpack_delta_update_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_obultra_delta_update_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus
 } // extern C
