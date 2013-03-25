@@ -4,7 +4,7 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: nyse_ordimb_closing_imbalance_msg.h
+ * Filename: nyse_ordimb_closing_imbalance.h
  *
  * Description:
  *      NYSE Order Imbalances Closing Imbalance message definitions
@@ -26,8 +26,8 @@
  ******************************************************************************/
 
 
-#ifndef NYSE_ORDIMB_CLOSING_IMBALANCE_MSG_H_
-#define NYSE_ORDIMB_CLOSING_IMBALANCE_MSG_H_
+#ifndef NYSE_ORDIMB_CLOSING_IMBALANCE_H_
+#define NYSE_ORDIMB_CLOSING_IMBALANCE_H_
 
 #include <stdint.h>
 #include "pdp_symbol.h"
@@ -57,4 +57,4 @@ typedef struct
 } // extern C
 #endif
 
-#endif /* NYSE_ORDIMB_CLOSING_IMBALANCE_MSG_H_ */
+#endif /* NYSE_ORDIMB_CLOSING_IMBALANCE_H_ */

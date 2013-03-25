@@ -3,13 +3,15 @@
  * All rights reserved
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
- * Filename: nyse_ordimb_pdp_header.h
+ *
+ * Filename: nyse_protrac_execution_report.h
  *
  * Description:
- *      NYSE Order Imbalances PDP header definitions
+ *      NYSE ProTrac Execution Report message definitions
  *
  *      References:
- *      [1] NYSE ORDER IMBALANCES CLIENT SPECIFICATION, Version 1.12, 2012-11-09
+ *      [1] NYSE PROGRAM TRADING EXECUTION REPORTS (PROTRAC) CLIENT
+ *          SPECIFICATION, Version 2.3a, 2012-08-10
  *          Section 4.8
  *
  * Authors:
@@ -24,38 +26,32 @@
  *
  ******************************************************************************/
 
-#ifndef NYSE_ORDIMB_PDP_HEADER_H_
-#define NYSE_ORDIMB_PDP_HEADER_H_
+
+#ifndef NYSE_PROTRAC_EXECUTION_REPORT_H_
+#define NYSE_PROTRAC_EXECUTION_REPORT_H_
 
 #include <stdint.h>
+
+#include "pdp_symbol.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-enum nyse_ordimb_message_type_values
-{
-    NYSE_ORDIMB_MSG_OPENING_IMBALANCE       = 240,
-    NYSE_ORDIMB_MSG_CLOSING_IMBALANCE       = 241,
-};
-
-enum { NYSE_ORDIMB_PDP_HEADER_SIZE = 16 };
+enum { NYSE_PROTRAC_EXECUTION_REPORT_MSG_SIZE = 30 };
 
 typedef struct
 {
-    uint16_t        msg_size;
-    uint16_t        msg_type;
-    uint32_t        msg_seq_num;
-    uint32_t        send_time;
-    uint8_t         product_id;
-    uint8_t         retrans_flag;
-    uint8_t         num_body_entries;
-    char            filler[1];
-} nyse_ordimb_pdp_header_t;
+    uint32_t        exec_time;
+    char            symbol[NYSE_SYMBOL_LEN];
+    uint32_t        volume;
+    uint32_t        link_id;
+    uint16_t        execution_type;
+} nyse_protrac_execution_report_msg_t;
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* NYSE_ORDIMB_PDP_HEADER_H_ */
+#endif /* NYSE_PROTRAC_EXECUTION_REPORT_H_ */

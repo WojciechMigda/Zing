@@ -4,10 +4,10 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: nyse_ordimb_unpack.c
+ * Filename: nyse_protrac_unpack.c
  *
  * Description:
- *      NYSE Order Imbalances feed unpacking implementations
+ *      NYSE ProTrac feed unpacking routines implementation
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -21,6 +21,7 @@
  *
  ******************************************************************************/
 
+
 #include <stdint.h>
 #include <stddef.h>
 #include <endian.h>
@@ -29,12 +30,13 @@
 #include "compiler.h"
 #include "static_assert.h"
 #include "unpack_status.h"
-#include "nyse_ordimb_pdp_header.h"
-#include "nyse_ordimb_opening_imbalance.h"
-#include "nyse_ordimb_closing_imbalance.h"
+#include "nyse_protrac_pdp_header.h"
+#include "nyse_protrac_execution_report.h"
+#include "nyse_protrac_execution_report_cancellation.h"
+#include "nyse_protrac_summary.h"
 
 /*******************************************************************************
- * @brief Unpack general PDP header of the NYSE Order Imbalances feed
+ * @brief Unpack general PDP header of the NYSE ProTrac feed
  *******************************************************************************
  * Endianness of the unpacked data is that of the host.
  *******************************************************************************
@@ -52,20 +54,20 @@
  *        unpacked octets will be stored
  * @return PDP unpack return code
  ******************************************************************************/
-int nyse_ordimb_unpack_pdp_header(
+int nyse_protrac_unpack_pdp_header(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_ordimb_pdp_header_t * const RESTRICT out_body_p,
+    nyse_protrac_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-#define __STRUCT_FILE "nyse_ordimb_pdp_header.i"
-#define __STRUCT_SIZE NYSE_ORDIMB_PDP_HEADER_SIZE
+#define __STRUCT_FILE "nyse_protrac_pdp_header.i"
+#define __STRUCT_SIZE NYSE_PROTRAC_PDP_HEADER_SIZE
 
 #include "unpack_generic.i"
 }
 
 /*******************************************************************************
- * @brief Unpack Opening Imbalance message of the NYSE Order Imbalances feed
+ * @brief Unpack Execution Report message of the NYSE ProTrac feed
  *******************************************************************************
  * Endianness of the unpacked data is that of the host.
  *******************************************************************************
@@ -83,20 +85,20 @@ int nyse_ordimb_unpack_pdp_header(
  *        unpacked octets will be stored
  * @return PDP unpack return code
  ******************************************************************************/
-int nyse_ordimb_unpack_opening_imbalance_msg(
+int nyse_protrac_unpack_execution_report_msg(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_ordimb_opening_imb_msg_t * const RESTRICT out_body_p,
+    nyse_protrac_execution_report_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-#define __STRUCT_FILE "nyse_ordimb_opening_imb_msg.i"
-#define __STRUCT_SIZE NYSE_ORDIMB_OPENING_IMBALANCE_MSG_SIZE
+#define __STRUCT_FILE "nyse_protrac_execution_report_msg.i"
+#define __STRUCT_SIZE NYSE_PROTRAC_EXECUTION_REPORT_MSG_SIZE
 
 #include "unpack_generic.i"
 }
 
 /*******************************************************************************
- * @brief Unpack Closing Imbalance message of the NYSE Order Imbalances feed
+ * @brief Unpack Execution Report Cancellation message of the NYSE ProTrac feed
  *******************************************************************************
  * Endianness of the unpacked data is that of the host.
  *******************************************************************************
@@ -114,14 +116,45 @@ int nyse_ordimb_unpack_opening_imbalance_msg(
  *        unpacked octets will be stored
  * @return PDP unpack return code
  ******************************************************************************/
-int nyse_ordimb_unpack_closing_imbalance_msg(
+int nyse_protrac_unpack_execution_report_cancellation_msg(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_ordimb_closing_imb_msg_t * const RESTRICT out_body_p,
+    nyse_protrac_execution_report_cancellation_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-#define __STRUCT_FILE "nyse_ordimb_closing_imb_msg.i"
-#define __STRUCT_SIZE NYSE_ORDIMB_CLOSING_IMBALANCE_MSG_SIZE
+#define __STRUCT_FILE "nyse_protrac_execution_report_cancellation_msg.i"
+#define __STRUCT_SIZE NYSE_PROTRAC_EXECUTION_REPORT_CANCELLATION_MSG_SIZE
+
+#include "unpack_generic.i"
+}
+
+/*******************************************************************************
+ * @brief Unpack Summary message of the NYSE ProTrac feed
+ *******************************************************************************
+ * Endianness of the unpacked data is that of the host.
+ *******************************************************************************
+ * History:
+ * --------
+ * Date         Who  Ticket     Description
+ * ----------   ---  ---------  ------------------------------------------------
+ * 2013-03-25   wm              Initial version
+ *
+ *******************************************************************************
+ * @param in_data_p pointer to the input packet
+ * @param in_size number of octets in the input packet
+ * @param out_body_p pointer to the variable where the packet will be unpacked
+ * @param out_offset_p pointer to the output variable where the amount of
+ *        unpacked octets will be stored
+ * @return PDP unpack return code
+ ******************************************************************************/
+int nyse_protrac_unpack_summary_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_protrac_summary_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p)
+{
+#define __STRUCT_FILE "nyse_protrac_summary_msg.i"
+#define __STRUCT_SIZE NYSE_PROTRAC_SUMMARY_MSG_SIZE
 
 #include "unpack_generic.i"
 }

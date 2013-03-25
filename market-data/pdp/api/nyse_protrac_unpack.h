@@ -4,10 +4,10 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: nyse_ordimb_unpack.h
+ * Filename: nyse_protrac_unpack.h
  *
  * Description:
- *      NYSE Order Imbalances feed unpacking interface
+ *      NYSE ProTrac feed unpacking interface
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -22,42 +22,49 @@
  ******************************************************************************/
 
 
-#ifndef NYSE_ORDIMB_UNPACK_H_
-#define NYSE_ORDIMB_UNPACK_H_
+#ifndef NYSE_PROTRAC_UNPACK_H_
+#define NYSE_PROTRAC_UNPACK_H_
 
 #include <stdint.h>
 #include <stddef.h>
 
 #include "compiler.h"
-#include "nyse_ordimb_pdp_header.h"
-#include "nyse_ordimb_opening_imbalance.h"
-#include "nyse_ordimb_closing_imbalance.h"
+#include "nyse_protrac_pdp_header.h"
+#include "nyse_protrac_execution_report.h"
+#include "nyse_protrac_execution_report_cancellation.h"
+#include "nyse_protrac_summary.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-int nyse_ordimb_unpack_pdp_header(
+int nyse_protrac_unpack_pdp_header(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_ordimb_pdp_header_t * const RESTRICT out_body_p,
+    nyse_protrac_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
-int nyse_ordimb_unpack_opening_imbalance_msg(
+int nyse_protrac_unpack_execution_report_msg(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_ordimb_opening_imb_msg_t * const RESTRICT out_body_p,
+    nyse_protrac_execution_report_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
-int nyse_ordimb_unpack_closing_imbalance_msg(
+int nyse_protrac_unpack_execution_report_cancellation_msg(
     const uint8_t * RESTRICT in_data_p,
     const size_t in_size,
-    nyse_ordimb_closing_imb_msg_t * const RESTRICT out_body_p,
+    nyse_protrac_execution_report_cancellation_msg_t * const RESTRICT out_body_p,
+    size_t * const RESTRICT out_offset_p);
+
+int nyse_protrac_unpack_summary_msg(
+    const uint8_t * RESTRICT in_data_p,
+    const size_t in_size,
+    nyse_protrac_summary_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p);
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* NYSE_ORDIMB_UNPACK_H_ */
+#endif /* NYSE_PROTRAC_UNPACK_H_ */
