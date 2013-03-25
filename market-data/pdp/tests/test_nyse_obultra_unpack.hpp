@@ -34,6 +34,8 @@
 
 #include "nyse_obultra_unpack.h"
 #include "nyse_obultra_pdp_header.h"
+#include "nyse_obultra_full_update.h"
+#include "nyse_obultra_delta_update.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -303,7 +305,193 @@ void test_00200_proper_packet_is_unpacked(void)
 
     TS_ASSERT_EQUALS(out_size, in_data.msg_size);
 
-    assert_messages_are_equal(out_data, in_data);
+    assert_messages_are_equal(in_data, out_data);
+}
+
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+void compose_random_msg(nyse_obultra_delta_update_msg_t * const out_p)
+{
+    out_p->num_price_points = random() % (sizeof (out_p->price_points) / sizeof (out_p->price_points[0]));
+
+    out_p->msg_size = NYSE_OBULTRA_DELTA_UPDATE_FIXED_MSG_SIZE + out_p->num_price_points * NYSE_OBULTRA_DELTA_UPDATE_PRICE_POINT_SIZE;
+
+    ANON_VAR(out_p->security_index);
+    ANON_VAR(out_p->source_time);
+    ANON_VAR(out_p->source_time_ms);
+    ANON_VAR(out_p->symbol_seq_num);
+    ANON_VAR(out_p->source_session_id);
+    ANON_VAR(out_p->quote_condition);
+    ANON_VAR(out_p->trading_status);
+    ANON_VAR(out_p->price_scale_code);
+
+    for (size_t idx = 0; idx < out_p->num_price_points; ++idx)
+    {
+        ANON_VAR(out_p->price_points[idx].price_numerator);
+        ANON_VAR(out_p->price_points[idx].volume);
+        ANON_VAR(out_p->price_points[idx].chg_qty);
+        ANON_VAR(out_p->price_points[idx].num_orders);
+        ANON_VAR(out_p->price_points[idx].side);
+        ANON_VAR(out_p->price_points[idx].reason_code);
+        ANON_VAR(out_p->price_points[idx].link_id_1);
+        ANON_VAR(out_p->price_points[idx].link_id_2);
+        ANON_VAR(out_p->price_points[idx].link_id_3);
+    }
+}
+
+uint8_t * format_message(
+    nyse_obultra_delta_update_msg_t const * const i_msg_p,
+    uint8_t * o_buffer,
+    const size_t o_buf_size)
+{
+    size_t      required_space = i_msg_p->msg_size;
+
+    assert(o_buf_size >= required_space);
+
+    size_t      random_offset = random() % (1 + o_buf_size - required_space);
+
+    std::vector<uint8_t>    work_vec;
+
+    serialize(i_msg_p->msg_size, work_vec);
+    serialize(i_msg_p->security_index, work_vec);
+    serialize(i_msg_p->source_time, work_vec);
+    serialize(i_msg_p->source_time_ms, work_vec);
+    serialize(i_msg_p->symbol_seq_num, work_vec);
+    serialize(i_msg_p->source_session_id, work_vec);
+    serialize(i_msg_p->quote_condition, work_vec);
+    serialize(i_msg_p->trading_status, work_vec);
+    serialize(i_msg_p->price_scale_code, work_vec);
+
+    for (size_t idx = 0; idx < i_msg_p->num_price_points; ++idx)
+    {
+        serialize(i_msg_p->price_points[idx].price_numerator, work_vec);
+        serialize(i_msg_p->price_points[idx].volume, work_vec);
+        serialize(i_msg_p->price_points[idx].chg_qty, work_vec);
+        serialize(i_msg_p->price_points[idx].num_orders, work_vec);
+        serialize(i_msg_p->price_points[idx].side, work_vec);
+        serialize(i_msg_p->price_points[idx].reason_code, work_vec);
+        serialize(i_msg_p->price_points[idx].link_id_1, work_vec);
+        serialize(i_msg_p->price_points[idx].link_id_2, work_vec);
+        serialize(i_msg_p->price_points[idx].link_id_3, work_vec);
+    }
+
+    std::copy(work_vec.begin(), work_vec.end(), &o_buffer[random_offset]);
+
+    return &o_buffer[random_offset];
+}
+
+void assert_messages_are_equal(const nyse_obultra_delta_update_msg_t & lhs, const nyse_obultra_delta_update_msg_t & rhs)
+{
+    TS_ASSERT_EQUALS(lhs.msg_size,                          rhs.msg_size);
+    TS_ASSERT_EQUALS(lhs.security_index,                    rhs.security_index);
+    TS_ASSERT_EQUALS(lhs.source_time,                       rhs.source_time);
+    TS_ASSERT_EQUALS(lhs.source_time_ms,                    rhs.source_time_ms);
+    TS_ASSERT_EQUALS(lhs.symbol_seq_num,                    rhs.symbol_seq_num);
+    TS_ASSERT_EQUALS(lhs.source_session_id,                 rhs.source_session_id);
+    TS_ASSERT_EQUALS(lhs.quote_condition,                   rhs.quote_condition);
+    TS_ASSERT_EQUALS(lhs.trading_status,                    rhs.trading_status);
+    TS_ASSERT_EQUALS(lhs.price_scale_code,                  rhs.price_scale_code);
+
+    TS_ASSERT_EQUALS(lhs.num_price_points,                  rhs.num_price_points);
+
+    for (size_t idx = 0; idx < lhs.num_price_points; ++idx)
+    {
+        TS_ASSERT_EQUALS(lhs.price_points[idx].price_numerator, rhs.price_points[idx].price_numerator);
+        TS_ASSERT_EQUALS(lhs.price_points[idx].volume,          rhs.price_points[idx].volume);
+        TS_ASSERT_EQUALS(lhs.price_points[idx].chg_qty,         rhs.price_points[idx].chg_qty);
+        TS_ASSERT_EQUALS(lhs.price_points[idx].num_orders,      rhs.price_points[idx].num_orders);
+        TS_ASSERT_EQUALS(lhs.price_points[idx].side,            rhs.price_points[idx].side);
+        TS_ASSERT_EQUALS(lhs.price_points[idx].reason_code,     rhs.price_points[idx].reason_code);
+        TS_ASSERT_EQUALS(lhs.price_points[idx].link_id_1,       rhs.price_points[idx].link_id_1);
+        TS_ASSERT_EQUALS(lhs.price_points[idx].link_id_2,       rhs.price_points[idx].link_id_2);
+        TS_ASSERT_EQUALS(lhs.price_points[idx].link_id_3,       rhs.price_points[idx].link_id_3);
+    }
+}
+
+class NyseObultraUnpackDeltaUpdateMsg : public CxxTest::TestSuite
+{
+private:
+
+testing::internal::Random * m_random;
+
+public:
+
+NyseObultraUnpackDeltaUpdateMsg()
+{
+    m_random = new testing::internal::Random(time(0));
+    srandom(time(0));
+}
+~NyseObultraUnpackDeltaUpdateMsg()
+{
+    delete m_random;
+}
+
+void test_00100_fails_when_input_packet_ptr_is_null(void)
+{
+    gen_test_input_packet_ptr_is_null<nyse_obultra_delta_update_msg_t>
+        (nyse_obultra_unpack_delta_update_msg, m_random);
+}
+
+void test_00101_fails_when_input_packet_is_too_short__fixed(void)
+{
+    gen_test_input_packet_is_too_short<nyse_obultra_delta_update_msg_t>
+        (nyse_obultra_unpack_delta_update_msg, NYSE_OBULTRA_DELTA_UPDATE_FIXED_MSG_SIZE, m_random);
+}
+
+void test_00110_fails_when_input_packet_is_too_short__optional(void)
+{
+    nyse_obultra_delta_update_msg_t        in_data;
+
+    // compose random contents
+    compose_random_msg(&in_data);
+
+    // reserved space twice the size of the packet
+    uint8_t     in_packet[2 * in_data.msg_size];
+    uint8_t *   in_packet_p;
+
+    // format contents at a varied offset inside the packet
+    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
+
+    size_t      in_size = m_random->Generate(in_data.msg_size);
+    int         result;
+
+    nyse_obultra_delta_update_msg_t         out_data;
+
+    result = nyse_obultra_unpack_delta_update_msg(in_packet_p, in_size, NULL, NULL);
+
+    TS_ASSERT_EQUALS(PDP_UNPACK_INPUT_PACKET_TOO_SHORT, result);
+}
+
+void test_00200_proper_packet_is_unpacked(void)
+{
+    nyse_obultra_delta_update_msg_t        in_data;
+
+    // compose random contents
+    compose_random_msg(&in_data);
+
+    // reserved space twice the size of the packet
+    uint8_t     in_packet[2 * in_data.msg_size];
+    uint8_t *   in_packet_p;
+
+    // format contents at a varied offset inside the packet
+    in_packet_p = format_message(&in_data, in_packet, sizeof (in_packet));
+
+    // vary packet size passed to the unpacker [packet_size, 2 * packet_size]
+    size_t      in_size = in_data.msg_size + m_random->Generate(in_data.msg_size + 1);
+
+    nyse_obultra_delta_update_msg_t         out_data;
+    size_t      out_size;
+    int         result;
+
+    result = nyse_obultra_unpack_delta_update_msg(in_packet_p, in_size, &out_data, &out_size);
+
+    TS_ASSERT_EQUALS(PDP_UNPACK_SUCCESS, result);
+
+    TS_ASSERT_EQUALS(out_size, in_data.msg_size);
+
+    assert_messages_are_equal(in_data, out_data);
 }
 
 };
