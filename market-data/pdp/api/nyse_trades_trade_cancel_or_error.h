@@ -47,7 +47,6 @@ typedef struct
     char            security_type;
     char            filler[1];
     char            symbol[NYSE_SYMBOL_LEN];
-
 } nyse_trades_trade_cancel_or_error_msg_t;
 
 #ifdef __cplusplus
