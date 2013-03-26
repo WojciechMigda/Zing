@@ -4,15 +4,13 @@
  * Distributed under the terms of the GNU LGPL v3
  *******************************************************************************
  *
- * Filename: nyse_bbo_quote.h
+ * Filename: nyse_trades_trade.h
  *
  * Description:
- *      NYSE BBO Quote message definitions
+ *      NYSE Trades feed Trade message definitions
  *
  *      References:
- *      [1] NYSE BEST BID AND OFFER (BBO) CLIENT SPECIFICATION,
- *          Version 1.9, 2012-09-03,
- *          Sec. 4.8
+ *      [1] NYSE TRADES – QUICK REFERENCE CARD, 2012-08-10
  *
  * Authors:
  *          Wojciech Migda (wm)
@@ -22,13 +20,12 @@
  * --------
  * Date         Who  Ticket     Description
  * ----------   ---  ---------  ------------------------------------------------
- * 2013-03-20   wm              Initial version
+ * 2013-03-26   wm              Initial version
  *
  ******************************************************************************/
 
-
-#ifndef NYSE_BBO_QUOTE_H_
-#define NYSE_BBO_QUOTE_H_
+#ifndef NYSE_TRADES_TRADE_H_
+#define NYSE_TRADES_TRADE_H_
 
 #include <stdint.h>
 #include "pdp_symbol.h"
@@ -38,34 +35,29 @@ extern "C"
 {
 #endif
 
-enum rpi_interest_values
-{
-    RPI_INTEREST_NONE                       = ' ',
-    RPI_INTEREST_ON_BID_QUOTE               = 'A',
-    RPI_INTEREST_ON_OFFER_QUOTE             = 'B',
-    RPI_INTEREST_ON_BID_AND_OFFER_QUOTES    = 'C',
-};
+enum { NYSE_TRADES_TRADE_MSG_SIZE = 48 };
 
 typedef struct
 {
     uint32_t        source_time;
-    uint8_t         filler[3];
-    char            rpi_interest;
-    uint32_t        ask_price_nominator;
-    uint32_t        ask_size;
-    uint32_t        bid_price_numerator;
-    uint32_t        bid_size;
+    uint32_t        link_id;
+    uint32_t        filler;
+    uint32_t        price_numerator;
+    uint32_t        volume;
+    uint32_t        source_seq_num;
+    uint8_t         source_session_id;
     uint8_t         price_scale_code;
     char            exchange_id;
     char            security_type;
-    char            quote_condition;
+    char            trade_cond_1;
+    char            trade_cond_2;
+    char            trade_cond_3;
+    char            trade_cond_4;
     char            symbol[NYSE_SYMBOL_LEN];
-} nyse_bbo_quote_msg_t;
-
-enum { NYSE_BBO_QUOTE_MSG_SIZE = 44 };
+} nyse_trades_trade_msg_t;
 
 #ifdef __cplusplus
 } // extern C
 #endif
 
-#endif /* NYSE_BBO_QUOTE_H_ */
+#endif /* NYSE_TRADES_TRADE_H_ */
