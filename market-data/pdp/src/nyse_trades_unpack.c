@@ -59,7 +59,10 @@ int nyse_trades_unpack_pdp_header(
     nyse_trades_pdp_header_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    return 34;
+#define __STRUCT_FILE "nyse_trades_pdp_header.i"
+#define __STRUCT_SIZE NYSE_TRADES_PDP_HEADER_SIZE
+
+#include "unpack_generic.i"
 }
 
 /*******************************************************************************
@@ -87,7 +90,10 @@ int nyse_trades_unpack_trade_msg(
     nyse_trades_trade_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    return 76;
+#define __STRUCT_FILE "nyse_trades_trade_msg.i"
+#define __STRUCT_SIZE NYSE_TRADES_TRADE_MSG_SIZE
+
+#include "unpack_generic.i"
 }
 
 /*******************************************************************************
@@ -115,7 +121,10 @@ int nyse_trades_unpack_trade_cancel_or_error_msg(
     nyse_trades_trade_cancel_or_error_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    return 12;
+#define __STRUCT_FILE "nyse_trades_trade_cancel_or_error_msg.i"
+#define __STRUCT_SIZE NYSE_TRADES_TRADE_CANCEL_OR_ERROR_MSG_SIZE
+
+#include "unpack_generic.i"
 }
 
 /*******************************************************************************
@@ -143,5 +152,8 @@ int nyse_trades_unpack_trade_correction_msg(
     nyse_trades_trade_correction_msg_t * const RESTRICT out_body_p,
     size_t * const RESTRICT out_offset_p)
 {
-    return 43;
+#define __STRUCT_FILE "nyse_trades_trade_correction_msg.i"
+#define __STRUCT_SIZE NYSE_TRADES_TRADE_CORRECTION_MSG_SIZE
+
+#include "unpack_generic.i"
 }
